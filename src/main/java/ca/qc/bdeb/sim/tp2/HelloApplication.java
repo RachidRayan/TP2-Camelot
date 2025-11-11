@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
-    static int w = 600,  h=400;
+    public static int w = 600,  h=400;
     @Override
     public void start(Stage stage) throws IOException {
         Scene scene = new Scene(new HBox(), w, h);
