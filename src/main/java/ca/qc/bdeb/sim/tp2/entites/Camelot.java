@@ -1,6 +1,6 @@
 package ca.qc.bdeb.sim.tp2.entites;
 
-public class Camelot {
+public class Camelot extends Entite {
     private int Nombrejournaux;
 
     public int getNombrejournaux() {
