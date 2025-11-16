@@ -27,7 +27,7 @@ tasks.withType<JavaCompile> {
 
 application {
     mainModule.set("ca.qc.bdeb.sim.tp2")
-    mainClass.set("ca.qc.bdeb.sim.tp2.JeuCamelot")
+    mainClass.set("ca.qc.bdeb.sim.tp2.JavaFX")
 }
 
 javafx {
