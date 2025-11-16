@@ -9,4 +9,8 @@ module cs.qc.bdeb.sim.tp2 {
     opens ca.qc.bdeb.sim.tp2 to javafx.fxml;
     exports ca.qc.bdeb.sim.tp2.background;
     opens ca.qc.bdeb.sim.tp2.background to javafx.fxml;
+    exports ca.qc.bdeb.sim.tp2.entites;
+    opens ca.qc.bdeb.sim.tp2.entites to javafx.fxml;
+    exports ca.qc.bdeb.sim.tp2.gameEngine;
+    opens ca.qc.bdeb.sim.tp2.gameEngine to javafx.fxml;
 }

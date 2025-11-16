@@ -1,4 +1,4 @@
-package ca.qc.bdeb.sim.tp2.maison;
+package ca.qc.bdeb.sim.tp2.background;
 
 public class Maison {
     private int adresse;

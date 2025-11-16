@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class JeuCamelot extends Application {
+public class JavaFX extends Application {
     public static int w = 600,  h=400;
     @Override
     public void start(Stage stage) throws IOException {

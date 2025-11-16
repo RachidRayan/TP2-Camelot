@@ -1,4 +1,4 @@
-package ca.qc.bdeb.sim.tp2.camelot;
+package ca.qc.bdeb.sim.tp2.entites;
 
 public class Camelot {
     private int Nombrejournaux;
