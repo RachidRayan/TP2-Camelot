@@ -13,13 +13,20 @@ public class Brique {
 
     HBox wall = rangeeBrique(cologneBrique());
 
+    public Brique(HBox wall) {
+        this.wall = wall;
+    }
+    public HBox getWall() {
+        return wall;
+    }
+
     public VBox cologneBrique(){
         VBox column = new VBox();
-        double height=0;
+        double height = 0;
 
-        while (height< JavaFX.h){
+        while(height<JavaFX.h){
             column.getChildren().add(brique);
-            height += brique.getY();
+            height += brique.getFitHeight();
         }
 
         return column;
@@ -27,15 +34,14 @@ public class Brique {
 
     public HBox rangeeBrique(VBox cologneBrique){
         HBox row = new HBox();
-        double with =0;
+        double width = 0;
 
-        while(with<JavaFX.w){
+        while(width<JavaFX.w){
             row.getChildren().add(cologneBrique);
-            with += brique.getX();
+            width += brique.getFitWidth();
         }
 
         return row;
     }
-
 
 }
