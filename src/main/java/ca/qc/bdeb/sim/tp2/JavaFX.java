@@ -14,8 +14,10 @@ public class JavaFX extends Application {
     public void start(Stage stage) throws IOException {
         HBox root = new HBox();
         Scene scene = new Scene(root, w, h);
+
         UI ui = new UI(w,h);
         ui.uiInitialization(root);
+
         stage.setScene(scene);
         stage.show();
     }
