@@ -12,6 +12,9 @@ public class Brique {
     ImageView brique = new ImageView(imageBrique);
 
     HBox wall = rangeeBrique(cologneBrique());
+    public HBox getWall() {
+        return wall;
+    }
 
     public VBox cologneBrique(){
         VBox column = new VBox();

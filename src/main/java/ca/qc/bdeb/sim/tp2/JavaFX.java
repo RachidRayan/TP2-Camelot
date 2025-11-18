@@ -1,5 +1,6 @@
 package ca.qc.bdeb.sim.tp2;
 
+import ca.qc.bdeb.sim.tp2.background.Brique;
 import ca.qc.bdeb.sim.tp2.gameEngine.UI;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -15,8 +16,10 @@ public class JavaFX extends Application {
         HBox root = new HBox();
         Scene scene = new Scene(root, w, h);
 
-        UI ui = new UI(w,h);
-        ui.uiInitialization(root);
+//        UI ui = new UI(w,h);
+//        ui.uiInitialization(root);
+
+        Brique brique = new Brique();
 
         stage.setScene(scene);
         stage.show();
