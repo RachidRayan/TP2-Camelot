@@ -5,9 +5,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 public class UI {
-    private final Image iconeDollar = new Image("src/main/java/assets/icone-dollar.png");
-    private final Image iconeJournal = new Image("src/main/java/assets/icone-journal.png");
-    private final Image iconeMaison = new Image("src/main/java/assets/icone-maison.png");
+    private final Image iconeDollar = new Image("Assets/icone-dollar.png");
+    private final Image iconeJournal = new Image("Assets/icone-journal.png");
+    private final Image iconeMaison = new Image("Assets/icone-maison.png");
     private final int w;
     private final int h;
 
