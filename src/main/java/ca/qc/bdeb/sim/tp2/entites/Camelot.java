@@ -87,7 +87,7 @@ public class Camelot extends Entite {
 
         // Sauter
         if (contactSol && saut) {
-            velocite = new Point2D(velocite.getX(), -300);
+            velocite = new Point2D(velocite.getX(), -400);
             contactSol = false;
         }
 
