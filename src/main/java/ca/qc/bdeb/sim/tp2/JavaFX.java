@@ -1,5 +1,6 @@
 package ca.qc.bdeb.sim.tp2;
 
+import ca.qc.bdeb.sim.tp2.background.Brique;
 import ca.qc.bdeb.sim.tp2.gameEngine.Input;
 import ca.qc.bdeb.sim.tp2.gameEngine.Partie;
 import javafx.animation.AnimationTimer;
@@ -8,6 +9,7 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -25,6 +27,9 @@ public class JavaFX extends Application {
         root.getChildren().add(canvas);
         var context = canvas.getGraphicsContext2D();
 
+        //wall testing
+        Brique brique = new Brique();
+        root.getChildren().add(brique.getWall());
 
         var timer = new AnimationTimer() {
             long dernierTemps = System.nanoTime();
