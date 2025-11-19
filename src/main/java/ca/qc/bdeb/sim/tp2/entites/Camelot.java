@@ -25,6 +25,9 @@ public class Camelot extends Entite {
 
     protected boolean contactSol;
 
+    private double lancerTemps = 0;
+    private final double interalleLancer = 0.5;
+
 
     private double tempsAnimation = 0;
     private  double intervalleAnimation = 0.4;
@@ -63,13 +66,20 @@ public class Camelot extends Entite {
             // Animation plus lente rapide
             intervalleAnimation = 0.1;
         }
-        // Pas de flèche appuyée
         else {
             velocite = new Point2D(velocite.getX() * 0.95, velocite.getY());
             // Animation normale
             intervalleAnimation = 0.4;
         }
-
+        // Action de lancer un journal
+        boolean lancerAction = Input.isKeyPressed(KeyCode.Q);
+        lancerTemps -= deltaTemps;
+        if (lancerAction && lancerTemps <= 0) {
+            Point2D positionInitialeLancer = new Point2D(taille.getX() / 2.0, taille.getY() / 2.0);
+            Point2D velociteInitiale = new Point2D(200, -150);
+            Journal journal = new Journal(positionInitialeLancer, velociteInitiale, camera);
+            lancerTemps = interalleLancer;
+        }
 
         // Sauter avec Espace ou Flèche vers le haut
         boolean saut = Input.isKeyPressed(KeyCode.SPACE)
