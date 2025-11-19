@@ -1,6 +1,7 @@
 module ca.qc.bdeb.sim.tp2 {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.desktop;
 
 
     opens ca.qc.bdeb.sim.tp2 to javafx.fxml;
