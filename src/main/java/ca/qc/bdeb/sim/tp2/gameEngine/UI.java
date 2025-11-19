@@ -1,28 +1,25 @@
 package ca.qc.bdeb.sim.tp2.gameEngine;
 
+import javafx.geometry.Point2D;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 
 public class UI {
     private final Image iconeDollar = new Image("icone-dollar.png");
     private final Image iconeJournal = new Image("icone-journal.png");
     private final Image iconeMaison = new Image("icone-maison.png");
-    private final int w;
-    private final int h;
 
-    public UI(int w, int h) {
-        this.w = w;
-        this.h = h;
-    }
+    public void uiInitialization (GraphicsContext context) {
 
-    public void uiInitialization (HBox hBox) {
-        ImageView iconeDollarImageView = new ImageView(iconeDollar);
-        ImageView iconeJournalImageView = new ImageView(iconeJournal);
-        ImageView iconeMaisonImageView = new ImageView(iconeMaison);
+        Point2D positionIconeDollar = new Point2D(iconeDollar.getWidth(), iconeDollar.getWidth());
+        context.drawImage(iconeDollar, positionIconeDollar.getX(),  positionIconeDollar.getY());
 
-        hBox.getChildren().add(iconeDollarImageView);
-        hBox.getChildren().add(iconeJournalImageView);
-        hBox.getChildren().add(iconeMaisonImageView);
+        Point2D positionIconeJournal = new Point2D(positionIconeDollar.getX() + iconeJournal.getWidth(), positionIconeDollar.getY() + iconeJournal.getHeight());
+
+        context.drawImage(iconeJournal, positionIconeJournal.getX(), positionIconeJournal.getY());
+
+        Point2D positionIconeMaison = new Point2D(positionIconeJournal.getX() + iconeMaison.getWidth() , positionIconeJournal.getY() + iconeMaison.getHeight());
+        context.drawImage(iconeJournal,positionIconeMaison.getX(), positionIconeMaison.getY());
+
     }
 }

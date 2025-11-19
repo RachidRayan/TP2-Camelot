@@ -11,6 +11,6 @@ abstract public class Entite {
 
         public abstract void draw(GraphicsContext context);
 
-        public abstract void hitBox();
+        public abstract void hitBox(GraphicsContext context);
 
 }
