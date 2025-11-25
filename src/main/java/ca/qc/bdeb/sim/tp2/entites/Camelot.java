@@ -10,7 +10,7 @@ import javafx.scene.input.KeyCode;
 
 public class Camelot extends Entite {
 
-    protected int Nombrejournaux;
+    protected int nombrejournaux;
     protected Image camelotImage1 = new Image("camelot1.png");
     protected Image camelotImage2 = new Image("camelot2.png");
 
@@ -25,28 +25,35 @@ public class Camelot extends Entite {
 
     protected boolean contactSol;
 
+    private boolean qAppuyerDernierFrame = false;
+    private boolean journalCree = false;
     private double lancerTemps = 0;
     private final double interalleLancer = 0.5;
 
 
     private double tempsAnimation = 0;
-    private  double intervalleAnimation = 0.4;
+    private double intervalleAnimation = 0.4;
     private boolean changementImage12 = true;
 
     public Camelot() {
-        taille = new Point2D(camelotImage1.getHeight(), camelotImage1.getWidth());
+        taille = new Point2D(camelotImage1.getWidth(), camelotImage1.getHeight());
+        nombrejournaux = 12;
+    }
+
+    public boolean isJournalCree() {
+        return journalCree;
     }
 
     public int getNombrejournaux() {
-        return Nombrejournaux;
+        return nombrejournaux;
     }
 
     public void verificationNombreJournaux (int NbrJournauxRestants) {
         if (NbrJournauxRestants == 0) {
-            Nombrejournaux = 12;
+            nombrejournaux = 12;
         }
         else {
-            Nombrejournaux += NbrJournauxRestants;
+            nombrejournaux += NbrJournauxRestants;
         }
     }
 
@@ -62,8 +69,8 @@ public class Camelot extends Entite {
             intervalleAnimation = 0.6;
         }
         else if (accelerationEnPesant) {
-            velocite = new Point2D(velocite.getX() + 400, velocite.getY());
-            // Animation plus lente rapide
+            velocite = new Point2D(velocite.getX() * 1.2, velocite.getY());
+            // Animation plus rapide
             intervalleAnimation = 0.1;
         }
         else {
@@ -73,17 +80,15 @@ public class Camelot extends Entite {
         }
 
         // Action de lancer un journal
-        boolean lancerAction = Input.isKeyPressed(KeyCode.Q);
-        if (lancerAction) {
-
-        }
+        boolean qJusteAppuyerMaintenant = Input.isKeyPressed(KeyCode.Q);
+        boolean qJusteAppuyer = qJusteAppuyerMaintenant && !qAppuyerDernierFrame;
 
         lancerTemps -= deltaTemps;
-        if (lancerAction && lancerTemps <= 0 && Nombrejournaux > 0) {
-            Point2D positionInitialeLancer = new Point2D(taille.getX() / 2.0, taille.getY() / 2.0);
-            Point2D velociteInitiale = new Point2D(velocite.getX() + 200, -150);
-            Journal journal = new Journal(positionInitialeLancer, velociteInitiale, camera);
-            Nombrejournaux--;
+
+
+        if (qJusteAppuyer && lancerTemps <= 0 && nombrejournaux > 0) {
+            creeJournal();
+            nombrejournaux--;
             lancerTemps = interalleLancer;
         }
 
@@ -122,8 +127,11 @@ public class Camelot extends Entite {
         }
     }
 
-    public boolean veutLancer() {
-        return true;
+    public Journal creeJournal () {
+        journalCree = false;
+        Point2D positionInitialeLancer = position.add(new Point2D(taille.getX() / 2.0, taille.getY() / 2.0));
+        Point2D velociteInitiale = new Point2D(velocite.getX() + 200, -450);
+        return new Journal(positionInitialeLancer, velociteInitiale, camera);
     }
 
     @Override
