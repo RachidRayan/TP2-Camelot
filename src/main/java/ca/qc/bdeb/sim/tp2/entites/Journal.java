@@ -7,7 +7,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class Journal extends Entite {
-    protected Image journalImage = new Image("projectile.png");
+    protected Image journalImage = new Image("journal.png");
 
     protected Point2D position;
     protected Point2D taille = new Point2D(journalImage.getWidth(), journalImage.getHeight());
