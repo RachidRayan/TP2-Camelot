@@ -71,13 +71,19 @@ public class Camelot extends Entite {
             // Animation normale
             intervalleAnimation = 0.4;
         }
+
         // Action de lancer un journal
         boolean lancerAction = Input.isKeyPressed(KeyCode.Q);
+        if (lancerAction) {
+
+        }
+
         lancerTemps -= deltaTemps;
-        if (lancerAction && lancerTemps <= 0) {
+        if (lancerAction && lancerTemps <= 0 && Nombrejournaux > 0) {
             Point2D positionInitialeLancer = new Point2D(taille.getX() / 2.0, taille.getY() / 2.0);
-            Point2D velociteInitiale = new Point2D(200, -150);
+            Point2D velociteInitiale = new Point2D(velocite.getX() + 200, -150);
             Journal journal = new Journal(positionInitialeLancer, velociteInitiale, camera);
+            Nombrejournaux--;
             lancerTemps = interalleLancer;
         }
 
@@ -114,6 +120,10 @@ public class Camelot extends Entite {
             changementImage12 = !changementImage12;
             tempsAnimation = 0;
         }
+    }
+
+    public boolean veutLancer() {
+        return true;
     }
 
     @Override
