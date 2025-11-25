@@ -2,13 +2,11 @@ package ca.qc.bdeb.sim.tp2.gameEngine;
 
 import ca.qc.bdeb.sim.tp2.entites.Camelot;
 import ca.qc.bdeb.sim.tp2.entites.Entite;
+import ca.qc.bdeb.sim.tp2.entites.Journal;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class Partie {
     private final Camelot camelot = new Camelot();
@@ -24,9 +22,8 @@ public class Partie {
             for (Entite e : listeEntite) {
                 e.update(deltaTemps);
             }
-            if (Input.isKeyPressed(KeyCode.Q)) {
-                camelot.
-            }
+//            ArrayList<Journal> newJournals = camelot.getJournalsToCreateThisFrame();
+//            listeEntite.addAll(newJournals);
     }
 
     public void draw (GraphicsContext context) {
