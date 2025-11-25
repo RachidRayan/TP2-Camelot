@@ -9,8 +9,8 @@ abstract public class Bg {
     //Camelot camelot = new Camelot();
 
 
-    protected Point2D velocite = new Point2D(100, 0);
-    protected Point2D position;
+    protected Point2D velocite = new Point2D(200, 0);
+    protected Point2D position = Point2D.ZERO;
     Camera camera = new Camera();
 
     public abstract void update(double deltaTemps);

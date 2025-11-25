@@ -13,15 +13,15 @@ public class Brique extends Bg {
     Image imageBrique = new Image("brique.png");
     Camera camera = new Camera();
 
-    Point2D position = Point2D.ZERO;
-    Point2D velocite = new Point2D(100,0);
+//    Point2D position = Point2D.ZERO;
+//    Point2D velocite = new Point2D(100,0);
 
-
+    @Override
     public void update(double deltaTemps){
         position = position.add(velocite.multiply(deltaTemps));
         camera.setPositionCamera(position);
     }
-
+    @Override
     public void draw(GraphicsContext context){
         Point2D positionEcran = camera.coordoEcran(position.multiply(-1));
         double width =0;
