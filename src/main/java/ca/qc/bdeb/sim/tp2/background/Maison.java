@@ -1,5 +1,8 @@
 package ca.qc.bdeb.sim.tp2.background;
 
+import javafx.geometry.Point2D;
+import javafx.scene.canvas.GraphicsContext;
+
 import java.util.Random;
 
 public class Maison {
@@ -24,5 +27,13 @@ public class Maison {
         }
 
         return numbers;
+    }
+
+    public void update(double deltaTemps){
+
+    }
+
+    public void draw(GraphicsContext context) {
+
     }
 }
