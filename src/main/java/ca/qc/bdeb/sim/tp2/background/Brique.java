@@ -16,6 +16,8 @@ public class Brique extends Bg {
 //    Point2D position = Point2D.ZERO;
 //    Point2D velocite = new Point2D(100,0);
 
+
+
     @Override
     public void update(double deltaTemps){
         position = position.add(velocite.multiply(deltaTemps));

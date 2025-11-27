@@ -24,11 +24,11 @@ public class Journal extends Entite {
     }
     @Override
     public void update(double deltaTemps) {
-        // Physique
+        // Physique du journal
         velocite = velocite.add(accelerationGravité.multiply(deltaTemps));
         position = position.add(velocite.multiply(deltaTemps));
 
-        // Enlevement du journal
+        // Enlevement du journal (à faire)
         if (position.getY() > JavaFX.h || position.getX() < 0 || position.getX() > JavaFX.w * 2) {
 
         }
@@ -38,8 +38,9 @@ public class Journal extends Entite {
         Point2D screenPos = camera.coordoEcran(position);
         context.drawImage(journalImage, screenPos.getX(), screenPos.getY(), taille.getX(), taille.getY());
     }
+
     @Override
     public void hitBox(GraphicsContext context) {
-        // Implement for collisions if needed
+
     }
 }
