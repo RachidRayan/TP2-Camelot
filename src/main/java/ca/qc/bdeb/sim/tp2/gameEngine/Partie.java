@@ -2,6 +2,7 @@ package ca.qc.bdeb.sim.tp2.gameEngine;
 
 import ca.qc.bdeb.sim.tp2.background.Bg;
 import ca.qc.bdeb.sim.tp2.background.Brique;
+import ca.qc.bdeb.sim.tp2.background.Fenetre;
 import ca.qc.bdeb.sim.tp2.background.Maison;
 import ca.qc.bdeb.sim.tp2.entites.Camelot;
 import ca.qc.bdeb.sim.tp2.entites.Entite;
@@ -19,6 +20,7 @@ public class Partie {
     private final Camelot camelot = new Camelot(camera);
     private final Brique brique = new Brique();
     private final Maison maison = new Maison();
+    private final Fenetre fenetre = new Fenetre();
     private ArrayList<Bg> listePlanArriere = new ArrayList<>();
     private ArrayList<Entite> listeEntite = new ArrayList<>();
 
@@ -38,6 +40,7 @@ public class Partie {
         this.listeEntite.add(camelot);
         this.listePlanArriere.add(brique);
         this.listePlanArriere.add(maison);
+        this.listePlanArriere.add(fenetre);
     }
 
     public int getNombreJournaux() {

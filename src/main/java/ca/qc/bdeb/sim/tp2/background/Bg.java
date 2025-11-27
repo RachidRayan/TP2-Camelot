@@ -5,6 +5,8 @@ import ca.qc.bdeb.sim.tp2.gameEngine.Camera;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.util.Random;
+
 abstract public class Bg {
     //Camelot camelot = new Camelot();
 
@@ -12,6 +14,27 @@ abstract public class Bg {
     protected Point2D velocite = new Point2D(200, 0);
     protected Point2D position = Point2D.ZERO;
     Camera camera = new Camera();
+    protected final double differencePositionnement = 2000;
+
+    int[] numerosAdresse = setAdresse();
+    public int[] getNumerosAdresse() {
+        return numerosAdresse;
+    }
+    public void setNumerosAdresse(int[] adressNumbers) {
+        this.numerosAdresse = adressNumbers;
+    }
+
+    //Numero d'adresse des maison pour livrer les journaux
+    public int[] setAdresse(){
+        int[] numeros = new int[8];
+        Random r = new Random();
+        numeros[0] = r.nextInt(80)+100;
+        for (int i = 1; i < numeros.length; i++) {
+            numeros[i] = numeros[0] +i*2+100 ;
+        }
+        return numeros;
+    }
+
 
     public Point2D getVelocite() {
         return velocite;

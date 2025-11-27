@@ -8,33 +8,13 @@ import javafx.scene.text.Font;
 
 import java.util.Random;
 
+
 public class Maison extends Bg {
 
-    private final double hauteurPorte = 250;
-    private final double largeurPorte = 150;
-    private final double differencePositionnement = 2000; //difference entre les portes
 
-    int[] adressNumbers = setAdresse();
-    public int[] getAdressNumbers() {
-        return adressNumbers;
-    }
-    public void setAdressNumbers(int[] adressNumbers) {
-        this.adressNumbers = adressNumbers;
-    }
 
-    public int[] setAdresse(){
-        Random style = new Random();
-        int thirdDigit = style.nextInt(8);
-
-        int[] numbers = new int[8];
-        for (int i = 0; i < numbers.length; i++) {
-            Random r = new Random();
-            numbers[i] = r.nextInt(100);
-            numbers[i] += thirdDigit*100;
-        }
-
-        return numbers;
-    }
+    protected static final double hauteurPorte = 250;
+    protected static final double largeurPorte = 150;
 
 
     public void update(double deltaTemps){
@@ -47,15 +27,15 @@ public class Maison extends Bg {
         Point2D positionEcran = camera.coordoEcran(position.multiply(-1));
 
 
-        for (int i = 0; i < adressNumbers.length; i++) {
-            int number = adressNumbers[i];
-
+        for (int i = 0; i < numerosAdresse.length*1.5; i++) {
+            //Draw porte
             context.setFill(Color.BLACK);
             context.fillRect(positionEcran.getX() + differencePositionnement *i, JavaFX.h- hauteurPorte, largeurPorte, hauteurPorte);
 
+            //Draw numero sur la porte, incluant des mauvais adresses
             context.setFill(Color.WHITE);
             context.setFont(new Font(80));
-            context.fillText(String.valueOf(adressNumbers[i]),positionEcran.getX() + differencePositionnement *i,JavaFX.h- hauteurPorte +100);
+            context.fillText(String.valueOf(numerosAdresse[0]+i),positionEcran.getX() + differencePositionnement *i,JavaFX.h- hauteurPorte +100);
         }
     }
 }
