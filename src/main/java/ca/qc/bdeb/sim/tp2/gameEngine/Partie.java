@@ -84,9 +84,4 @@ public class Partie {
         ui.draw(context);
     }
 
-    public Journal lancementJournal() {
-        Point2D positionInitialeLancer = camelot.getPosition().add(new Point2D(camelot.getTaille().getX() / 2.0, camelot.getTaille().getY() / 2.0));
-        Point2D velociteInitiale = new Point2D(camelot.getVelocite().getX() + 200, -450);
-        return new Journal(positionInitialeLancer, velociteInitiale, camera);
-    }
 }
