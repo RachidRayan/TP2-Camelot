@@ -10,7 +10,6 @@ import javafx.scene.input.KeyCode;
 
 public class Camelot extends Entite {
 
-    protected int nombrejournaux;
     protected Image camelotImage1 = new Image("camelot1.png");
     protected Image camelotImage2 = new Image("camelot2.png");
 
@@ -25,12 +24,6 @@ public class Camelot extends Entite {
 
     protected boolean contactSol;
 
-//    private boolean qAppuyerDernierFrame = false;
-//    private boolean journalCree = false;
-//    private double lancerTemps = 0;
-//    private final double interalleLancer = 0.5;
-
-
     private double tempsAnimation = 0;
     private double intervalleAnimation = 0.4;
     private boolean changementImage12 = true;
@@ -38,7 +31,6 @@ public class Camelot extends Entite {
     public Camelot(Camera camera) {
         taille = new Point2D(camelotImage1.getWidth(), camelotImage1.getHeight());
         this.camera = camera;
-        nombrejournaux = 12;
     }
 
     public Point2D getPosition() {
@@ -53,22 +45,6 @@ public class Camelot extends Entite {
         return velocite;
     }
 
-    //    public boolean isJournalCree() {
-//        return journalCree;
-//    }
-
-    public int getNombrejournaux() {
-        return nombrejournaux;
-    }
-
-    public void verificationNombreJournaux (int NbrJournauxRestants) {
-        if (NbrJournauxRestants == 0) {
-            nombrejournaux = 12;
-        }
-        else {
-            nombrejournaux += NbrJournauxRestants;
-        }
-    }
 
     @Override
     public void update(double deltaTemps) {
@@ -91,20 +67,6 @@ public class Camelot extends Entite {
             // Animation normale
             intervalleAnimation = 0.4;
         }
-
-        // Action de lancer un journal
-//        boolean qJusteAppuyerMaintenant = Input.isKeyPressed(KeyCode.Q);
-//        boolean qJusteAppuyer = qJusteAppuyerMaintenant && !qAppuyerDernierFrame;
-//
-//        lancerTemps -= deltaTemps;
-//
-//
-//        if (qJusteAppuyer && lancerTemps <= 0 && nombrejournaux > 0) {
-//            creeJournal();
-//            nombrejournaux--;
-//            lancerTemps = interalleLancer;
-//        }
-
         // Sauter avec Espace ou Flèche vers le haut
         boolean saut = Input.isKeyPressed(KeyCode.SPACE)
                 || Input.isKeyPressed(KeyCode.UP);
@@ -139,13 +101,6 @@ public class Camelot extends Entite {
             tempsAnimation = 0;
         }
     }
-//
-//    public Journal creeJournal () {
-//        journalCree = false;
-//        Point2D positionInitialeLancer = position.add(new Point2D(taille.getX() / 2.0, taille.getY() / 2.0));
-//        Point2D velociteInitiale = new Point2D(velocite.getX() + 200, -450);
-//        return new Journal(positionInitialeLancer, velociteInitiale, camera);
-//    }
 
     @Override
     public void draw(GraphicsContext context) {

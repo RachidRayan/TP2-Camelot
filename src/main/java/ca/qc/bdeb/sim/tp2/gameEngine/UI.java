@@ -1,25 +1,51 @@
 package ca.qc.bdeb.sim.tp2.gameEngine;
 
-import javafx.geometry.Point2D;
+import ca.qc.bdeb.sim.tp2.JavaFX;
+import javafx.geometry.VPos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class UI {
     private final Image iconeDollar = new Image("icone-dollar.png");
+//    private int argent = 0;
+
     private final Image iconeJournal = new Image("icone-journal.png");
+    private int nombreJournauxAffichage;
+
     private final Image iconeMaison = new Image("icone-maison.png");
+    private final String adressesCibles = "Aucune pour l'instant!";
 
-    public void uiInitialization (GraphicsContext context) {
+    private final double grandeurIcone = 32;
+    private final double espaceEntre = 10;
+    private final double yEntreLeHaut = 8;
 
-        Point2D positionIconeDollar = new Point2D(iconeDollar.getWidth(), iconeDollar.getWidth());
-        context.drawImage(iconeDollar, positionIconeDollar.getX(),  positionIconeDollar.getY());
+    public void update (int journaux, int argent) {
+        this.nombreJournauxAffichage = journaux;
+//        this.argent = argent;
+    }
 
-        Point2D positionIconeJournal = new Point2D(positionIconeDollar.getX() + iconeJournal.getWidth(), positionIconeDollar.getY() + iconeJournal.getHeight());
+    public void draw (GraphicsContext context) {
+        context.setFill(Color.BLACK);
+        context.fillRect(0,0,JavaFX.w,50);
 
-        context.drawImage(iconeJournal, positionIconeJournal.getX(), positionIconeJournal.getY());
+        double xTravailler = espaceEntre;
 
-        Point2D positionIconeMaison = new Point2D(positionIconeJournal.getX() + iconeMaison.getWidth() , positionIconeJournal.getY() + iconeMaison.getHeight());
-        context.drawImage(iconeJournal,positionIconeMaison.getX(), positionIconeMaison.getY());
 
+        context.drawImage(iconeJournal, xTravailler, yEntreLeHaut);
+        drawText(context, String.valueOf(nombreJournauxAffichage),xTravailler + grandeurIcone + 8, espaceEntre);
+        xTravailler += grandeurIcone + 100;
+
+        context.drawImage(iconeDollar, xTravailler, yEntreLeHaut + 5);
+
+
+    }
+
+    private void drawText(GraphicsContext context, String text, double x, double y) {
+        context.setTextBaseline(VPos.TOP);
+        context.setFont(Font.font("Arial", 25));
+        context.setFill(Color.WHITE);
+        context.fillText(text, x, y);
     }
 }
