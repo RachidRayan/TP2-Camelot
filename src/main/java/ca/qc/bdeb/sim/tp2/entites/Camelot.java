@@ -114,7 +114,7 @@ public class Camelot extends Entite {
             context.drawImage(camelotImage2,positionEcran.getX(), positionEcran.getY(),taille.getX(), taille.getY());
         }
 
-        context.fillText(String.valueOf(velocite.getX()), 0,0);
+//        context.fillText(String.valueOf(velocite.getX()), 0,0);
     }
 
     @Override

@@ -5,15 +5,14 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import org.w3c.dom.Text;
 
 import java.util.Random;
 
 public class Maison extends Bg {
 
-    double HeightDoor = 250;
-    double WidthDoor = 150;
-    double Difference = 2000; //difference entre les portes
+    private double hauteurPorte = 250;
+    private double largeurPorte = 150;
+    private double differencePositionnement = 2000; //difference entre les portes
 
     int[] adressNumbers = setAdresse();
     public int[] getAdressNumbers() {
@@ -52,11 +51,11 @@ public class Maison extends Bg {
             int number = adressNumbers[i];
 
             context.setFill(Color.BLACK);
-            context.fillRect(positionEcran.getX() + Difference *i, JavaFX.h-HeightDoor,WidthDoor,HeightDoor);
+            context.fillRect(positionEcran.getX() + differencePositionnement *i, JavaFX.h- hauteurPorte, largeurPorte, hauteurPorte);
 
             context.setFill(Color.WHITE);
             context.setFont(new Font(80));
-            context.fillText(String.valueOf(adressNumbers[i]),positionEcran.getX() + Difference*i,JavaFX.h-HeightDoor+100);
+            context.fillText(String.valueOf(adressNumbers[i]),positionEcran.getX() + differencePositionnement *i,JavaFX.h- hauteurPorte +100);
         }
     }
 }
