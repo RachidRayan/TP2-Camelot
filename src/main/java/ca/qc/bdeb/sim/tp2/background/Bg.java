@@ -13,6 +13,19 @@ abstract public class Bg {
     protected Point2D position = Point2D.ZERO;
     Camera camera = new Camera();
 
+    public Point2D getVelocite() {
+        return velocite;
+    }
+
+    public Point2D getPosition() {
+        return position;
+    }
+
+    public void setVelocite(Point2D velocite) {
+        this.velocite = velocite;
+    }
+
+
     public abstract void update(double deltaTemps);
 
     public abstract void draw(GraphicsContext context);

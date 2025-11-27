@@ -49,77 +49,71 @@ public class Partie {
         for (Bg bg : listePlanArriere) {
             bg.update(deltaTemps);
         }
-        // Logique pour l'accumulation de force pour le lancer du journal
+        // Logique pour l'accumulation de force pour le lancer du journal (Shift)
         boolean statusShift = Input.isKeyPressed(KeyCode.SHIFT);
 
-        if (statusShift) {
-            if (forceX <= forceMaximaleX) {
-                forceX++;
-            }
-            if (forceY >= forceMaximaleY) {
-                forceY--;
-            }
+        if (statusShift && nombreJournaux > 0) {
+            forceX = Math.min(forceMaximaleX, forceX + tauxDeCharge * deltaTemps);
+            forceY = Math.max(forceMaximaleY, forceY - tauxDeCharge * deltaTemps);
         }
 
-        else {
-            if (forceX >= 0) {
-                forceX--;
-            }
-            if (forceY <= 0) {
-                forceY++;
-            }
+        boolean doitLancerAvecForce = false;
+
+        if ((!statusShift) && (forceX != 0 || forceY != 0) && // Ajout de || qPeser si on veut lancer avec force en cliquant sur Q et en tenant Shift
+                lancerTemps <= 0 &&
+                nombreJournaux > 0) {
+            doitLancerAvecForce = true;
         }
-        // Logique pour l'action de lancer un journal
+
+        // Logique pour l'action de lancer un journal (Q)
         boolean statusQMaintenant = Input.isKeyPressed(KeyCode.Q);
         boolean qPeser = statusQMaintenant && !statusQAvant;
         statusQAvant = statusQMaintenant;
 
         lancerTemps -= deltaTemps;
 
-
-        if (qPeser && lancerTemps <= 0 && nombreJournaux > 0) {
-            if (forceX != 0 && forceY != 0) {
-                Point2D positionCamelot = camelot.getPosition();
-                Point2D tailleCamelot = camelot.getTaille();
-                Point2D velociteCamelot = camelot.getVelocite();
-
-                Point2D positionLancer = new Point2D(positionCamelot.getX() + tailleCamelot.getX() / 2.0,
-                        positionCamelot.getY() + tailleCamelot.getY() / 2.0);
-
-                Point2D velociteInitialJournal = new Point2D(velociteCamelot.getX() + forceX, forceY);
-
-                listeEntite.add(new Journal(positionLancer, velociteInitialJournal, camera));
-                nombreJournaux--;
-                lancerTemps = rechargeLaner;
-            }
-
-            else {
-                Point2D positionCamelot = camelot.getPosition();
-                Point2D tailleCamelot = camelot.getTaille();
-                Point2D velociteCamelot = camelot.getVelocite();
-
-                Point2D positionLancer = new Point2D(positionCamelot.getX() + tailleCamelot.getX() / 2.0,
-                        positionCamelot.getY() + tailleCamelot.getY() / 2.0);
-
-                Point2D velociteInitialJournal = new Point2D(velociteCamelot.getX() + 300, -500);
-
-                listeEntite.add(new Journal(positionLancer, velociteInitialJournal, camera));
-                nombreJournaux--;
-                lancerTemps = rechargeLaner;
-            }
+        // Logique lorsqu'on relache Shift
+        if (doitLancerAvecForce) {
+            lancerJournal(forceX,forceY);
+            nombreJournaux--;
+            lancerTemps = rechargeLaner;
             forceX = 0;
             forceY = 0;
-
+            argent++;
         }
+        // Logique lorsqu'on relache Q
+        if (qPeser && !statusShift && forceX == 0 && forceY == 0 && lancerTemps <= 0 && nombreJournaux > 0) {
+            lancerJournal(200,-500);
+            nombreJournaux--;
+            lancerTemps = rechargeLaner;
+            argent++;
+        }
+
+
         // Update des entités
         for (Entite e : listeEntite) {
             e.update(deltaTemps);
         }
+
         // Test argent (à enlever)
-        argent++;
+//        argent++;
+
         // Update de l'UI
         ui.update(getNombreJournaux(),argent);
 
+    }
+
+    public void lancerJournal (double forceX, double forceY) {
+        Point2D positionCamelot = camelot.getPosition();
+        Point2D tailleCamelot = camelot.getTaille();
+        Point2D velociteCamelot = camelot.getVelocite();
+
+        Point2D positionLancer = new Point2D(positionCamelot.getX() + tailleCamelot.getX() / 2.0,
+                positionCamelot.getY() + tailleCamelot.getY() / 2.0);
+
+        Point2D velociteInitialJournal = new Point2D(velociteCamelot.getX() + forceX, forceY);
+
+        listeEntite.add(new Journal(positionLancer, velociteInitialJournal, camera));
     }
 
     public void draw(GraphicsContext context) {

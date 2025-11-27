@@ -10,9 +10,9 @@ import java.util.Random;
 
 public class Maison extends Bg {
 
-    private double hauteurPorte = 250;
-    private double largeurPorte = 150;
-    private double differencePositionnement = 2000; //difference entre les portes
+    private final double hauteurPorte = 250;
+    private final double largeurPorte = 150;
+    private final double differencePositionnement = 2000; //difference entre les portes
 
     int[] adressNumbers = setAdresse();
     public int[] getAdressNumbers() {
