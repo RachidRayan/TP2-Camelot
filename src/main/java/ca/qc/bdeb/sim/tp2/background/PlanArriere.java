@@ -1,22 +1,21 @@
 package ca.qc.bdeb.sim.tp2.background;
 
-import ca.qc.bdeb.sim.tp2.entites.Camelot;
 import ca.qc.bdeb.sim.tp2.gameEngine.Camera;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 
-import java.util.Random;
+abstract public class PlanArriere {
 
-abstract public class Bg {
-    //Camelot camelot = new Camelot();
-
-
-    protected Point2D velocite = new Point2D(200, 0);
+    private final Camera camera;
     protected Point2D position = Point2D.ZERO;
-    Camera camera = new Camera();
     protected final double differencePositionnement = 2000;
 
-//    protected final int[] numerosAdresse = setAdresse();
+    public PlanArriere(Camera camera) {
+        this.camera = camera;
+    }
+
+
+    //    protected final int[] numerosAdresse = setAdresse();
 //    public int[] getNumerosAdresse() {
 //        return numerosAdresse;
 //    }
@@ -34,20 +33,13 @@ abstract public class Bg {
 //    }
 
 
-    public Point2D getVelocite() {
-        return velocite;
-    }
-
     public Point2D getPosition() {
         return position;
     }
 
-    public void setVelocite(Point2D velocite) {
-        this.velocite = velocite;
-    }
-
-
-    public abstract void update(double deltaTemps);
+    public void update(double mouvementVersGauche)  {
+        position = new Point2D(position.getX() - mouvementVersGauche, position.getY());
+    };
 
     public abstract void draw(GraphicsContext context);
 }

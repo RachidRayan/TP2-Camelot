@@ -1,6 +1,4 @@
-package ca.qc.bdeb.sim.tp2.entites;
-
-import javafx.geometry.Point2D;
+package ca.qc.bdeb.sim.tp2.background;
 
 public class PointGravite {
 //    public PointGravite() {

@@ -14,13 +14,13 @@ public class Camelot extends Entite {
     protected Image camelotImage2 = new Image("camelot2.png");
 
     // position = coin en haut à gauche du flocon
-    protected Point2D position = Point2D.ZERO;
+    protected Point2D position;
     protected Point2D taille;
 
     protected Camera camera;
     // Physique
     protected Point2D velocite = Point2D.ZERO;
-    protected Point2D acceleration = new Point2D(0, 600);
+//    protected Point2D acceleration = new Point2D(0, 600);
 
     protected boolean contactSol;
 
@@ -28,8 +28,9 @@ public class Camelot extends Entite {
     private double intervalleAnimation = 0.4;
     private boolean changementImage12 = true;
 
-    public Camelot(Camera camera) {
-        taille = new Point2D(camelotImage1.getWidth(), camelotImage1.getHeight());
+    public Camelot(Camera camera, double positionX) {
+        this.position = new Point2D(positionX,0);
+        this.taille = new Point2D(camelotImage1.getWidth(), camelotImage1.getHeight());
         this.camera = camera;
     }
 
@@ -47,38 +48,40 @@ public class Camelot extends Entite {
 
 
     @Override
-    public void update(double deltaTemps) {
-        boolean accelerationEnPesant = Input.isKeyPressed(KeyCode.RIGHT) || Input.isKeyPressed(KeyCode.D);
-        boolean decelerationEnPesant = Input.isKeyPressed(KeyCode.LEFT) || Input.isKeyPressed(KeyCode.A);
+    public void update(double deltaTemps, double vitesseMouvement) {
+//        boolean accelerationEnPesant = Input.isKeyPressed(KeyCode.RIGHT) || Input.isKeyPressed(KeyCode.D);
+//        boolean decelerationEnPesant = Input.isKeyPressed(KeyCode.LEFT) || Input.isKeyPressed(KeyCode.A);
+//
+//        // Mouvement horizontal
+//        if (decelerationEnPesant) {
+//            velocite = new Point2D(velocite.getX() * 0.9, velocite.getY());
+//            // Animation plus lente
+//            intervalleAnimation = 0.6;
+//        }
+//        else if (accelerationEnPesant) {
+//            velocite = new Point2D(velocite.getX() * 1.2, velocite.getY());
+//            // Animation plus rapide
+//            intervalleAnimation = 0.1;
+//        }
+//        else {
+//            velocite = new Point2D(velocite.getX() * 0.95, velocite.getY());
+//            // Animation normale
+//            intervalleAnimation = 0.4;
+//        }
 
-        // Mouvement horizontal
-        if (decelerationEnPesant) {
-            velocite = new Point2D(velocite.getX() * 0.9, velocite.getY());
-            // Animation plus lente
-            intervalleAnimation = 0.6;
-        }
-        else if (accelerationEnPesant) {
-            velocite = new Point2D(velocite.getX() * 1.2, velocite.getY());
-            // Animation plus rapide
-            intervalleAnimation = 0.1;
-        }
-        else {
-            velocite = new Point2D(velocite.getX() * 0.95, velocite.getY());
-            // Animation normale
-            intervalleAnimation = 0.4;
-        }
+
         // Sauter avec Espace ou Flèche vers le haut
         boolean saut = Input.isKeyPressed(KeyCode.SPACE)
                 || Input.isKeyPressed(KeyCode.UP);
 
         // Sauter
         if (contactSol && saut) {
-            velocite = new Point2D(velocite.getX(), -400);
+            velocite = new Point2D(position.getX(), -400);
             contactSol = false;
         }
 
-        velocite = velocite.add(acceleration.multiply(deltaTemps));
-        position = position.add(velocite.multiply(deltaTemps));
+        velocite = velocite.add(v.multiply(deltaTemps));
+//        position = position.add(velocite.multiply(deltaTemps));
 
         // Position et velocité quand camelot revient sur le sol
         if (position.getY() + taille.getY() >= JavaFX.h) {
@@ -105,13 +108,13 @@ public class Camelot extends Entite {
     @Override
     public void draw(GraphicsContext context) {
 
-        Point2D positionEcran = camera.coordoEcran(position);
+//        Point2D positionEcran = camera.coordoEcran(position);
 
         if (!changementImage12) {
-            context.drawImage(camelotImage1,positionEcran.getX(), positionEcran.getY(),taille.getX(), taille.getY());
+            context.drawImage(camelotImage1,position.getX(), position.getY(),taille.getX(), taille.getY());
         }
         else {
-            context.drawImage(camelotImage2,positionEcran.getX(), positionEcran.getY(),taille.getX(), taille.getY());
+            context.drawImage(camelotImage2,position.getX(), position.getY(),taille.getX(), taille.getY());
         }
 
 //        context.fillText(String.valueOf(velocite.getX()), 0,0);

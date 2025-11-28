@@ -1,6 +1,7 @@
 package ca.qc.bdeb.sim.tp2.gameEngine;
 
-import ca.qc.bdeb.sim.tp2.background.Bg;
+import ca.qc.bdeb.sim.tp2.JavaFX;
+import ca.qc.bdeb.sim.tp2.background.PlanArriere;
 import ca.qc.bdeb.sim.tp2.background.Brique;
 import ca.qc.bdeb.sim.tp2.background.Fenetre;
 import ca.qc.bdeb.sim.tp2.background.Maison;
@@ -17,12 +18,17 @@ import java.util.ArrayList;
 public class Partie {
     private final UI ui = new UI();
     private final Camera camera = new Camera();
-    private final Camelot camelot = new Camelot(camera);
-    private final Brique brique = new Brique();
-    private final Maison maison = new Maison();
-    private final Fenetre fenetre = new Fenetre();
-    private ArrayList<Bg> listePlanArriere = new ArrayList<>();
-    private ArrayList<Entite> listeEntite = new ArrayList<>();
+    private Camelot camelot;
+    private Brique brique;
+    private Maison maison;
+    private Fenetre fenetre;
+    private ArrayList<PlanArriere> listePlanArriere = new ArrayList<>();
+    private ArrayList<Journal> journaux = new ArrayList<>();
+
+    private final double xApparitionPosition = 100;
+    private final double xPositionCamera = xApparitionPosition - (JavaFX.w / 4.0);
+
+
 
     private int nombreJournaux = 12;
     private double forceX = 0;
@@ -37,7 +43,13 @@ public class Partie {
     private int argent = 0;
 
     public Partie() {
-        this.listeEntite.add(camelot);
+        camera.setPositionCamera(new Point2D(xPositionCamera, 0));
+
+        this.camelot = new Camelot(camera,xApparitionPosition);
+        this.brique = new Brique(camera);
+        this.maison= new Maison(camera);
+        this.fenetre = new Fenetre(camera);
+
         this.listePlanArriere.add(brique);
         this.listePlanArriere.add(maison);
         this.listePlanArriere.add(fenetre);
@@ -48,10 +60,13 @@ public class Partie {
     }
 
     public void update(double deltaTemps) {
-        // Update du plan d'arrière
-        for (Bg bg : listePlanArriere) {
-            bg.update(deltaTemps);
-        }
+        boolean accelerationEnPesant = Input.isKeyPressed(KeyCode.RIGHT) || Input.isKeyPressed(KeyCode.D);
+        boolean decelerationEnPesant = Input.isKeyPressed(KeyCode.LEFT) || Input.isKeyPressed(KeyCode.A);
+        // Logique de la vitesse du monde
+        double vitesseMouvement = 200;
+        if (accelerationEnPesant) vitesseMouvement = 400;
+        if (decelerationEnPesant) vitesseMouvement = 100;
+
         // Logique pour l'accumulation de force pour le lancer du journal (Shift)
         boolean statusShift = Input.isKeyPressed(KeyCode.SHIFT);
 
@@ -92,10 +107,16 @@ public class Partie {
             argent++;
         }
 
+        //   Update du plan d'arrière
+        for (PlanArriere planArriere : listePlanArriere) {
+            planArriere.update(vitesseMouvement * deltaTemps);
+        }
 
-        // Update des entités
-        for (Entite e : listeEntite) {
-            e.update(deltaTemps);
+        camelot.update(deltaTemps, vitesseMouvement);
+
+        // Update des journaux
+        for (Journal journal : journaux) {
+            journal.update(deltaTemps);
         }
 
         // Test argent (à enlever)
@@ -116,16 +137,16 @@ public class Partie {
 
         Point2D velociteInitialJournal = new Point2D(velociteCamelot.getX() + forceX, forceY);
 
-        listeEntite.add(new Journal(positionLancer, velociteInitialJournal, camera));
+        journaux.add(new Journal(positionLancer, velociteInitialJournal, camera));
     }
 
     public void draw(GraphicsContext context) {
         // Draw du plan d'arrière
-        for (Bg bg : listePlanArriere) {
+        for (PlanArriere bg : listePlanArriere) {
             bg.draw(context);
         }
         // Draw des entités
-        for (Entite e : listeEntite) {
+        for (Entite e : journaux) {
             e.draw(context);
         }
         // Draw de l'UI

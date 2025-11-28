@@ -1,6 +1,7 @@
 package ca.qc.bdeb.sim.tp2.background;
 
 import ca.qc.bdeb.sim.tp2.entites.Journal;
+import ca.qc.bdeb.sim.tp2.gameEngine.Camera;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -8,11 +9,16 @@ import javafx.scene.paint.Color;
 
 import static ca.qc.bdeb.sim.tp2.background.Maison.getNumerosAdresse;
 
-public class Fenetre extends Bg {
+public class Fenetre extends PlanArriere {
 
-    Image fenetre = new Image("fenetre.png");
-    Image fenetreVerte = new Image("fenetre-brisee-vert.png");
-    Image fenetreRouge = new Image("fenetre-brisee-rouge.png");
+    private  Camera camera;
+    private final Image fenetreBlanche = new Image("fenetre.png");
+    private final Image fenetreVerte = new Image("fenetre-brisee-vert.png");
+    private final Image fenetreRouge = new Image("fenetre-brisee-rouge.png");
+
+    public Fenetre(Camera camera) {
+        super(camera);
+    }
 
     public boolean casserVitre(Journal journal) {
         if (){
@@ -22,11 +28,11 @@ public class Fenetre extends Bg {
         return false;
     }
 
-    @Override
-    public void update(double deltaTemps) {
-        position = position.add(velocite.multiply(deltaTemps));
-        camera.setPositionCamera(position);
-    }
+//    @Override
+//    public void update(double deltaTemps) {
+//        position = position.add(velocite.multiply(deltaTemps));
+//        camera.setPositionCamera(position);
+//    }
 
     @Override
     public void draw(GraphicsContext context) {
