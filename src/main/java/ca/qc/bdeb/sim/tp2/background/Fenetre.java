@@ -1,13 +1,10 @@
 package ca.qc.bdeb.sim.tp2.background;
 
-import ca.qc.bdeb.sim.tp2.JavaFX;
+import ca.qc.bdeb.sim.tp2.entites.Journal;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-
-import java.awt.*;
 
 import static ca.qc.bdeb.sim.tp2.background.Maison.getNumerosAdresse;
 
@@ -17,6 +14,13 @@ public class Fenetre extends Bg {
     Image fenetreVerte = new Image("fenetre-brisee-vert.png");
     Image fenetreRouge = new Image("fenetre-brisee-rouge.png");
 
+    public boolean casserVitre(Journal journal) {
+        if (){
+
+        }
+
+        return false;
+    }
 
     @Override
     public void update(double deltaTemps) {
