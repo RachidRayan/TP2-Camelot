@@ -16,24 +16,22 @@ abstract public class Bg {
     Camera camera = new Camera();
     protected final double differencePositionnement = 2000;
 
-    int[] numerosAdresse = setAdresse();
-    public int[] getNumerosAdresse() {
-        return numerosAdresse;
-    }
-    public void setNumerosAdresse(int[] adressNumbers) {
-        this.numerosAdresse = adressNumbers;
-    }
-
-    //Numero d'adresse des maison pour livrer les journaux
-    public int[] setAdresse(){
-        int[] numeros = new int[8];
-        Random r = new Random();
-        numeros[0] = r.nextInt(80)+100;
-        for (int i = 1; i < numeros.length; i++) {
-            numeros[i] = numeros[0] +i*2+100 ;
-        }
-        return numeros;
-    }
+//    protected final int[] numerosAdresse = setAdresse();
+//    public int[] getNumerosAdresse() {
+//        return numerosAdresse;
+//    }
+//
+//    //Numero d'adresse des maison pour livrer les journaux
+//    public int[] setAdresse(){
+//        int[] numeros = new int[8];
+//        Random r = new Random();
+//        numeros[0] = r.nextInt(80);
+//        for (int i = 1; i < numeros.length; i++) {
+//            numeros[i] = numeros[0] +i*2 ;
+//            System.out.println(numeros[i]);
+//        }
+//        return numeros;
+//    }
 
 
     public Point2D getVelocite() {
