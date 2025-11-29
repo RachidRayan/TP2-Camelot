@@ -42,4 +42,18 @@ public class Journal extends Entite {
     public void hitBox(GraphicsContext context) {
 
     }
+
+    //coordonnée
+    public double getX() {
+        return camera.coordoEcran(position).getX();
+    }
+    public double getY() {
+        return camera.coordoEcran(position).getY();
+    }
+    public double getWidth() {
+        return taille.getX();
+    }
+    public double getHeight() {
+        return taille.getY();
+    }
 }
