@@ -27,7 +27,7 @@ public class Fenetre extends GenerationPlanArriere {
 
     public Fenetre(Camera camera, double xPositionMaison, boolean statusAbonnement, double yPosition) {
         super(camera);
-        this.positionMonde = new Point2D(xPositionMaison + 500, yPosition);
+        this.positionMonde = new Point2D(xPositionMaison + 300, yPosition);
         this.statusAbonnement = statusAbonnement;
 
     }
@@ -45,5 +45,6 @@ public class Fenetre extends GenerationPlanArriere {
     }
 
     public void hitBox(GraphicsContext context) {
+
     }
 }

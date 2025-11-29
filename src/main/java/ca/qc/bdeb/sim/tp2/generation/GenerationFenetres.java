@@ -18,16 +18,13 @@ public class GenerationFenetres extends GenerationPlanArriere {
         for (int i = 0; i < xPositionAdresses.size(); i++) {
             double xPositionAdresse = xPositionAdresses.get(i);
             boolean statusAbonnement = abonnements.get(i);
-            int nombreFenetres = random.nextInt(1,3);
+            int nombreFenetres = random.nextInt(0,3);
             if (nombreFenetres == 1) {
-                double yPosition = (0.2 + Math.random() * 0.5) * JavaFX.h;
-                fenetres.add(new Fenetre(camera, xPositionAdresse, statusAbonnement, yPosition));
+                fenetres.add(new Fenetre(camera, xPositionAdresse, statusAbonnement, 50));
             }
             else if (nombreFenetres == 2) {
-                double yPosition = (0.2 + Math.random() * 0.5) * JavaFX.h;
-                fenetres.add(new Fenetre(camera, xPositionAdresse, statusAbonnement, yPosition));
-                yPosition = (0.2 + Math.random() * 0.5) * JavaFX.h;
-                fenetres.add(new Fenetre(camera, xPositionAdresse + 500, statusAbonnement, yPosition));
+                fenetres.add(new Fenetre(camera, xPositionAdresse, statusAbonnement, 50));
+                fenetres.add(new Fenetre(camera, xPositionAdresse + 300, statusAbonnement, 50));
             }
 
         }
