@@ -1,6 +1,7 @@
 package ca.qc.bdeb.sim.tp2.gameEngine;
 
 import ca.qc.bdeb.sim.tp2.JavaFX;
+import ca.qc.bdeb.sim.tp2.background.Maison;
 import ca.qc.bdeb.sim.tp2.background.PlanArriere;
 import ca.qc.bdeb.sim.tp2.background.Brique;
 import ca.qc.bdeb.sim.tp2.Camelot;
@@ -18,7 +19,7 @@ public class Partie {
     private final Camera camera = new Camera();
     private Camelot camelot;
     private Brique brique;
-//    private Maison maison;
+    private Maison maison;
 //    private Fenetre fenetre;
     private ArrayList<PlanArriere> listePlanArriere = new ArrayList<>();
     private ArrayList<Journal> journaux = new ArrayList<>();
@@ -45,11 +46,11 @@ public class Partie {
 
         this.camelot = new Camelot(camera,xApparitionPosition);
         this.brique = new Brique(camera);
-//        this.maison= new Maison(camera);
+        this.maison= new Maison(camera);
 //        this.fenetre = new Fenetre(camera);
 
         this.listePlanArriere.add(brique);
-//        this.listePlanArriere.add(maison);
+        this.listePlanArriere.add(maison);
 //        this.listePlanArriere.add(fenetre);
     }
 

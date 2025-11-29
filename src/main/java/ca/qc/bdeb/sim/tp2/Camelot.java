@@ -53,7 +53,7 @@ public class Camelot {
 
         // Sauter
         if (contactSol && saut) {
-            velocite = new Point2D(0, -800);
+            velocite = new Point2D(0, -700);
             contactSol = false;
         }
 
