@@ -1,4 +1,4 @@
-package ca.qc.bdeb.sim.tp2.background;
+package ca.qc.bdeb.sim.tp2.generation;
 
 import ca.qc.bdeb.sim.tp2.JavaFX;
 import ca.qc.bdeb.sim.tp2.gameEngine.Camera;
@@ -6,11 +6,11 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Brique extends PlanArriere {
+public class GenerationBriques extends GenerationPlanArriere {
 
     private Image imageBrique = new Image("brique.png");
 
-    public Brique(Camera camera) {
+    public GenerationBriques(Camera camera) {
        super(camera);
     }
 

@@ -1,10 +1,7 @@
 package ca.qc.bdeb.sim.tp2.gameEngine;
 
 import ca.qc.bdeb.sim.tp2.JavaFX;
-import ca.qc.bdeb.sim.tp2.background.Fenetre;
-import ca.qc.bdeb.sim.tp2.background.Maison;
-import ca.qc.bdeb.sim.tp2.background.PlanArriere;
-import ca.qc.bdeb.sim.tp2.background.Brique;
+import ca.qc.bdeb.sim.tp2.generation.*;
 import ca.qc.bdeb.sim.tp2.Camelot;
 import ca.qc.bdeb.sim.tp2.entites.Entite;
 import ca.qc.bdeb.sim.tp2.entites.Journal;
@@ -16,13 +13,14 @@ import javafx.scene.input.KeyCode;
 import java.util.ArrayList;
 
 public class Partie {
-    private final UI ui = new UI();
+    private UI ui;
     private final Camera camera = new Camera();
     private Camelot camelot;
-    private Brique brique;
-    private Maison maison;
-    private Fenetre fenetre;
-    private ArrayList<PlanArriere> listePlanArriere = new ArrayList<>();
+    private GenerationBriques briques;
+    private GenerationMaisons maisons;
+    private GenerationBoitesAuxLettres boiteAuxLettres;
+    private GenerationFenetres fenetres;
+    private ArrayList<GenerationPlanArriere> listePlanArriere = new ArrayList<>();
     private ArrayList<Journal> journaux = new ArrayList<>();
 
     private final double xApparitionPosition = 100;
@@ -38,21 +36,28 @@ public class Partie {
     private final double tauxDeCharge = 800;
     private double lancerTemps = 0;
     private final double rechargeLaner = 0.6;
+
+    private boolean statusZAvant = false;
+    private boolean statusXAvant = false;
     private boolean statusQAvant = false;
 
     private int argent = 0;
 
     public Partie() {
+
         camera.setPositionCamera(new Point2D(xPositionCamera, 0));
 
         this.camelot = new Camelot(camera,xApparitionPosition);
-        this.brique = new Brique(camera);
-        this.maison= new Maison(camera);
-        this.fenetre = new Fenetre(camera);
+        this.briques = new GenerationBriques(camera);
+        this.maisons = new GenerationMaisons(camera);
+        this.fenetres = new GenerationFenetres(camera);
+        this.boiteAuxLettres = new GenerationBoitesAuxLettres(camera,maisons);
+        this.ui = new UI(maisons.getAdressesAbonnees());
 
-        this.listePlanArriere.add(brique);
-        this.listePlanArriere.add(maison);
-        this.listePlanArriere.add(fenetre);
+        this.listePlanArriere.add(briques);
+        this.listePlanArriere.add(maisons);
+        this.listePlanArriere.add(fenetres);
+        this.listePlanArriere.add(boiteAuxLettres);
     }
 
     public int getNombreJournaux() {
@@ -63,9 +68,9 @@ public class Partie {
         boolean accelerationEnPesant = Input.isKeyPressed(KeyCode.RIGHT) || Input.isKeyPressed(KeyCode.D);
         boolean decelerationEnPesant = Input.isKeyPressed(KeyCode.LEFT) || Input.isKeyPressed(KeyCode.A);
         // Logique de la vitesse du monde
-        double vitesseMouvement = 200;
-        if (accelerationEnPesant) vitesseMouvement = 400;
-        if (decelerationEnPesant) vitesseMouvement = 100;
+        double vitesseMouvement = 350;
+        if (accelerationEnPesant) vitesseMouvement = 500;
+        if (decelerationEnPesant) vitesseMouvement = 200;
 
         // Logique pour l'accumulation de force pour le lancer du journal (Shift)
         boolean statusShift = Input.isKeyPressed(KeyCode.SHIFT);
@@ -77,18 +82,11 @@ public class Partie {
 
         boolean doitLancerAvecForce = false;
 
-        if ((!statusShift) && (forceX != 0 || forceY != 0) && // Ajout de || qPeser si on veut lancer avec force en cliquant sur Q et en tenant Shift
+        if ((!statusShift) && (forceX != 0 || forceY != 0) &&
                 lancerTemps <= 0 &&
                 nombreJournaux > 0) {
             doitLancerAvecForce = true;
         }
-
-        // Logique pour l'action de lancer un journal (Q)
-        boolean statusQMaintenant = Input.isKeyPressed(KeyCode.Q);
-        boolean qPeser = statusQMaintenant && !statusQAvant;
-        statusQAvant = statusQMaintenant;
-
-        lancerTemps -= deltaTemps;
 
         // Logique lorsqu'on relache Shift
         if (doitLancerAvecForce) {
@@ -99,16 +97,46 @@ public class Partie {
             forceY = 0;
             argent++;
         }
-        // Logique lorsqu'on relache Q
-        if (qPeser && !statusShift && forceX == 0 && forceY == 0 && lancerTemps <= 0 && nombreJournaux > 0) {
-            lancerJournal(200,-500);
+
+        // Logique pour l'action de lancer un journal vers le haut (Z)
+        boolean statusZMaintenant = Input.isKeyPressed(KeyCode.Z);
+        boolean zPeser = statusZMaintenant && !statusZAvant;
+        statusZAvant = statusZMaintenant;
+
+        // Logique lorsqu'on clique sur Z
+        if (zPeser && !statusShift && forceX == 0 && forceY == 0 && lancerTemps <= 0 && nombreJournaux > 0) {
+            lancerJournal(50,-650);
             nombreJournaux--;
             lancerTemps = rechargeLaner;
             argent++;
         }
 
+        // Logique pour l'action de lancer un journal vers l'avant (X)
+        boolean statusXMaintenant = Input.isKeyPressed(KeyCode.X);
+        boolean xPeser = statusXMaintenant && !statusXAvant;
+        statusXAvant = statusXMaintenant;
+
+        // Logique lorsqu'on clique sur X
+        if (xPeser && !statusShift && forceX == 0 && forceY == 0 && lancerTemps <= 0 && nombreJournaux > 0) {
+            lancerJournal(400,-300);
+            nombreJournaux--;
+            lancerTemps = rechargeLaner;
+            argent++;
+        }
+
+        lancerTemps -= deltaTemps;
+
+        // Logique pour l'action de restockerles journaux +10 (Debug) (Q)
+        boolean statusQMaintenant = Input.isKeyPressed(KeyCode.Q);
+        boolean qPeser = statusQMaintenant && !statusQAvant;
+        statusQAvant = statusQMaintenant;
+
+        if (qPeser) {
+            nombreJournaux += 10;
+        }
+
         //   Update du plan d'arrière
-        for (PlanArriere planArriere : listePlanArriere) {
+        for (GenerationPlanArriere planArriere : listePlanArriere) {
             planArriere.update(vitesseMouvement * deltaTemps);
         }
 
@@ -118,11 +146,6 @@ public class Partie {
         for (Journal journal : journaux) {
             journal.update(deltaTemps);
         }
-
-        // Test argent (à enlever)
-//        argent++;
-
-
 
         // Update de l'UI
         ui.update(getNombreJournaux(),argent);
@@ -141,7 +164,7 @@ public class Partie {
         journaux.add(new Journal(positionLancer, velociteInitialJournal, camera));
     }
 
-    public boolean casserVitres(Journal journal ,Fenetre fenetre, double x, double y){
+    public boolean casserVitres(Journal journal , GenerationFenetres fenetre, double x, double y){
         if(journal.getX() + journal.getWidth() > fenetre.getX() + fenetre.getWidth() && journal.getY() + journal.getHeight() > fenetre.getY() + fenetre.getHeight()){
             return true;
         }
@@ -152,7 +175,7 @@ public class Partie {
 
     public void draw(GraphicsContext context) {
         // Draw du plan d'arrière
-        for (PlanArriere bg : listePlanArriere) {
+        for (GenerationPlanArriere bg : listePlanArriere) {
             bg.draw(context);
         }
 

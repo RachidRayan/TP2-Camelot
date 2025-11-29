@@ -1,36 +1,34 @@
-package ca.qc.bdeb.sim.tp2.background;
+package ca.qc.bdeb.sim.tp2.generation;
 
-import ca.qc.bdeb.sim.tp2.entites.Journal;
 import ca.qc.bdeb.sim.tp2.gameEngine.Camera;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
 
-public class Fenetre extends PlanArriere {
+public class GenerationFenetres extends GenerationPlanArriere {
 
-    private  Image fenetreBlanche = new Image("fenetre.png");
-    private final Image fenetreVerte = new Image("fenetre-brisee-vert.png");
-    private final Image fenetreRouge = new Image("fenetre-brisee-rouge.png");
+    private Image fenetreImage = new Image("fenetre.png");
+    private final Image fenetreVerteImage = new Image("fenetre-brisee-vert.png");
+    private final Image fenetreRougeImage = new Image("fenetre-brisee-rouge.png");
 
 
-    protected Point2D taille = new Point2D(fenetreBlanche.getWidth(),fenetreBlanche.getHeight());
+    protected Point2D taille = new Point2D(fenetreImage.getWidth(), fenetreImage.getHeight());
 
     public Point2D getTaille() {
         return taille;
     }
 
-    public Fenetre(Camera camera) {
+    public GenerationFenetres(Camera camera) {
         super(camera);
     }
 
     public void setFenetre(Image image, boolean bonneAdresse){
         if(bonneAdresse){
-            fenetreBlanche = fenetreVerte;
+            fenetreImage = fenetreVerteImage;
         }
         else {
-            fenetreBlanche = fenetreRouge;
+            fenetreImage = fenetreRougeImage;
         }
     }
 
