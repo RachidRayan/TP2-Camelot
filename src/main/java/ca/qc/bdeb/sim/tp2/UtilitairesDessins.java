@@ -1,4 +1,4 @@
-package assets;
+package ca.qc.bdeb.sim.tp2;
 
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
