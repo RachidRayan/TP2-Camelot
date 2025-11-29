@@ -1,6 +1,7 @@
 package ca.qc.bdeb.sim.tp2.gameEngine;
 
 import ca.qc.bdeb.sim.tp2.JavaFX;
+import ca.qc.bdeb.sim.tp2.background.Fenetre;
 import ca.qc.bdeb.sim.tp2.background.Maison;
 import ca.qc.bdeb.sim.tp2.background.PlanArriere;
 import ca.qc.bdeb.sim.tp2.background.Brique;
@@ -20,7 +21,7 @@ public class Partie {
     private Camelot camelot;
     private Brique brique;
     private Maison maison;
-//    private Fenetre fenetre;
+    private Fenetre fenetre;
     private ArrayList<PlanArriere> listePlanArriere = new ArrayList<>();
     private ArrayList<Journal> journaux = new ArrayList<>();
 
@@ -47,11 +48,11 @@ public class Partie {
         this.camelot = new Camelot(camera,xApparitionPosition);
         this.brique = new Brique(camera);
         this.maison= new Maison(camera);
-//        this.fenetre = new Fenetre(camera);
+        this.fenetre = new Fenetre(camera);
 
         this.listePlanArriere.add(brique);
         this.listePlanArriere.add(maison);
-//        this.listePlanArriere.add(fenetre);
+        this.listePlanArriere.add(fenetre);
     }
 
     public int getNombreJournaux() {
@@ -121,6 +122,8 @@ public class Partie {
         // Test argent (à enlever)
 //        argent++;
 
+
+
         // Update de l'UI
         ui.update(getNombreJournaux(),argent);
 
@@ -137,6 +140,15 @@ public class Partie {
 
         journaux.add(new Journal(positionLancer, velociteInitialJournal, camera));
     }
+
+    public boolean casserVitres(Journal journal ,Fenetre fenetre, double x, double y){
+        if(journal.getX() + journal.getWidth() > fenetre.getX() + fenetre.getWidth() && journal.getY() + journal.getHeight() > fenetre.getY() + fenetre.getHeight()){
+            return true;
+        }
+        return false;
+    }
+
+
 
     public void draw(GraphicsContext context) {
         // Draw du plan d'arrière
