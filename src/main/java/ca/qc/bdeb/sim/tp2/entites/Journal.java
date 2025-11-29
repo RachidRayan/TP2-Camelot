@@ -2,12 +2,9 @@ package ca.qc.bdeb.sim.tp2.entites;
 
 import ca.qc.bdeb.sim.tp2.JavaFX;
 import ca.qc.bdeb.sim.tp2.gameEngine.Camera;
-import ca.qc.bdeb.sim.tp2.gameEngine.Input;
 import javafx.geometry.Point2D;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 
 public class Journal extends Entite {
     protected Image journalImage = new Image("journal.png");
@@ -15,7 +12,7 @@ public class Journal extends Entite {
     protected Point2D taille = new Point2D(journalImage.getWidth(), journalImage.getHeight());
 
     protected Point2D velocite;
-    protected Point2D accelerationGravité = new Point2D(0, 700);
+    protected Point2D accelerationGravité = new Point2D(0, 1500);
 
     protected Camera camera;
 

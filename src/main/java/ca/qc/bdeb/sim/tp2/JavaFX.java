@@ -37,7 +37,7 @@ public class JavaFX extends Application {
                 partie.update(deltaTemps);
 
                 // Arrière-plan
-                context.setFill(Color.gray(0.2));
+                context.setFill(Color.gray(0.0));
                 context.fillRect(0, 0, w, h);
 
                 // Dessin

@@ -80,13 +80,14 @@ public class GenerationMaisons extends GenerationPlanArriere {
 
         for (int adresse : adresses) {
             context.setFill(Color.BROWN);
-            double xPositonPorte = positionEcran.getX() + differencePositionnement * sautAdresse;
-            context.fillRect(xPositonPorte,JavaFX.h- hauteurPorte, largeurPorte, hauteurPorte);
+            context.fillRect(positionEcran.getX() + differencePositionnement * sautAdresse,JavaFX.h- hauteurPorte, largeurPorte, hauteurPorte);
 
             context.setFill(Color.YELLOW);
             context.setFont(new Font(60));
             context.fillText(String.valueOf(adresse),positionEcran.getX() + differencePositionnement * sautAdresse,JavaFX.h- hauteurPorte);
             sautAdresse++;
         }
+
+
     }
 }

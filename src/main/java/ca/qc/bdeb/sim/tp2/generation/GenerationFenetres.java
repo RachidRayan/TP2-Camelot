@@ -1,75 +1,51 @@
 package ca.qc.bdeb.sim.tp2.generation;
 
+import ca.qc.bdeb.sim.tp2.JavaFX;
 import ca.qc.bdeb.sim.tp2.gameEngine.Camera;
-import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 
 public class GenerationFenetres extends GenerationPlanArriere {
 
-    private Image fenetreImage = new Image("fenetre.png");
-    private final Image fenetreVerteImage = new Image("fenetre-brisee-vert.png");
-    private final Image fenetreRougeImage = new Image("fenetre-brisee-rouge.png");
+    private ArrayList<Fenetre> fenetres = new ArrayList<>();
 
-
-    protected Point2D taille = new Point2D(fenetreImage.getWidth(), fenetreImage.getHeight());
-
-    public Point2D getTaille() {
-        return taille;
-    }
-
-    public GenerationFenetres(Camera camera) {
+    public GenerationFenetres(Camera camera, ArrayList<Double> xPositionAdresses, ArrayList<Boolean> abonnements) {
         super(camera);
-    }
+        Random random = new Random();
+        for (int i = 0; i < xPositionAdresses.size(); i++) {
+            double xPositionAdresse = xPositionAdresses.get(i);
+            boolean statusAbonnement = abonnements.get(i);
+            int nombreFenetres = random.nextInt(1,3);
+            if (nombreFenetres == 1) {
+                double yPosition = (0.2 + Math.random() * 0.5) * JavaFX.h;
+                fenetres.add(new Fenetre(camera, xPositionAdresse, statusAbonnement, yPosition));
+            }
+            else if (nombreFenetres == 2) {
+                double yPosition = (0.2 + Math.random() * 0.5) * JavaFX.h;
+                fenetres.add(new Fenetre(camera, xPositionAdresse, statusAbonnement, yPosition));
+                yPosition = (0.2 + Math.random() * 0.5) * JavaFX.h;
+                fenetres.add(new Fenetre(camera, xPositionAdresse + 500, statusAbonnement, yPosition));
+            }
 
-    public void setFenetre(Image image, boolean bonneAdresse){
-        if(bonneAdresse){
-            fenetreImage = fenetreVerteImage;
         }
-        else {
-            fenetreImage = fenetreRougeImage;
-        }
     }
-
-    //Verifie si le numero est une bonne adresse
-    public boolean bonneAdresse(int i) {
-        boolean estBonneAdresse = false;
-
-//        for (int j = 0; j < getAdresses().length; j++) {
-//            if (i == getAdresses()[j]) {
-//                estBonneAdresse = true;
-//                break;
-//            }
-//        }
-        return estBonneAdresse;
-    }
-
-
 
     @Override
-    public void draw(GraphicsContext context) {
-//        Point2D positionEcran = camera.coordoEcran(position);
-//
-//        for (int i = 0; i < getAdresses().length; i++) {
-//            int numero=getAdresses()[i];
-//
-//            Point2D position = new Point2D(positionEcran.getX() + differencePositionnement * i + 200,200);
-//
-//            if (bonneAdresse(numero)) {
-//
-//                context.setFill(Color.BLACK);
-//                context.drawImage(fenetreVerte, positionEcran.getX() + differencePositionnement * i + 200, 200);
-////                context.fillText(String.valueOf(getAdresses()[i]), position.getX(), position.getY());
-//
-//            } else {
-//                context.setFill(Color.BLACK);
-//                context.drawImage(fenetreRouge, positionEcran.getX() + differencePositionnement * i + 200, 200);
-////                context.fillText(String.valueOf(getAdresses()[i]), position.getX(), position.getY());
-//            }
-//        }
+    public void update(double mouvementVersGauche) {
+        super.update(mouvementVersGauche);
+        for (Fenetre fenetre : fenetres) {
+            fenetre.update(mouvementVersGauche);
+        }
     }
 
+    public void draw(GraphicsContext context) {
+        for (Fenetre fenetres : fenetres) {
+            fenetres.draw(context);
+        }
+    }
     //coordonnée
     public double getX() {
         return camera.coordoEcran(position).getX();
@@ -77,11 +53,4 @@ public class GenerationFenetres extends GenerationPlanArriere {
     public double getY() {
         return camera.coordoEcran(position).getY();
     }
-    public double getWidth() {
-        return taille.getX();
-    }
-    public double getHeight() {
-        return taille.getY();
-    }
-
 }

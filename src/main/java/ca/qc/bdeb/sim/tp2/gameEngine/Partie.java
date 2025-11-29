@@ -31,8 +31,8 @@ public class Partie {
     private int nombreJournaux = 12;
     private double forceX = 0;
     private double forceY = 0;
-    private final double forceMaximaleX = 200;
-    private final double forceMaximaleY = -600;
+    private final double forceMaximaleX = 600;
+    private final double forceMaximaleY = -1000;
     private final double tauxDeCharge = 800;
     private double lancerTemps = 0;
     private final double rechargeLaner = 0.6;
@@ -50,7 +50,7 @@ public class Partie {
         this.camelot = new Camelot(camera,xApparitionPosition);
         this.generationBriques = new GenerationBriques(camera);
         this.generationMaisons = new GenerationMaisons(camera);
-        this.generationFenetres = new GenerationFenetres(camera);
+        this.generationFenetres = new GenerationFenetres(camera, generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
         this.generationBoitesAuxLettres = new GenerationBoitesAuxLettres(camera, generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
         this.ui = new UI(generationMaisons.getAdressesAbonnees());
 
@@ -105,7 +105,7 @@ public class Partie {
 
         // Logique lorsqu'on clique sur Z
         if (zPeser && !statusShift && forceX == 0 && forceY == 0 && lancerTemps <= 0 && nombreJournaux > 0) {
-            lancerJournal(50,-650);
+            lancerJournal(50,-1000);
             nombreJournaux--;
             lancerTemps = rechargeLaner;
             argent++;
@@ -118,7 +118,7 @@ public class Partie {
 
         // Logique lorsqu'on clique sur X
         if (xPeser && !statusShift && forceX == 0 && forceY == 0 && lancerTemps <= 0 && nombreJournaux > 0) {
-            lancerJournal(400,-300);
+            lancerJournal(500,-600);
             nombreJournaux--;
             lancerTemps = rechargeLaner;
             argent++;
@@ -164,19 +164,20 @@ public class Partie {
         journaux.add(new Journal(positionLancer, velociteInitialJournal, camera));
     }
 
-    public boolean casserVitres(Journal journal , GenerationFenetres fenetre, double x, double y){
-        if(journal.getX() + journal.getWidth() > fenetre.getX() + fenetre.getWidth() && journal.getY() + journal.getHeight() > fenetre.getY() + fenetre.getHeight()){
-            return true;
-        }
-        return false;
-    }
+//    public boolean casserVitres(Journal journal , GenerationFenetres fenetre, double x, double y){
+//        if(journal.getX() + journal.getWidth() > fenetre.getX() + fenetre.getWidth() && journal.getY() + journal.getHeight() > fenetre.getY() + fenetre.getHeight()){
+//            return true;
+//        }
+//        return false;
+//    }
 
 
 
     public void draw(GraphicsContext context) {
+
         // Draw du plan d'arrière
-        for (GenerationPlanArriere bg : generationPlanArrieres) {
-            bg.draw(context);
+        for (GenerationPlanArriere planArriere : generationPlanArrieres) {
+            planArriere.draw(context);
         }
 
         camelot.draw(context);
