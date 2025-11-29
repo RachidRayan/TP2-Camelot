@@ -4,7 +4,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 
 abstract public class Entite {
-        protected Point2D velocite;
         protected Point2D position;
 
         public abstract void update(double deltaTemps);

@@ -16,11 +16,11 @@ public class Partie {
     private UI ui;
     private final Camera camera = new Camera();
     private Camelot camelot;
-    private GenerationBriques briques;
-    private GenerationMaisons maisons;
-    private GenerationBoitesAuxLettres boiteAuxLettres;
-    private GenerationFenetres fenetres;
-    private ArrayList<GenerationPlanArriere> listePlanArriere = new ArrayList<>();
+    private GenerationBriques generationBriques;
+    private GenerationMaisons generationMaisons;
+    private GenerationBoitesAuxLettres generationBoitesAuxLettres;
+    private GenerationFenetres generationFenetres;
+    private ArrayList<GenerationPlanArriere> generationPlanArrieres = new ArrayList<>();
     private ArrayList<Journal> journaux = new ArrayList<>();
 
     private final double xApparitionPosition = 100;
@@ -48,16 +48,16 @@ public class Partie {
         camera.setPositionCamera(new Point2D(xPositionCamera, 0));
 
         this.camelot = new Camelot(camera,xApparitionPosition);
-        this.briques = new GenerationBriques(camera);
-        this.maisons = new GenerationMaisons(camera);
-        this.fenetres = new GenerationFenetres(camera);
-        this.boiteAuxLettres = new GenerationBoitesAuxLettres(camera,maisons);
-        this.ui = new UI(maisons.getAdressesAbonnees());
+        this.generationBriques = new GenerationBriques(camera);
+        this.generationMaisons = new GenerationMaisons(camera);
+        this.generationFenetres = new GenerationFenetres(camera);
+        this.generationBoitesAuxLettres = new GenerationBoitesAuxLettres(camera, generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
+        this.ui = new UI(generationMaisons.getAdressesAbonnees());
 
-        this.listePlanArriere.add(briques);
-        this.listePlanArriere.add(maisons);
-        this.listePlanArriere.add(fenetres);
-        this.listePlanArriere.add(boiteAuxLettres);
+        this.generationPlanArrieres.add(generationBriques);
+        this.generationPlanArrieres.add(generationMaisons);
+        this.generationPlanArrieres.add(generationFenetres);
+        this.generationPlanArrieres.add(generationBoitesAuxLettres);
     }
 
     public int getNombreJournaux() {
@@ -65,8 +65,8 @@ public class Partie {
     }
 
     public void update(double deltaTemps) {
-        boolean accelerationEnPesant = Input.isKeyPressed(KeyCode.RIGHT) || Input.isKeyPressed(KeyCode.D);
-        boolean decelerationEnPesant = Input.isKeyPressed(KeyCode.LEFT) || Input.isKeyPressed(KeyCode.A);
+        boolean accelerationEnPesant = Input.isKeyPressed(KeyCode.RIGHT);
+        boolean decelerationEnPesant = Input.isKeyPressed(KeyCode.LEFT);
         // Logique de la vitesse du monde
         double vitesseMouvement = 350;
         if (accelerationEnPesant) vitesseMouvement = 500;
@@ -136,7 +136,7 @@ public class Partie {
         }
 
         //   Update du plan d'arrière
-        for (GenerationPlanArriere planArriere : listePlanArriere) {
+        for (GenerationPlanArriere planArriere : generationPlanArrieres) {
             planArriere.update(vitesseMouvement * deltaTemps);
         }
 
@@ -175,7 +175,7 @@ public class Partie {
 
     public void draw(GraphicsContext context) {
         // Draw du plan d'arrière
-        for (GenerationPlanArriere bg : listePlanArriere) {
+        for (GenerationPlanArriere bg : generationPlanArrieres) {
             bg.draw(context);
         }
 

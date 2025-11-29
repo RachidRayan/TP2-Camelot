@@ -20,11 +20,7 @@ public class GenerationMaisons extends GenerationPlanArriere {
     private ArrayList<Double> xPositionAdresses = new ArrayList<>();
 
     private ArrayList<Integer> adressesAbonnees = new ArrayList<>();
-    private ArrayList<Double> xPositionAdressesAbonnees = new ArrayList<>();
-
-    private ArrayList<Integer> adressesNonAbonnees = new ArrayList<>();
-    private ArrayList<Double> xPositionAdressesNonAbonnees = new ArrayList<>();
-
+    private ArrayList<Boolean> abonnementsListe = new ArrayList<>();
 
     public GenerationMaisons(Camera camera) {
         super(camera);
@@ -39,21 +35,16 @@ public class GenerationMaisons extends GenerationPlanArriere {
         return xPositionAdresses;
     }
 
-    public ArrayList<Double> getXPositionAdressesAbonnees() {
-        return xPositionAdressesAbonnees;
+    public ArrayList<Boolean> getAbonnementsListe() {
+        return abonnementsListe;
     }
 
-    public ArrayList<Double> getXPositionAdressesNonAbonnees() {
-        return xPositionAdressesNonAbonnees;
-    }
-
+    // Méthode de génération des adresses
     public void generationAdresses() {
         Random random = new Random();
         int premiereAdresse = random.nextInt(100,950);
 
-
-
-        int nombreAdressesRestant = 11;
+        int nombreAdressesRestant = 12;
 
         for (int i = 0; i < nombreAdressesRestant; i++) {
             int adresse = premiereAdresse + 2 * i;
@@ -62,25 +53,26 @@ public class GenerationMaisons extends GenerationPlanArriere {
             double xPositon = differencePositionnement + i * differencePositionnement;
             xPositionAdresses.add(xPositon);
 
-            verifivcationAbonnement(adresse, xPositon);
+            verificationAbonnement(adresse, xPositon);
         }
+        System.out.println(adresses);
+        System.out.println(abonnementsListe);
 
     }
-
-    public void verifivcationAbonnement(int adresse, double xPosition) {
+    // Méthode de génération (vérification) si l'adresse est abonnée ou non
+    public void verificationAbonnement(int adresse, double xPosition) {
         Random chanceRandom = new Random();
         int chance = chanceRandom.nextInt(0,2);
         if (chance == 1) {
             adressesAbonnees.add(adresse);
-            xPositionAdressesAbonnees.add(xPosition);
+            abonnementsListe.add(true); // Status abonnée
         }
         else {
-            adressesNonAbonnees.add(adresse);
-            xPositionAdressesNonAbonnees.add(xPosition);
+            abonnementsListe.add(false); // Status non abonnée
         }
     }
 
-    // Dessin des portes avec adresse
+    // Méthode de dessin des portes avec adresse
     @Override
     public void draw(GraphicsContext context) {
         Point2D positionEcran = camera.coordoEcran(position);
@@ -90,7 +82,6 @@ public class GenerationMaisons extends GenerationPlanArriere {
             context.setFill(Color.BROWN);
             double xPositonPorte = positionEcran.getX() + differencePositionnement * sautAdresse;
             context.fillRect(xPositonPorte,JavaFX.h- hauteurPorte, largeurPorte, hauteurPorte);
-
 
             context.setFill(Color.YELLOW);
             context.setFont(new Font(60));

@@ -1,48 +1,46 @@
 package ca.qc.bdeb.sim.tp2.generation;
 
 import ca.qc.bdeb.sim.tp2.JavaFX;
-import ca.qc.bdeb.sim.tp2.entites.Journal;
 import ca.qc.bdeb.sim.tp2.gameEngine.Camera;
-import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class GenerationBoitesAuxLettres extends GenerationPlanArriere {
-    private final Image boiteAuxLetrresImage = new Image("boite-aux-lettres.png");
-    private final Image boiteAuxLetrresRougeImage = new Image("boite-aux-lettres-rouge.png");
-    private final Image boiteAuxLetrresVertImage = new Image("boite-aux-lettres-vert.png");
 
-    private ArrayList<Point2D> positionBoites;
+    private ArrayList<BoiteALettre> boites = new ArrayList<>();
 
-
-    public GenerationBoitesAuxLettres(Camera camera, GenerationMaisons maisons) {
+    public GenerationBoitesAuxLettres(Camera camera, ArrayList<Double> xPositionAdresses, ArrayList<Boolean> abonnements) {
         super(camera);
-
-        this.positionBoites = new ArrayList<>();
-
-        Random random = new Random();
-
-        for (int i = 0; i < maisons.getXPositionAdresses().size(); i++) {
-            double xPositionAdresse = maisons.getXPositionAdresses().get(i);
-            double xPositionBoite = xPositionAdresse + 200;
-
-            double yPositionBoite = (random.nextDouble() * 0.5 + 0.2) * JavaFX.h;
-
-            positionBoites.add(new Point2D(xPositionBoite, yPositionBoite));
+        for (int i = 0; i < xPositionAdresses.size(); i++) {
+            double xPositionAdresse = xPositionAdresses.get(i);
+            boolean abonnee = abonnements.get(i);
+            double yPosition = (0.2 + Math.random() * 0.5) * JavaFX.h;
+            boites.add(new BoiteALettre(camera, xPositionAdresse, abonnee, yPosition));
         }
-
-        System.out.println(positionBoites);
+        System.out.println(boites);
     }
 
-    @Override
     public void draw(GraphicsContext context) {
-
+        for (BoiteALettre b : boites) {
+            b.draw(context);
+        }
     }
 
-    public void collisionAvecJournal(ArrayList<Journal> journaux) {
+//    public void drawHitBoxes(javafx.scene.canvas.GraphicsContext context) {
+//        for (BoiteALettre b : boites) {
+//            b.hitBox(context);
+//        }
+//    }
 
-    }
+//    // Returns total money earned from all collisions this frame
+//    public int collisionAvecJournal(ArrayList<Journal> journaux) {
+//        int argent = 0;
+//        for (BoiteALettre b : boites) {
+//            for (Journal j : journaux) {
+//                argent += b.contactAvecJournal(j);
+//            }
+//        }
+//        return argent;
+//    }
 }

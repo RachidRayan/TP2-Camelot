@@ -1,8 +1,9 @@
-package ca.qc.bdeb.sim.tp2.entites;
+package ca.qc.bdeb.sim.tp2;
 
+import ca.qc.bdeb.sim.tp2.entites.Entite;
 import javafx.scene.canvas.GraphicsContext;
 
-public class PointGravite extends Entite{
+public class PointGravite extends Entite {
 
     @Override
     public void update(double deltaTemps) {
