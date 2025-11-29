@@ -3,9 +3,7 @@ package ca.qc.bdeb.sim.tp2.gameEngine;
 import ca.qc.bdeb.sim.tp2.JavaFX;
 import ca.qc.bdeb.sim.tp2.background.PlanArriere;
 import ca.qc.bdeb.sim.tp2.background.Brique;
-import ca.qc.bdeb.sim.tp2.background.Fenetre;
-import ca.qc.bdeb.sim.tp2.background.Maison;
-import ca.qc.bdeb.sim.tp2.entites.Camelot;
+import ca.qc.bdeb.sim.tp2.Camelot;
 import ca.qc.bdeb.sim.tp2.entites.Entite;
 import ca.qc.bdeb.sim.tp2.entites.Journal;
 import javafx.geometry.Point2D;
@@ -20,8 +18,8 @@ public class Partie {
     private final Camera camera = new Camera();
     private Camelot camelot;
     private Brique brique;
-    private Maison maison;
-    private Fenetre fenetre;
+//    private Maison maison;
+//    private Fenetre fenetre;
     private ArrayList<PlanArriere> listePlanArriere = new ArrayList<>();
     private ArrayList<Journal> journaux = new ArrayList<>();
 
@@ -33,7 +31,7 @@ public class Partie {
     private int nombreJournaux = 12;
     private double forceX = 0;
     private double forceY = 0;
-    private final double forceMaximaleX = 400;
+    private final double forceMaximaleX = 200;
     private final double forceMaximaleY = -600;
     private final double tauxDeCharge = 800;
     private double lancerTemps = 0;
@@ -47,12 +45,12 @@ public class Partie {
 
         this.camelot = new Camelot(camera,xApparitionPosition);
         this.brique = new Brique(camera);
-        this.maison= new Maison(camera);
-        this.fenetre = new Fenetre(camera);
+//        this.maison= new Maison(camera);
+//        this.fenetre = new Fenetre(camera);
 
         this.listePlanArriere.add(brique);
-        this.listePlanArriere.add(maison);
-        this.listePlanArriere.add(fenetre);
+//        this.listePlanArriere.add(maison);
+//        this.listePlanArriere.add(fenetre);
     }
 
     public int getNombreJournaux() {
@@ -130,12 +128,11 @@ public class Partie {
     public void lancerJournal (double forceX, double forceY) {
         Point2D positionCamelot = camelot.getPosition();
         Point2D tailleCamelot = camelot.getTaille();
-        Point2D velociteCamelot = camelot.getVelocite();
 
         Point2D positionLancer = new Point2D(positionCamelot.getX() + tailleCamelot.getX() / 2.0,
                 positionCamelot.getY() + tailleCamelot.getY() / 2.0);
 
-        Point2D velociteInitialJournal = new Point2D(velociteCamelot.getX() + forceX, forceY);
+        Point2D velociteInitialJournal = new Point2D(50 + forceX, forceY);
 
         journaux.add(new Journal(positionLancer, velociteInitialJournal, camera));
     }
@@ -145,6 +142,9 @@ public class Partie {
         for (PlanArriere bg : listePlanArriere) {
             bg.draw(context);
         }
+
+        camelot.draw(context);
+
         // Draw des entités
         for (Entite e : journaux) {
             e.draw(context);

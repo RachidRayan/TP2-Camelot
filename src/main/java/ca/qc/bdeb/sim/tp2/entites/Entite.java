@@ -7,7 +7,7 @@ abstract public class Entite {
         protected Point2D velocite;
         protected Point2D position;
 
-        public abstract void update(double deltaTemps, double vitesseMouvement);
+        public abstract void update(double deltaTemps);
 
         public abstract void draw(GraphicsContext context);
 

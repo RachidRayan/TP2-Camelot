@@ -14,7 +14,7 @@ public class Camera {
     }
 
     public Point2D coordoEcran(Point2D positionMonde){
-        return positionMonde.subtract(positionMonde.getX() - positionCamera.getX(),
+        return new Point2D (positionMonde.getX() - positionCamera.getX(),
                 positionMonde.getY() - positionCamera.getY());
     }
 

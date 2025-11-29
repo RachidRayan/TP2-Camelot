@@ -6,7 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 abstract public class PlanArriere {
 
-    private final Camera camera;
+    protected final Camera camera;
     protected Point2D position = Point2D.ZERO;
     protected final double differencePositionnement = 2000;
 

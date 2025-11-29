@@ -9,7 +9,6 @@ import javafx.scene.image.Image;
 public class Journal extends Entite {
     protected Image journalImage = new Image("journal.png");
 
-    protected Point2D position;
     protected Point2D taille = new Point2D(journalImage.getWidth(), journalImage.getHeight());
 
     protected Point2D velocite;
@@ -22,7 +21,7 @@ public class Journal extends Entite {
         this.velocite = velociteInitiale;
         this.camera = camera;
     }
-    @Override
+
     public void update(double deltaTemps) {
         // Physique du journal
         velocite = velocite.add(accelerationGravité.multiply(deltaTemps));

@@ -9,32 +9,25 @@ import javafx.scene.image.Image;
 public class Brique extends PlanArriere {
 
     private Image imageBrique = new Image("brique.png");
-    private Camera camera;
-
-//    Point2D position = Point2D.ZERO;
-//    Point2D velocite = new Point2D(100,0);
-
 
     public Brique(Camera camera) {
        super(camera);
     }
 
-//    @Override
-//    public void update(double deltaTemps){
-//        position = position.add(velocite.multiply(deltaTemps));
-//        camera.setPositionCamera(position);
-//    }
+    // Logique pour dessin des briques
     @Override
     public void draw(GraphicsContext context){
-        Point2D positionEcran = camera.coordoEcran(position.multiply(-1));
-        double width =0;
+        Point2D positionEcran = camera.coordoEcran(position);
 
-        while (width < positionEcran.getX()*-1+JavaFX.w) {
-            for (double height = 0; height < JavaFX.h; height += imageBrique.getHeight()) {
-                context.drawImage(imageBrique, positionEcran.getX() + width, positionEcran.getY() + height);
+        double xDecalage = positionEcran.getX() % imageBrique.getWidth();
+        double yDecalage = positionEcran.getY() % imageBrique.getHeight();
+
+        for (double y = yDecalage - imageBrique.getHeight(); y < JavaFX.h; y += imageBrique.getHeight()) {
+            for (double x = xDecalage - imageBrique.getWidth(); x < JavaFX.w; x += imageBrique.getWidth()) {
+                context.drawImage(imageBrique, x, y);
             }
-            width += imageBrique.getWidth();
         }
+
     }
 
 }
