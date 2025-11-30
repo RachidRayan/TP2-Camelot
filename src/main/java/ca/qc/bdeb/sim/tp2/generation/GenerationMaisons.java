@@ -59,8 +59,6 @@ public class GenerationMaisons extends GenerationPlanArriere {
 
             verificationAbonnement(adresse, xPositon);
         }
-        System.out.println(adresses);
-        System.out.println(abonnementsListe);
 
     }
     // Méthode de génération (vérification) si l'adresse est abonnée ou non

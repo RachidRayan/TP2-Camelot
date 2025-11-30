@@ -35,9 +35,6 @@ public class Partie {
 
     private int nombreJournaux = 12;
     private float masseJournaux;
-    private double forceX = 0;
-    private double forceY = 0;
-    private final double tauxDeCharge = 1500;
     private double lancerTemps = 0;
     private final double rechargeLaner = 0.6;
 
@@ -124,28 +121,6 @@ public class Partie {
         // Logique pour l'accumulation de force pour le lancer du journal (Shift)
         boolean statusShift = Input.isKeyPressed(KeyCode.SHIFT);
 
-//        if (statusShift && nombreJournaux > 0) {
-//            forceX =  forceX + tauxDeCharge * deltaTemps;
-//            forceY = forceY - tauxDeCharge * deltaTemps;
-//        }
-//
-//        boolean doitLancerAvecForce = false;
-//
-//        if ((!statusShift) && (forceX != 0 || forceY != 0) &&
-//                lancerTemps <= 0 &&
-//                nombreJournaux > 0) {
-//            doitLancerAvecForce = true;
-//        }
-//
-//        // Logique lorsqu'on relache Shift
-//        if (doitLancerAvecForce) {
-//            lancerJournal(forceX, forceY);
-//            nombreJournaux--;
-//            lancerTemps = rechargeLaner;
-//            forceX = 0;
-//            forceY = 0;
-//        }
-
         // Logique pour l'action de lancer un journal vers le haut (Z)
         boolean statusZMaintenant = Input.isKeyPressed(KeyCode.Z);
         boolean zPeser = statusZMaintenant && !statusZAvant;
@@ -155,7 +130,7 @@ public class Partie {
             if (statusShift) {
                 lancerJournal(150 * 1.5, -1100 * 1.5);
             }
-            else if (!statusShift) {
+            else {
                 lancerJournal(150, -1100);
             }
             nombreJournaux--;
@@ -172,7 +147,7 @@ public class Partie {
             if (statusShift) {
                 lancerJournal(900 * 1.5, -900 * 1.5);
             }
-            else if (!statusShift) {
+            else {
                 lancerJournal(900, -900);
             }
             nombreJournaux--;
@@ -249,7 +224,7 @@ public class Partie {
             return positionEcran.getX() + journal.getLargeur() < 0 || positionEcran.getY() > JavaFX.h;
         });
 
-        //Logique de force des champs magnetique
+//        Logique de force des champs magnetique
         for (PointsGravite points : generationPointsGravite.getParticules()) {
             for (Journal journal : journaux) {
                 journal.setVelocite(points.champsElectrique(journal.getPosition()));
@@ -335,8 +310,6 @@ public class Partie {
         Random random = new Random();
         masseJournaux = random.nextInt(1,3);
 
-        forceX = 0;
-        forceY = 0;
         lancerTemps = 0;
         journaux.clear();
     }

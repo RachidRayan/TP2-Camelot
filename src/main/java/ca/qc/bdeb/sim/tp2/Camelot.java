@@ -24,7 +24,7 @@ public class Camelot {
     private boolean contactSol;
 
     private double tempsAnimation = 0;
-    private double intervalleAnimation = 0.4;
+    private double intervalleAnimation = 0.25;
     private boolean changementImage12 = true;
 
     public Camelot(Camera camera, double positionX) {
@@ -92,6 +92,7 @@ public class Camelot {
         if (!changementImage12) {
             context.drawImage(camelotImage1,positionEcran.getX(), positionEcran.getY(),taille.getX(), taille.getY());
         }
+
         else {
             context.drawImage(camelotImage2,positionEcran.getX(), positionEcran.getY(),taille.getX(), taille.getY());
         }
@@ -100,7 +101,5 @@ public class Camelot {
             context.setFill(Color.YELLOW);
             context.fillRect(positionEcran.getX(),0,2, JavaFX.h);
         }
-
     }
-
 }

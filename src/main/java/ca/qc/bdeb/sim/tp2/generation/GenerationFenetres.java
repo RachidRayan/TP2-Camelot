@@ -27,11 +27,11 @@ public class GenerationFenetres extends GenerationPlanArriere {
             boolean statusAbonnement = abonnements.get(i);
             int nombreFenetres = random.nextInt(0,3);
             if (nombreFenetres == 1) {
-                fenetres.add(new Fenetre(camera, xPositionAdresse, statusAbonnement, 90));
+                fenetres.add(new Fenetre(camera, xPositionAdresse, statusAbonnement, 60));
             }
             else if (nombreFenetres == 2) {
-                fenetres.add(new Fenetre(camera, xPositionAdresse, statusAbonnement, 90));
-                fenetres.add(new Fenetre(camera, xPositionAdresse + 300, statusAbonnement, 90));
+                fenetres.add(new Fenetre(camera, xPositionAdresse, statusAbonnement, 60));
+                fenetres.add(new Fenetre(camera, xPositionAdresse + 300, statusAbonnement, 60));
             }
 
         }
