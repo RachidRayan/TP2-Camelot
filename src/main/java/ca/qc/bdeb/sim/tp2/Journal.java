@@ -12,7 +12,7 @@ public class Journal {
     private Image journalImage = new Image("journal.png");
 
     private Point2D taille = new Point2D(journalImage.getWidth(), journalImage.getHeight());
-
+    private float masse;
     private Point2D velocite;
     private Point2D accelerationGravité = new Point2D(0, 1500);
 
@@ -20,6 +20,7 @@ public class Journal {
 
     private boolean detruitStatus = false;
     private boolean debugModeDraw;
+
 
     public boolean isDetruitStatus() {
         return detruitStatus;
@@ -37,9 +38,10 @@ public class Journal {
         this.debugModeDraw = debugModeDraw;
     }
 
-    public Journal(Point2D startPosition, Point2D velociteInitiale, Camera camera) {
+    public Journal(Point2D startPosition, Point2D velociteInitiale, float masse, Camera camera) {
         this.position = startPosition;
         this.velocite = velociteInitiale;
+        this.masse = masse;
         this.camera = camera;
         this.debugModeDraw = false;
     }

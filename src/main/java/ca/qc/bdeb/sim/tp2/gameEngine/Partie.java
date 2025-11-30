@@ -3,7 +3,6 @@ package ca.qc.bdeb.sim.tp2.gameEngine;
 import ca.qc.bdeb.sim.tp2.JavaFX;
 import ca.qc.bdeb.sim.tp2.generation.*;
 import ca.qc.bdeb.sim.tp2.Camelot;
-//import ca.qc.bdeb.sim.tp2.entites.Entite;
 import ca.qc.bdeb.sim.tp2.Journal;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,6 +10,7 @@ import javafx.scene.input.KeyCode;
 
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Partie {
     private UI ui;
@@ -27,13 +27,17 @@ public class Partie {
     private final double xApparitionPosition = 100;
     private final double xPositionCamera = xApparitionPosition - (JavaFX.w / 5.0);
 
+    private double vitesseMouvement;
+    private final double vitesseDeBase = 400;
+    private final double vitesseMouvementMaximale = 600;
+    private final double vitesseMouvementMinimale = 200;
+    private final double acceleration = 300;
 
     private int nombreJournaux = 12;
+    private float masseJournaux;
     private double forceX = 0;
     private double forceY = 0;
-    private final double forceMaximaleX = 600;
-    private final double forceMaximaleY = -1000;
-    private final double tauxDeCharge = 1100;
+    private final double tauxDeCharge = 1500;
     private double lancerTemps = 0;
     private final double rechargeLaner = 0.6;
 
@@ -87,6 +91,11 @@ public class Partie {
 
         this.niveau = 1;
 
+        Random random = new Random();
+        masseJournaux = random.nextFloat(1,3);
+
+        this.vitesseMouvement = vitesseDeBase;
+
     }
 
     public int getNombreJournaux() {
@@ -98,22 +107,26 @@ public class Partie {
         boolean decelerationEnPesant = Input.isKeyPressed(KeyCode.LEFT);
 
         // Logique de la vitesse du monde
-        double vitesseMouvement = 400;
-        if (accelerationEnPesant) {
-            while (vitesseMouvement >= 200) {
-                vitesseMouvement = vitesseMouvement * 200;
-            }
+        if (accelerationEnPesant && vitesseMouvement < vitesseMouvementMaximale) {
+            vitesseMouvement = vitesseMouvement + acceleration * deltaTemps;
         }
-        if (decelerationEnPesant) {
-            vitesseMouvement = 200;
+        if (decelerationEnPesant && vitesseMouvement > vitesseMouvementMinimale) {
+            vitesseMouvement = vitesseMouvement - acceleration * deltaTemps;
+        }
+        if (!accelerationEnPesant && !decelerationEnPesant && vitesseMouvement != vitesseDeBase) {
+            if (vitesseMouvement > vitesseDeBase) {
+                vitesseMouvement = vitesseMouvement - acceleration * deltaTemps;
+            } else if (vitesseMouvement < vitesseDeBase) {
+                vitesseMouvement = vitesseMouvement + acceleration * deltaTemps;
+            }
         }
 
         // Logique pour l'accumulation de force pour le lancer du journal (Shift)
         boolean statusShift = Input.isKeyPressed(KeyCode.SHIFT);
 
         if (statusShift && nombreJournaux > 0) {
-            forceX = Math.min(forceMaximaleX, forceX + tauxDeCharge * deltaTemps);
-            forceY = Math.max(forceMaximaleY, forceY - tauxDeCharge * deltaTemps);
+            forceX =  forceX + tauxDeCharge * deltaTemps;
+            forceY = forceY - tauxDeCharge * deltaTemps;
         }
 
         boolean doitLancerAvecForce = false;
@@ -140,7 +153,7 @@ public class Partie {
 
         // Logique lorsqu'on clique sur Z
         if (zPeser && !statusShift && forceX == 0 && forceY == 0 && lancerTemps <= 0 && nombreJournaux > 0) {
-            lancerJournal(50, -1000);
+            lancerJournal(900, -900);
             nombreJournaux--;
             lancerTemps = rechargeLaner;
         }
@@ -152,7 +165,7 @@ public class Partie {
 
         // Logique lorsqu'on clique sur X
         if (xPeser && !statusShift && forceX == 0 && forceY == 0 && lancerTemps <= 0 && nombreJournaux > 0) {
-            lancerJournal(500, -600);
+            lancerJournal(150, -1100);
             nombreJournaux--;
             lancerTemps = rechargeLaner;
         }
@@ -284,8 +297,8 @@ public class Partie {
         Point2D positionLancer = new Point2D(positionCamelot.getX() + tailleCamelot.getX() / 2.0,
                 positionCamelot.getY() + tailleCamelot.getY() / 2.0);
 
-        Point2D velociteInitialJournal = new Point2D(50 + forceX, forceY);
-        Journal journal = new Journal(positionLancer, velociteInitialJournal, camera);
+        Point2D velociteInitialJournal = new Point2D(forceX, forceY);
+        Journal journal = new Journal(positionLancer, velociteInitialJournal, masseJournaux,camera);
         journal.setDebugModeDraw(debugMode);
         journaux.add(journal);
     }
@@ -309,6 +322,9 @@ public class Partie {
         ui = new UI(generationMaisons.getAdressesAbonnees());
 
         nombreJournaux += 12;
+
+        Random random = new Random();
+        masseJournaux = random.nextInt(1,3);
 
         forceX = 0;
         forceY = 0;

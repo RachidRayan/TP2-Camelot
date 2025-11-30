@@ -46,12 +46,6 @@ public class Camelot {
         return taille;
     }
 
-    public Point2D getVelocite() {
-        return velocite;
-    }
-
-
-
     public void update(double deltaTemps, double vitesseMouvement) {
 
         // Sauter avec Espace ou Flèche vers le haut
@@ -65,7 +59,7 @@ public class Camelot {
         }
 
         if (!contactSol) {
-            velocite = new Point2D(0, velocite.getY() + 2000 * deltaTemps);
+            velocite = new Point2D(0, velocite.getY() + 1500 * deltaTemps);
 
             position = new Point2D(position.getX(), position.getY() + velocite.getY() * deltaTemps);
 
