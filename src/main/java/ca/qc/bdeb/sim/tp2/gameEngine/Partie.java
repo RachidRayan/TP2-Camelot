@@ -3,8 +3,8 @@ package ca.qc.bdeb.sim.tp2.gameEngine;
 import ca.qc.bdeb.sim.tp2.JavaFX;
 import ca.qc.bdeb.sim.tp2.generation.*;
 import ca.qc.bdeb.sim.tp2.Camelot;
-import ca.qc.bdeb.sim.tp2.entites.Entite;
-import ca.qc.bdeb.sim.tp2.entites.Journal;
+//import ca.qc.bdeb.sim.tp2.entites.Entite;
+import ca.qc.bdeb.sim.tp2.Journal;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
@@ -24,7 +24,7 @@ public class Partie {
     private ArrayList<Journal> journaux = new ArrayList<>();
 
     private final double xApparitionPosition = 100;
-    private final double xPositionCamera = xApparitionPosition - (JavaFX.w / 4.0);
+    private final double xPositionCamera = xApparitionPosition - (JavaFX.w / 5.0);
 
 
 
@@ -33,15 +33,37 @@ public class Partie {
     private double forceY = 0;
     private final double forceMaximaleX = 600;
     private final double forceMaximaleY = -1000;
-    private final double tauxDeCharge = 800;
+    private final double tauxDeCharge = 1100;
     private double lancerTemps = 0;
     private final double rechargeLaner = 0.6;
 
     private boolean statusZAvant = false;
     private boolean statusXAvant = false;
     private boolean statusQAvant = false;
+    private boolean statusDAvant = false;
+    private boolean modeDebug = false;
 
     private int argent = 0;
+
+    private int niveau;
+    private boolean niveauFini = false;
+    private boolean partieFinie = false;
+
+    public int getArgent() {
+        return argent;
+    }
+
+    public int getNiveau() {
+        return niveau;
+    }
+
+    public boolean isNiveauFini() {
+        return niveauFini;
+    }
+
+    public boolean isPartieFinie() {
+        return partieFinie;
+    }
 
     public Partie() {
 
@@ -58,6 +80,9 @@ public class Partie {
         this.generationPlanArrieres.add(generationMaisons);
         this.generationPlanArrieres.add(generationFenetres);
         this.generationPlanArrieres.add(generationBoitesAuxLettres);
+
+        this.niveau = 1;
+
     }
 
     public int getNombreJournaux() {
@@ -67,8 +92,9 @@ public class Partie {
     public void update(double deltaTemps) {
         boolean accelerationEnPesant = Input.isKeyPressed(KeyCode.RIGHT);
         boolean decelerationEnPesant = Input.isKeyPressed(KeyCode.LEFT);
+
         // Logique de la vitesse du monde
-        double vitesseMouvement = 350;
+        double vitesseMouvement = 1200;
         if (accelerationEnPesant) vitesseMouvement = 500;
         if (decelerationEnPesant) vitesseMouvement = 200;
 
@@ -95,7 +121,6 @@ public class Partie {
             lancerTemps = rechargeLaner;
             forceX = 0;
             forceY = 0;
-            argent++;
         }
 
         // Logique pour l'action de lancer un journal vers le haut (Z)
@@ -108,7 +133,6 @@ public class Partie {
             lancerJournal(50,-1000);
             nombreJournaux--;
             lancerTemps = rechargeLaner;
-            argent++;
         }
 
         // Logique pour l'action de lancer un journal vers l'avant (X)
@@ -121,7 +145,6 @@ public class Partie {
             lancerJournal(500,-600);
             nombreJournaux--;
             lancerTemps = rechargeLaner;
-            argent++;
         }
 
         lancerTemps -= deltaTemps;
@@ -147,8 +170,39 @@ public class Partie {
             journal.update(deltaTemps);
         }
 
+        // Logique de contact entre un journal et une boite aux lettres
+        argent += generationBoitesAuxLettres.collisionAvecJournal(journaux);
+
+        journaux.removeIf(journal -> {
+            if (journal.isDetruitStatus()) return true;
+            Point2D positionEcran = camera.coordoEcran(journal.getPosition());
+            return positionEcran.getX() + journal.getWidth() < 0 || positionEcran.getY() > JavaFX.h;
+        });
+
+        // Logique de contact entre un journal et une fenêtre
+        argent += generationFenetres.collisionAvecJournal(journaux);
+
+        journaux.removeIf(journal -> {
+            if (journal.isDetruitStatus()) return true;
+            Point2D positionEcran = camera.coordoEcran(journal.getPosition());
+            return positionEcran.getX() + journal.getWidth() < 0 || positionEcran.getY() > JavaFX.h;
+        });
+
         // Update de l'UI
         ui.update(getNombreJournaux(),argent);
+
+
+        boolean adresseFinaleDepassee = generationMaisons.getAdresseFinale() < camera.getPositionCamera().getX();
+
+        if (adresseFinaleDepassee && nombreJournaux > 0) {
+            niveauFini = true;
+            partieFinie = false;
+        }
+
+        else if (nombreJournaux == 0 && !adresseFinaleDepassee) {
+            niveauFini = false;
+            partieFinie = true;
+        }
 
     }
 
@@ -164,16 +218,19 @@ public class Partie {
         journaux.add(new Journal(positionLancer, velociteInitialJournal, camera));
     }
 
-//    public boolean casserVitres(Journal journal , GenerationFenetres fenetre, double x, double y){
-//        if(journal.getX() + journal.getWidth() > fenetre.getX() + fenetre.getWidth() && journal.getY() + journal.getHeight() > fenetre.getY() + fenetre.getHeight()){
-//            return true;
-//        }
-//        return false;
-//    }
-
-
-
     public void draw(GraphicsContext context) {
+
+//        boolean statusDMaintenant = Input.isKeyPressed(KeyCode.D);
+//        boolean dPeser = statusDMaintenant && !statusDAvant;
+//        statusDAvant = statusDMaintenant;
+//
+//        if (dPeser) {
+//            modeDebug = true;
+//        }
+//        if (!dPeser) {
+//            modeDebug = false;
+//        }
+
 
         // Draw du plan d'arrière
         for (GenerationPlanArriere planArriere : generationPlanArrieres) {
@@ -182,12 +239,37 @@ public class Partie {
 
         camelot.draw(context);
 
-        // Draw des entités
-        for (Entite e : journaux) {
-            e.draw(context);
+        // Draw des journaux
+        for (Journal journal : journaux) {
+            journal.draw(context);
         }
         // Draw de l'UI
         ui.draw(context);
+    }
+
+    public void debutNouveauNiveau() {
+        niveauFini = false;
+        partieFinie = false;
+        niveau++;
+
+        camelot = new Camelot(camera,xApparitionPosition);
+
+        generationMaisons = new GenerationMaisons(camera);
+        generationBoitesAuxLettres = new GenerationBoitesAuxLettres(camera,generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
+        generationPlanArrieres.clear();
+        generationPlanArrieres.add(generationBriques);
+        generationPlanArrieres.add(generationMaisons);
+        generationPlanArrieres.add(generationFenetres);
+        generationPlanArrieres.add(generationBoitesAuxLettres);
+
+        ui = new UI(generationMaisons.getAdressesAbonnees());
+
+        nombreJournaux += 12;
+
+        forceX = 0;
+        forceY = 0;
+        lancerTemps = 0;
+        journaux.clear();
     }
 
 }

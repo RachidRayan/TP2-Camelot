@@ -39,6 +39,10 @@ public class GenerationMaisons extends GenerationPlanArriere {
         return abonnementsListe;
     }
 
+    public double getAdresseFinale () {
+        return position.getX() + differencePositionnement * adresses.size();
+    }
+
     // Méthode de génération des adresses
     public void generationAdresses() {
         Random random = new Random();
@@ -79,12 +83,16 @@ public class GenerationMaisons extends GenerationPlanArriere {
         int sautAdresse = 1;
 
         for (int adresse : adresses) {
-            context.setFill(Color.BROWN);
-            context.fillRect(positionEcran.getX() + differencePositionnement * sautAdresse,JavaFX.h- hauteurPorte, largeurPorte, hauteurPorte);
+            context.setFill(Color.SADDLEBROWN);
+            context.fillRect(positionEcran.getX() + differencePositionnement * sautAdresse,JavaFX.h- hauteurPorte - 20, largeurPorte, hauteurPorte);
+            context.fillRect(positionEcran.getX() + differencePositionnement * sautAdresse - 10,JavaFX.h - 10, largeurPorte + 20, 10);
+
+            context.setFill(Color.SANDYBROWN);
+            context.fillOval(positionEcran.getX() + differencePositionnement * sautAdresse + 10, JavaFX.h - hauteurPorte + 100, 25,25);
 
             context.setFill(Color.YELLOW);
             context.setFont(new Font(60));
-            context.fillText(String.valueOf(adresse),positionEcran.getX() + differencePositionnement * sautAdresse,JavaFX.h- hauteurPorte);
+            context.fillText(String.valueOf(adresse),positionEcran.getX() + differencePositionnement * sautAdresse + 25,JavaFX.h - hauteurPorte);
             sautAdresse++;
         }
 

@@ -1,6 +1,7 @@
 package ca.qc.bdeb.sim.tp2.generation;
 
 import ca.qc.bdeb.sim.tp2.JavaFX;
+import ca.qc.bdeb.sim.tp2.Journal;
 import ca.qc.bdeb.sim.tp2.gameEngine.Camera;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -20,11 +21,11 @@ public class GenerationFenetres extends GenerationPlanArriere {
             boolean statusAbonnement = abonnements.get(i);
             int nombreFenetres = random.nextInt(0,3);
             if (nombreFenetres == 1) {
-                fenetres.add(new Fenetre(camera, xPositionAdresse, statusAbonnement, 50));
+                fenetres.add(new Fenetre(camera, xPositionAdresse, statusAbonnement, 90));
             }
             else if (nombreFenetres == 2) {
-                fenetres.add(new Fenetre(camera, xPositionAdresse, statusAbonnement, 50));
-                fenetres.add(new Fenetre(camera, xPositionAdresse + 300, statusAbonnement, 50));
+                fenetres.add(new Fenetre(camera, xPositionAdresse, statusAbonnement, 90));
+                fenetres.add(new Fenetre(camera, xPositionAdresse + 300, statusAbonnement, 90));
             }
 
         }
@@ -43,11 +44,14 @@ public class GenerationFenetres extends GenerationPlanArriere {
             fenetres.draw(context);
         }
     }
-    //coordonnée
-    public double getX() {
-        return camera.coordoEcran(position).getX();
-    }
-    public double getY() {
-        return camera.coordoEcran(position).getY();
+
+    public int collisionAvecJournal(ArrayList<Journal> journaux) {
+        int argent = 0;
+        for (Fenetre fenetre : fenetres) {
+            for (Journal journal : journaux) {
+                argent += fenetre.contactAvecJournal(journal);
+            }
+        }
+        return argent;
     }
 }

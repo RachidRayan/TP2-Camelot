@@ -1,7 +1,9 @@
 package ca.qc.bdeb.sim.tp2.generation;
 
+import ca.qc.bdeb.sim.tp2.Journal;
 import ca.qc.bdeb.sim.tp2.gameEngine.Camera;
 import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -44,7 +46,26 @@ public class Fenetre extends GenerationPlanArriere {
         context.drawImage(image, coordoEcran.getX(), coordoEcran.getY());
     }
 
-    public void hitBox(GraphicsContext context) {
+    public Rectangle2D getHitBox() {
+        return new Rectangle2D(positionMonde.getX(),positionMonde.getY(),image.getWidth(), image.getHeight());
+    }
 
+    public int contactAvecJournal (Journal journal) {
+        if (dejaFrappee || journal.isDetruitStatus()) {
+            return 0;
+        }
+        if (getHitBox().intersects(journal.getHitBox())) {
+            journal.setDetruitStatus(true);
+            dejaFrappee = true;
+            if (statusAbonnement) {
+                image = fenetreBriseeRouge;
+                return -2;
+            }
+            else {
+                image = fenetreBriseeVert;
+                return 2;
+            }
+        }
+        return 0;
     }
 }

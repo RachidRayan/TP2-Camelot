@@ -10,13 +10,24 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class JavaFX extends Application {
-    public static int w = 1000,  h=600;
+    public static int w = 1000, h = 600;
     private final Partie partie = new Partie();
+
+    private enum statusJeu {
+        DEBUT_NIVEAU,
+        NIVEAU,
+        FIN_DE_PARTIE
+    }
+
+    private statusJeu statusMaintenant = statusJeu.DEBUT_NIVEAU;
+    private double tempsDeDebutNiveau = 0;
+
     @Override
     public void start(Stage stage) throws IOException {
         var root = new Pane();
@@ -33,17 +44,54 @@ public class JavaFX extends Application {
             public void handle(long now) {
 
                 double deltaTemps = (now - dernierTemps) * 1e-9;
-                // Renouvlement
-                partie.update(deltaTemps);
 
-                // Arrière-plan
+                switch (statusMaintenant) {
+                    case DEBUT_NIVEAU :
+                        tempsDeDebutNiveau += deltaTemps;
+                        if (tempsDeDebutNiveau >= 3.0) {
+                            statusMaintenant = statusJeu.NIVEAU;
+                            tempsDeDebutNiveau = 0;
+                        }
+                        break;
+                    case NIVEAU:
+                        partie.update(deltaTemps);
+                        if (partie.isNiveauFini()) {
+                            partie.debutNouveauNiveau();
+                            statusMaintenant = statusJeu.DEBUT_NIVEAU;
+                        } else if (partie.isPartieFinie()) {
+                            statusMaintenant = statusJeu.FIN_DE_PARTIE;
+                        }
+                        break;
+                    case FIN_DE_PARTIE:
+                        break;
+                }
                 context.setFill(Color.gray(0.0));
                 context.fillRect(0, 0, w, h);
 
-                // Dessin
-                partie.draw(context);
+                if (statusMaintenant == statusJeu.DEBUT_NIVEAU) {
+                    context.setFill(Color.BLACK);
+                    context.fillRect(0, 0, w, h);
+                    context.setFill(Color.GREEN);
+                    context.setFont(new Font(50));
+                    context.fillText("Niveau " + partie.getNiveau(), w / 2 - 100, h / 2);
+                }
+
+                else if (statusMaintenant == statusJeu.FIN_DE_PARTIE) {
+                    context.setFill(Color.BLACK);
+                    context.fillRect(0, 0, w, h);
+                    context.setFill(Color.RED);
+                    context.setFont(new Font(50));
+                    context.fillText("Rupture stocks! ", w / 2 - 150, h / 2 - 50);
+                    context.setFill(Color.RED);
+                    context.fillText("Argent collecté " + partie.getArgent() + "$", w / 2 -100, h/ 2 +50);
+                }
+
+                else if (statusMaintenant == statusJeu.NIVEAU) {
+                    partie.draw(context);
+                }
 
                 dernierTemps = now;
+
             }
         };
         timer.start();

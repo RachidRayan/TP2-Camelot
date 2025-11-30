@@ -8,8 +8,6 @@ module ca.qc.bdeb.sim.tp2 {
     exports ca.qc.bdeb.sim.tp2;
     exports ca.qc.bdeb.sim.tp2.generation;
     opens ca.qc.bdeb.sim.tp2.generation to javafx.fxml;
-    exports ca.qc.bdeb.sim.tp2.entites;
-    opens ca.qc.bdeb.sim.tp2.entites to javafx.fxml;
     exports ca.qc.bdeb.sim.tp2.gameEngine;
     opens ca.qc.bdeb.sim.tp2.gameEngine to javafx.fxml;
 }
