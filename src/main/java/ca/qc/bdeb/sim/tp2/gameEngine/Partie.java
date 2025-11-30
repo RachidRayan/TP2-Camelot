@@ -40,8 +40,10 @@ public class Partie {
     private boolean statusZAvant = false;
     private boolean statusXAvant = false;
     private boolean statusQAvant = false;
+    private boolean statusKAvant = false;
+    private boolean statusLAvant = false;
     private boolean statusDAvant = false;
-    private boolean modeDebug = false;
+    private boolean debugMode = false;
 
     private int argent = 0;
 
@@ -94,9 +96,15 @@ public class Partie {
         boolean decelerationEnPesant = Input.isKeyPressed(KeyCode.LEFT);
 
         // Logique de la vitesse du monde
-        double vitesseMouvement = 1200;
-        if (accelerationEnPesant) vitesseMouvement = 500;
-        if (decelerationEnPesant) vitesseMouvement = 200;
+        double vitesseMouvement = 400;
+        if (accelerationEnPesant) {
+            while (vitesseMouvement >= 200) {
+                vitesseMouvement = vitesseMouvement * 200;
+            }
+        }
+        if (decelerationEnPesant) {
+            vitesseMouvement = 200;
+        }
 
         // Logique pour l'accumulation de force pour le lancer du journal (Shift)
         boolean statusShift = Input.isKeyPressed(KeyCode.SHIFT);
@@ -149,13 +157,42 @@ public class Partie {
 
         lancerTemps -= deltaTemps;
 
-        // Logique pour l'action de restockerles journaux +10 (Debug) (Q)
+        // Logique pour l'action de restocker les journaux +10 (Debug) (Q)
         boolean statusQMaintenant = Input.isKeyPressed(KeyCode.Q);
         boolean qPeser = statusQMaintenant && !statusQAvant;
         statusQAvant = statusQMaintenant;
 
         if (qPeser) {
             nombreJournaux += 10;
+        }
+
+        // Logique pour l'action de épuiser le stock (Debug) (K)
+        boolean statusKMaintenant = Input.isKeyPressed(KeyCode.K);
+        boolean kPeser = statusKMaintenant && !statusKAvant;
+        statusKAvant = statusKMaintenant;
+
+        if (kPeser) {
+            nombreJournaux = 0;
+        }
+
+        // Logique pour l'action de changer de niveau (Debug) (L)
+        boolean statusLMaintenant = Input.isKeyPressed(KeyCode.L);
+        boolean lPeser = statusLMaintenant && !statusLAvant;
+        statusLAvant = statusLMaintenant;
+
+        if (lPeser) {
+            niveauFini = true;
+            partieFinie = false;
+        }
+
+        // Logique pour l'action d'activer le debug mode (Debug) (D)
+        boolean statusDMaintenant = Input.isKeyPressed(KeyCode.D);
+        boolean dPeser = statusDMaintenant && !statusDAvant;
+        statusDAvant = statusDMaintenant;
+
+        if (dPeser) {
+            debugMode = !debugMode;
+            activationDebugMode(debugMode);
         }
 
         //   Update du plan d'arrière
@@ -206,32 +243,7 @@ public class Partie {
 
     }
 
-    public void lancerJournal (double forceX, double forceY) {
-        Point2D positionCamelot = camelot.getPosition();
-        Point2D tailleCamelot = camelot.getTaille();
-
-        Point2D positionLancer = new Point2D(positionCamelot.getX() + tailleCamelot.getX() / 2.0,
-                positionCamelot.getY() + tailleCamelot.getY() / 2.0);
-
-        Point2D velociteInitialJournal = new Point2D(50 + forceX, forceY);
-
-        journaux.add(new Journal(positionLancer, velociteInitialJournal, camera));
-    }
-
     public void draw(GraphicsContext context) {
-
-//        boolean statusDMaintenant = Input.isKeyPressed(KeyCode.D);
-//        boolean dPeser = statusDMaintenant && !statusDAvant;
-//        statusDAvant = statusDMaintenant;
-//
-//        if (dPeser) {
-//            modeDebug = true;
-//        }
-//        if (!dPeser) {
-//            modeDebug = false;
-//        }
-
-
         // Draw du plan d'arrière
         for (GenerationPlanArriere planArriere : generationPlanArrieres) {
             planArriere.draw(context);
@@ -246,6 +258,32 @@ public class Partie {
         // Draw de l'UI
         ui.draw(context);
     }
+
+    public void activationDebugMode(boolean debugMode) {
+        generationBoitesAuxLettres.setDebugMode(debugMode);
+        generationFenetres.setDebugMode(debugMode);
+
+        for (Journal journal : journaux) {
+            journal.setDebugModeDraw(debugMode);
+        }
+
+        camelot.setDebugModeDraw(debugMode);
+    }
+
+    public void lancerJournal (double forceX, double forceY) {
+        Point2D positionCamelot = camelot.getPosition();
+        Point2D tailleCamelot = camelot.getTaille();
+
+        Point2D positionLancer = new Point2D(positionCamelot.getX() + tailleCamelot.getX() / 2.0,
+                positionCamelot.getY() + tailleCamelot.getY() / 2.0);
+
+        Point2D velociteInitialJournal = new Point2D(50 + forceX, forceY);
+        Journal journal = new Journal(positionLancer, velociteInitialJournal, camera);
+        journal.setDebugModeDraw(debugMode);
+        journaux.add(journal);
+    }
+
+
 
     public void debutNouveauNiveau() {
         niveauFini = false;

@@ -13,6 +13,12 @@ public class GenerationFenetres extends GenerationPlanArriere {
 
     private ArrayList<Fenetre> fenetres = new ArrayList<>();
 
+    private boolean debugMode;
+
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
+    }
+
     public GenerationFenetres(Camera camera, ArrayList<Double> xPositionAdresses, ArrayList<Boolean> abonnements) {
         super(camera);
         Random random = new Random();
@@ -40,8 +46,9 @@ public class GenerationFenetres extends GenerationPlanArriere {
     }
 
     public void draw(GraphicsContext context) {
-        for (Fenetre fenetres : fenetres) {
-            fenetres.draw(context);
+        for (Fenetre fenetre : fenetres) {
+            fenetre.setDebugModeDraw(debugMode);
+            fenetre.draw(context);
         }
     }
 

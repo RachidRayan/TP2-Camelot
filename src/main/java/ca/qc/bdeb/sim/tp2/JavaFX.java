@@ -81,9 +81,9 @@ public class JavaFX extends Application {
                     context.fillRect(0, 0, w, h);
                     context.setFill(Color.RED);
                     context.setFont(new Font(50));
-                    context.fillText("Rupture stocks! ", w / 2 - 150, h / 2 - 50);
-                    context.setFill(Color.RED);
-                    context.fillText("Argent collecté " + partie.getArgent() + "$", w / 2 -100, h/ 2 +50);
+                    context.fillText("Rupture stocks! ", w / 2 - 200, h / 2 - 40);
+                    context.setFill(Color.GREEN);
+                    context.fillText("Argent collecté: " + partie.getArgent() + "$", w / 2 - 225, h/ 2 + 20);
                 }
 
                 else if (statusMaintenant == statusJeu.NIVEAU) {

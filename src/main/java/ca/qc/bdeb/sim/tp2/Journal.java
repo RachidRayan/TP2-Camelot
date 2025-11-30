@@ -5,6 +5,7 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 public class Journal {
     private Point2D position;
@@ -18,6 +19,7 @@ public class Journal {
     private Camera camera;
 
     private boolean detruitStatus = false;
+    private boolean debugModeDraw;
 
     public boolean isDetruitStatus() {
         return detruitStatus;
@@ -31,10 +33,15 @@ public class Journal {
         return position;
     }
 
+    public void setDebugModeDraw(boolean debugModeDraw) {
+        this.debugModeDraw = debugModeDraw;
+    }
+
     public Journal(Point2D startPosition, Point2D velociteInitiale, Camera camera) {
         this.position = startPosition;
         this.velocite = velociteInitiale;
         this.camera = camera;
+        this.debugModeDraw = false;
     }
 
     public void update(double deltaTemps) {
@@ -45,8 +52,15 @@ public class Journal {
 
 
     public void draw(GraphicsContext context) {
-        Point2D screenPos = camera.coordoEcran(position);
-        context.drawImage(journalImage, screenPos.getX(), screenPos.getY(), taille.getX(), taille.getY());
+
+        Point2D coordoEcran = camera.coordoEcran(position);
+        context.drawImage(journalImage, coordoEcran.getX(), coordoEcran.getY(), taille.getX(), taille.getY());
+
+        if (debugModeDraw) {
+            context.setStroke(Color.YELLOW);
+            context.setLineWidth(2.0);
+            context.strokeRect(coordoEcran.getX(), coordoEcran.getY(), taille.getX(), taille.getY());
+        }
     }
 
 

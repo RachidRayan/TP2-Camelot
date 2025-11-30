@@ -6,6 +6,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 
 public class Camelot {
 
@@ -14,6 +15,7 @@ public class Camelot {
 
     private Point2D position;
     private Point2D taille;
+    private boolean debugModeDraw;
 
     private Camera camera;
 
@@ -29,6 +31,11 @@ public class Camelot {
         this.position = new Point2D(positionX,JavaFX.h - camelotImage1.getHeight());
         this.taille = new Point2D(camelotImage1.getWidth(), camelotImage1.getHeight());
         this.camera = camera;
+        this.debugModeDraw = false;
+    }
+
+    public void setDebugModeDraw(boolean debugModeDraw) {
+        this.debugModeDraw = debugModeDraw;
     }
 
     public Point2D getPosition() {
@@ -81,9 +88,7 @@ public class Camelot {
         }
     }
 
-
     public void draw(GraphicsContext context) {
-
         Point2D positionEcran = camera.coordoEcran(position);
 
         if (!changementImage12) {
@@ -92,14 +97,12 @@ public class Camelot {
         else {
             context.drawImage(camelotImage2,positionEcran.getX(), positionEcran.getY(),taille.getX(), taille.getY());
         }
+
+        if (debugModeDraw) {
+            context.setFill(Color.YELLOW);
+            context.fillRect(positionEcran.getX(),0,2, JavaFX.h);
+        }
+
     }
 
-
-    public void hitBox(GraphicsContext context) {
-        boolean activationHitBox = Input.isKeyPressed(KeyCode.H);
-
-//        if (activationHitBox) {
-//            context.set
-//        }
-    }
 }

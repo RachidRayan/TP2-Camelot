@@ -11,6 +11,8 @@ public class GenerationBoitesAuxLettres extends GenerationPlanArriere {
 
     private ArrayList<BoiteAuxLettres> boites = new ArrayList<>();
 
+    private boolean debugMode;
+
     public GenerationBoitesAuxLettres(Camera camera, ArrayList<Double> xPositionAdresses, ArrayList<Boolean> abonnements) {
         super(camera);
         for (int i = 0; i < xPositionAdresses.size(); i++) {
@@ -18,7 +20,12 @@ public class GenerationBoitesAuxLettres extends GenerationPlanArriere {
             boolean statusAbonnement = abonnements.get(i);
             double yPosition = (0.2 + Math.random() * 0.5) * JavaFX.h + 40;
             boites.add(new BoiteAuxLettres(camera, xPositionAdresse, statusAbonnement, yPosition));
+
         }
+    }
+
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
     }
 
     @Override
@@ -30,8 +37,9 @@ public class GenerationBoitesAuxLettres extends GenerationPlanArriere {
     }
 
     public void draw(GraphicsContext context) {
-        for (BoiteAuxLettres b : boites) {
-            b.draw(context);
+        for (BoiteAuxLettres boiteAuxLettres : boites) {
+            boiteAuxLettres.setDebugModeDraw(debugMode);
+            boiteAuxLettres.draw(context);
         }
     }
 
