@@ -19,7 +19,6 @@ public class BoiteAuxLettres extends GenerationPlanArriere {
 
     private Point2D positionMonde;
     private boolean statusAbonnement;
-    private boolean dejaFrappee = false;
     private Image image = boiteALettre;
 
     public void setDebugModeDraw(boolean debugModeDraw) {
@@ -54,15 +53,12 @@ public class BoiteAuxLettres extends GenerationPlanArriere {
     }
 
     public int contactAvecJournal (Journal journal) {
-        if (dejaFrappee || journal.isDetruitStatus()) {
-            return 0;
-        }
+
         if (getHitBox().intersects(journal.getHitBox())) {
             journal.setDetruitStatus(true);
-            dejaFrappee = true;
             if (statusAbonnement) {
                 image = boiteALettreVert;
-                return 2;
+                return 1;
             }
             else {
                 image = boiteALettreRouge;

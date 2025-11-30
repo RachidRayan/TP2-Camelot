@@ -63,25 +63,12 @@ public class Journal {
         }
     }
 
-
     public Rectangle2D getHitBox() {
         return new Rectangle2D(position.getX(), position.getY(),journalImage.getWidth(),journalImage.getHeight());
-    }
-
-    //coordonnée
-    public double getX() {
-        return camera.coordoEcran(position).getX();
-    }
-
-    public double getY() {
-        return camera.coordoEcran(position).getY();
     }
 
     public double getWidth() {
         return taille.getX();
     }
 
-    public double getHeight() {
-        return taille.getY();
-    }
 }

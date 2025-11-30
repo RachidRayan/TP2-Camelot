@@ -18,7 +18,6 @@ public class Fenetre extends GenerationPlanArriere {
 
     private Point2D positionMonde;
     private boolean statusAbonnement;
-    private boolean dejaFrappee = false;
     private Image image = fenetre;
 
     public void setDebugModeDraw(boolean debugModeDraw) {
@@ -54,12 +53,10 @@ public class Fenetre extends GenerationPlanArriere {
     }
 
     public int contactAvecJournal (Journal journal) {
-        if (dejaFrappee || journal.isDetruitStatus()) {
-            return 0;
-        }
+
         if (getHitBox().intersects(journal.getHitBox())) {
             journal.setDetruitStatus(true);
-            dejaFrappee = true;
+
             if (statusAbonnement) {
                 image = fenetreBriseeRouge;
                 return -2;
