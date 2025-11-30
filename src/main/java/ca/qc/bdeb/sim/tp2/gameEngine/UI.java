@@ -35,7 +35,7 @@ public class UI {
     }
 
     public void draw (GraphicsContext context) {
-        context.setFill(Color.BLACK);
+        context.setFill(Color.rgb(0, 0, 0, 0.6));
         context.fillRect(0,0,JavaFX.w,50);
 
         double xTravailler = espaceEntre;

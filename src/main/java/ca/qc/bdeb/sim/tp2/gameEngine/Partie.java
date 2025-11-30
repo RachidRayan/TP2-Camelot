@@ -20,6 +20,7 @@ public class Partie {
     private GenerationMaisons generationMaisons;
     private GenerationBoitesAuxLettres generationBoitesAuxLettres;
     private GenerationFenetres generationFenetres;
+    private GenerationPointsGravite generationPointsGravite;
     private ArrayList<GenerationPlanArriere> generationPlanArrieres = new ArrayList<>();
     private ArrayList<Journal> journaux = new ArrayList<>();
 
@@ -76,12 +77,14 @@ public class Partie {
         this.generationMaisons = new GenerationMaisons(camera);
         this.generationFenetres = new GenerationFenetres(camera, generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
         this.generationBoitesAuxLettres = new GenerationBoitesAuxLettres(camera, generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
+        this.generationPointsGravite = new GenerationPointsGravite(camera,false);
         this.ui = new UI(generationMaisons.getAdressesAbonnees());
 
         this.generationPlanArrieres.add(generationBriques);
         this.generationPlanArrieres.add(generationMaisons);
         this.generationPlanArrieres.add(generationFenetres);
         this.generationPlanArrieres.add(generationBoitesAuxLettres);
+        this.generationPlanArrieres.add(generationPointsGravite);
 
         this.niveau = 1;
 
@@ -225,6 +228,13 @@ public class Partie {
             return positionEcran.getX() + journal.getWidth() < 0 || positionEcran.getY() > JavaFX.h;
         });
 
+        //Logique de force des champs magnetique
+        for(PointsGravite points : generationPointsGravite.getParticules()){
+        for (Journal journal : journaux){
+            journal.setVelocite(points.champsElectrique(journal));
+        }
+        }
+
         // Update de l'UI
         ui.update(getNombreJournaux(),argent);
 
@@ -262,11 +272,11 @@ public class Partie {
     public void activationDebugMode(boolean debugMode) {
         generationBoitesAuxLettres.setDebugMode(debugMode);
         generationFenetres.setDebugMode(debugMode);
+        generationPointsGravite.setDebugMode(debugMode);
 
         for (Journal journal : journaux) {
             journal.setDebugModeDraw(debugMode);
         }
-
         camelot.setDebugModeDraw(debugMode);
     }
 
@@ -283,8 +293,6 @@ public class Partie {
         journaux.add(journal);
     }
 
-
-
     public void debutNouveauNiveau() {
         niveauFini = false;
         partieFinie = false;
@@ -299,6 +307,7 @@ public class Partie {
         generationPlanArrieres.add(generationMaisons);
         generationPlanArrieres.add(generationFenetres);
         generationPlanArrieres.add(generationBoitesAuxLettres);
+        generationPlanArrieres.add(generationPointsGravite);
 
         ui = new UI(generationMaisons.getAdressesAbonnees());
 

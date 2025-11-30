@@ -84,4 +84,8 @@ public class Journal {
     public double getHeight() {
         return taille.getY();
     }
+
+    public void setVelocite(Point2D forceElec) {
+        this.velocite = velocite.add(forceElec);
+    }
 }
