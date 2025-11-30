@@ -35,9 +35,6 @@ public class Partie {
 
     private int nombreJournaux = 12;
     private float masseJournaux;
-    private double forceX = 0;
-    private double forceY = 0;
-    private final double tauxDeCharge = 1500;
     private double lancerTemps = 0;
     private final double rechargeLaner = 0.6;
 
@@ -47,7 +44,11 @@ public class Partie {
     private boolean statusKAvant = false;
     private boolean statusLAvant = false;
     private boolean statusDAvant = false;
+    private boolean statusFAvant = false;
+    private boolean statusIAvant = false;
     private boolean debugMode = false;
+    private boolean montrerChampsElectique = false;
+    private boolean testChampsElectrique = false;
 
     private int argent = 0;
 
@@ -80,14 +81,14 @@ public class Partie {
         this.generationMaisons = new GenerationMaisons(camera);
         this.generationFenetres = new GenerationFenetres(camera, generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
         this.generationBoitesAuxLettres = new GenerationBoitesAuxLettres(camera, generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
-        this.generationPointsGravite = new GenerationPointsGravite(camera, false);
+        this.generationPointsGravite = new GenerationPointsGravite(camera);
         this.ui = new UI(generationMaisons.getAdressesAbonnees());
 
         this.generationPlanArrieres.add(generationBriques);
         this.generationPlanArrieres.add(generationMaisons);
         this.generationPlanArrieres.add(generationFenetres);
         this.generationPlanArrieres.add(generationBoitesAuxLettres);
-        this.generationPlanArrieres.add(generationPointsGravite);
+
 
         this.niveau = 1;
 
@@ -124,28 +125,6 @@ public class Partie {
         // Logique pour l'accumulation de force pour le lancer du journal (Shift)
         boolean statusShift = Input.isKeyPressed(KeyCode.SHIFT);
 
-//        if (statusShift && nombreJournaux > 0) {
-//            forceX =  forceX + tauxDeCharge * deltaTemps;
-//            forceY = forceY - tauxDeCharge * deltaTemps;
-//        }
-//
-//        boolean doitLancerAvecForce = false;
-//
-//        if ((!statusShift) && (forceX != 0 || forceY != 0) &&
-//                lancerTemps <= 0 &&
-//                nombreJournaux > 0) {
-//            doitLancerAvecForce = true;
-//        }
-//
-//        // Logique lorsqu'on relache Shift
-//        if (doitLancerAvecForce) {
-//            lancerJournal(forceX, forceY);
-//            nombreJournaux--;
-//            lancerTemps = rechargeLaner;
-//            forceX = 0;
-//            forceY = 0;
-//        }
-
         // Logique pour l'action de lancer un journal vers le haut (Z)
         boolean statusZMaintenant = Input.isKeyPressed(KeyCode.Z);
         boolean zPeser = statusZMaintenant && !statusZAvant;
@@ -155,7 +134,7 @@ public class Partie {
             if (statusShift) {
                 lancerJournal(150 * 1.5, -1100 * 1.5);
             }
-            else if (!statusShift) {
+            else {
                 lancerJournal(150, -1100);
             }
             nombreJournaux--;
@@ -172,7 +151,7 @@ public class Partie {
             if (statusShift) {
                 lancerJournal(900 * 1.5, -900 * 1.5);
             }
-            else if (!statusShift) {
+            else {
                 lancerJournal(900, -900);
             }
             nombreJournaux--;
@@ -219,6 +198,28 @@ public class Partie {
             activationDebugMode(debugMode);
         }
 
+        // Logique pour l'action d'activer le champs electrique visuel (F)
+        boolean statusFMaintenant = Input.isKeyPressed(KeyCode.F);
+        boolean fPeser = statusFMaintenant && !statusFAvant;
+        statusFAvant = statusFMaintenant;
+
+        if(fPeser){
+            montrerChampsElectique = !montrerChampsElectique;
+            activationChampsElectrique(montrerChampsElectique);
+        }
+
+        // Logique pour l'action d'activer le champs electrique de test (I)
+        boolean statusIMaintenant = Input.isKeyPressed(KeyCode.I);
+        boolean iPeser = statusIMaintenant && !statusIAvant;
+        statusIAvant = statusIMaintenant;
+
+        if(iPeser){
+            testChampsElectrique = !testChampsElectrique;
+            activationChampsElectriqueTest(testChampsElectrique);
+        }
+
+
+
         //   Update du plan d'arrière
         for (GenerationPlanArriere planArriere : generationPlanArrieres) {
             planArriere.update(vitesseMouvement * deltaTemps);
@@ -249,7 +250,7 @@ public class Partie {
             return positionEcran.getX() + journal.getLargeur() < 0 || positionEcran.getY() > JavaFX.h;
         });
 
-        //Logique de force des champs magnetique
+//        Logique de force des champs magnetique
         for (PointsGravite points : generationPointsGravite.getParticules()) {
             for (Journal journal : journaux) {
                 journal.setVelocite(points.champsElectrique(journal.getPosition()));
@@ -291,12 +292,24 @@ public class Partie {
     public void activationDebugMode(boolean debugMode) {
         generationBoitesAuxLettres.setDebugMode(debugMode);
         generationFenetres.setDebugMode(debugMode);
-        generationPointsGravite.setDebugMode(debugMode);
 
         for (Journal journal : journaux) {
             journal.setDebugModeDraw(debugMode);
         }
         camelot.setDebugModeDraw(debugMode);
+    }
+
+    public void activationChampsElectrique(boolean montrerChampsElectique){
+        generationPointsGravite.setMontrerChampsElectrique(montrerChampsElectique);
+    }
+
+    public void activationChampsElectriqueTest(boolean testChampsElectrique){
+        if (testChampsElectrique) {
+            generationPointsGravite.genererParticulesDebug(camera);
+        }
+        else{
+            generationPointsGravite.regenererPointsGravite();
+        }
     }
 
     public void lancerJournal(double quantiteMouvementX, double quantiteMouvementY) {
@@ -326,8 +339,10 @@ public class Partie {
         generationPlanArrieres.add(generationMaisons);
         generationPlanArrieres.add(generationFenetres);
         generationPlanArrieres.add(generationBoitesAuxLettres);
-        generationPlanArrieres.add(generationPointsGravite);
-
+        if(niveau > 1) {
+            generationPlanArrieres.add(generationPointsGravite);
+            generationPointsGravite.regenererPointsGravite();
+        }
         ui = new UI(generationMaisons.getAdressesAbonnees());
 
         nombreJournaux += 12;
@@ -335,8 +350,6 @@ public class Partie {
         Random random = new Random();
         masseJournaux = random.nextInt(1,3);
 
-        forceX = 0;
-        forceY = 0;
         lancerTemps = 0;
         journaux.clear();
     }

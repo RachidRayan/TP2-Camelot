@@ -7,16 +7,19 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class JavaFX extends Application {
-    public static int w = 1000, h = 600;
+    public static int w = 900, h = 580;
     private final Partie partie = new Partie();
 
     private enum statusJeu {
@@ -69,21 +72,11 @@ public class JavaFX extends Application {
                 context.fillRect(0, 0, w, h);
 
                 if (statusMaintenant == statusJeu.DEBUT_NIVEAU) {
-                    context.setFill(Color.BLACK);
-                    context.fillRect(0, 0, w, h);
-                    context.setFill(Color.GREEN);
-                    context.setFont(new Font(50));
-                    context.fillText("Niveau " + partie.getNiveau(), w / 2 - 100, h / 2);
+                    ecranDebutNiveau(context);
                 }
 
                 else if (statusMaintenant == statusJeu.FIN_DE_PARTIE) {
-                    context.setFill(Color.BLACK);
-                    context.fillRect(0, 0, w, h);
-                    context.setFill(Color.RED);
-                    context.setFont(new Font(50));
-                    context.fillText("Rupture stocks! ", w / 2 - 200, h / 2 - 40);
-                    context.setFill(Color.GREEN);
-                    context.fillText("Argent collecté: " + partie.getArgent() + "$", w / 2 - 225, h/ 2 + 20);
+                    ecranDeFin(context);
                 }
 
                 else if (statusMaintenant == statusJeu.NIVEAU) {
@@ -96,7 +89,6 @@ public class JavaFX extends Application {
         };
         timer.start();
 
-
         scene.setOnKeyPressed((e) -> {
             if (e.getCode() == KeyCode.ESCAPE) {
                 Platform.exit();
@@ -108,11 +100,53 @@ public class JavaFX extends Application {
             Input.setKeyPressed(e.getCode(), false);
         });
 
+        stage.setTitle("Camelot à vélo");
+        stage.setResizable(false);
+        stage.getIcons().add(new Image("journal.png"));
         stage.setScene(scene);
         stage.show();
     }
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public void ecranDebutNiveau(GraphicsContext context) {
+        context.setFill(Color.BLACK);
+        context.fillRect(0, 0, w, h);
+        context.setFill(Color.GREEN);
+        context.setFont(new Font(60));
+
+        String text = "Niveau " + partie.getNiveau();
+        Text tempText = new Text(text);
+        tempText.setFont(new Font(60));
+        double textWidth = tempText.getLayoutBounds().getWidth();
+        double textHeight = tempText.getLayoutBounds().getHeight();
+
+        double x = w / 2 - textWidth / 2;
+        double y = h / 2 + textHeight / 4;
+        context.fillText(text, x, y);
+    }
+
+    public void ecranDeFin(GraphicsContext context) {
+        context.setFill(Color.BLACK);
+        context.fillRect(0, 0, w, h);
+
+        context.setFill(Color.RED);
+        context.setFont(new Font(60));
+        String text1 = "Rupture stocks!";
+        Text tempText1 = new Text(text1);
+        tempText1.setFont(new Font(60));
+        double textWidth1 = tempText1.getLayoutBounds().getWidth();
+        double textHeight1 = tempText1.getLayoutBounds().getHeight();
+        context.fillText(text1, w / 2 - textWidth1 / 2, h / 2 - 40 + textHeight1 / 4);
+
+        context.setFill(Color.GREEN);
+        String text2 = "Argent collecté: " + partie.getArgent() + "$";
+        Text tempText2 = new Text(text2);
+        tempText2.setFont(new Font(60));
+        double textWidth2 = tempText2.getLayoutBounds().getWidth();
+        double textHeight2 = tempText2.getLayoutBounds().getHeight();
+        context.fillText(text2, w / 2 - textWidth2 / 2, h / 2 + 20 + textHeight2 / 4);
     }
 }

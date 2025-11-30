@@ -49,10 +49,6 @@ public class BoiteAuxLettres extends GenerationPlanArriere {
         }
     }
 
-    public Rectangle2D getHitBox() {
-        return new Rectangle2D(positionMonde.getX(), positionMonde.getY(), image.getWidth(), image.getHeight());
-    }
-
     public int contactAvecJournal(Journal journal) {
         if (getHitBox().intersects(journal.getHitBox())) {
             journal.setDetruitStatus(true);
@@ -69,8 +65,11 @@ public class BoiteAuxLettres extends GenerationPlanArriere {
             } else {
                 return 0;
             }
-
         }
         return 0;
+    }
+
+    public Rectangle2D getHitBox() {
+        return new Rectangle2D(positionMonde.getX(), positionMonde.getY(), image.getWidth(), image.getHeight());
     }
 }
