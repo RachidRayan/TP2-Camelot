@@ -124,36 +124,40 @@ public class Partie {
         // Logique pour l'accumulation de force pour le lancer du journal (Shift)
         boolean statusShift = Input.isKeyPressed(KeyCode.SHIFT);
 
-        if (statusShift && nombreJournaux > 0) {
-            forceX =  forceX + tauxDeCharge * deltaTemps;
-            forceY = forceY - tauxDeCharge * deltaTemps;
-        }
-
-        boolean doitLancerAvecForce = false;
-
-        if ((!statusShift) && (forceX != 0 || forceY != 0) &&
-                lancerTemps <= 0 &&
-                nombreJournaux > 0) {
-            doitLancerAvecForce = true;
-        }
-
-        // Logique lorsqu'on relache Shift
-        if (doitLancerAvecForce) {
-            lancerJournal(forceX, forceY);
-            nombreJournaux--;
-            lancerTemps = rechargeLaner;
-            forceX = 0;
-            forceY = 0;
-        }
+//        if (statusShift && nombreJournaux > 0) {
+//            forceX =  forceX + tauxDeCharge * deltaTemps;
+//            forceY = forceY - tauxDeCharge * deltaTemps;
+//        }
+//
+//        boolean doitLancerAvecForce = false;
+//
+//        if ((!statusShift) && (forceX != 0 || forceY != 0) &&
+//                lancerTemps <= 0 &&
+//                nombreJournaux > 0) {
+//            doitLancerAvecForce = true;
+//        }
+//
+//        // Logique lorsqu'on relache Shift
+//        if (doitLancerAvecForce) {
+//            lancerJournal(forceX, forceY);
+//            nombreJournaux--;
+//            lancerTemps = rechargeLaner;
+//            forceX = 0;
+//            forceY = 0;
+//        }
 
         // Logique pour l'action de lancer un journal vers le haut (Z)
         boolean statusZMaintenant = Input.isKeyPressed(KeyCode.Z);
         boolean zPeser = statusZMaintenant && !statusZAvant;
         statusZAvant = statusZMaintenant;
 
-        // Logique lorsqu'on clique sur Z
-        if (zPeser && !statusShift && forceX == 0 && forceY == 0 && lancerTemps <= 0 && nombreJournaux > 0) {
-            lancerJournal(900, -900);
+        if (zPeser && lancerTemps <= 0 && nombreJournaux > 0) {
+            if (statusShift) {
+                lancerJournal(150 * 1.5, -1100 * 1.5);
+            }
+            else if (!statusShift) {
+                lancerJournal(150, -1100);
+            }
             nombreJournaux--;
             lancerTemps = rechargeLaner;
         }
@@ -164,8 +168,13 @@ public class Partie {
         statusXAvant = statusXMaintenant;
 
         // Logique lorsqu'on clique sur X
-        if (xPeser && !statusShift && forceX == 0 && forceY == 0 && lancerTemps <= 0 && nombreJournaux > 0) {
-            lancerJournal(150, -1100);
+        if (xPeser && lancerTemps <= 0 && nombreJournaux > 0) {
+            if (statusShift) {
+                lancerJournal(900 * 1.5, -900 * 1.5);
+            }
+            else if (!statusShift) {
+                lancerJournal(900, -900);
+            }
             nombreJournaux--;
             lancerTemps = rechargeLaner;
         }
@@ -228,7 +237,7 @@ public class Partie {
         journaux.removeIf(journal -> {
             if (journal.isDetruitStatus()) return true;
             Point2D positionEcran = camera.coordoEcran(journal.getPosition());
-            return positionEcran.getX() + journal.getWidth() < 0 || positionEcran.getY() > JavaFX.h;
+            return positionEcran.getX() + journal.getLargeur() < 0 || positionEcran.getY() > JavaFX.h;
         });
 
         // Logique de contact entre un journal et une fenêtre
@@ -237,7 +246,7 @@ public class Partie {
         journaux.removeIf(journal -> {
             if (journal.isDetruitStatus()) return true;
             Point2D positionEcran = camera.coordoEcran(journal.getPosition());
-            return positionEcran.getX() + journal.getWidth() < 0 || positionEcran.getY() > JavaFX.h;
+            return positionEcran.getX() + journal.getLargeur() < 0 || positionEcran.getY() > JavaFX.h;
         });
 
         //Logique de force des champs magnetique
@@ -290,15 +299,15 @@ public class Partie {
         camelot.setDebugModeDraw(debugMode);
     }
 
-    public void lancerJournal(double forceX, double forceY) {
+    public void lancerJournal(double quantiteMouvementX, double quantiteMouvementY) {
         Point2D positionCamelot = camelot.getPosition();
         Point2D tailleCamelot = camelot.getTaille();
 
         Point2D positionLancer = new Point2D(positionCamelot.getX() + tailleCamelot.getX() / 2.0,
                 positionCamelot.getY() + tailleCamelot.getY() / 2.0);
 
-        Point2D velociteInitialJournal = new Point2D(forceX, forceY);
-        Journal journal = new Journal(positionLancer, velociteInitialJournal, masseJournaux,camera);
+        Point2D quantiteDeMouvement = new Point2D(quantiteMouvementX, quantiteMouvementY);
+        Journal journal = new Journal(positionLancer, quantiteDeMouvement, camelot.getVelocite(), masseJournaux, camera);
         journal.setDebugModeDraw(debugMode);
         journaux.add(journal);
     }

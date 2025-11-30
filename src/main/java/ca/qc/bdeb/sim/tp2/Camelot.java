@@ -46,6 +46,10 @@ public class Camelot {
         return taille;
     }
 
+    public Point2D getVelocite() {
+        return velocite;
+    }
+
     public void update(double deltaTemps, double vitesseMouvement) {
 
         // Sauter avec Espace ou Flèche vers le haut
