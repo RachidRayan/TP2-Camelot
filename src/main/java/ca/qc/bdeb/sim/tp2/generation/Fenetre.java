@@ -17,6 +17,7 @@ public class Fenetre extends GenerationPlanArriere {
     private boolean debugModeDraw;
 
     private Point2D positionMonde;
+    private boolean estFrapper = false;
     private boolean statusAbonnement;
     private Image image = fenetre;
 
@@ -36,8 +37,6 @@ public class Fenetre extends GenerationPlanArriere {
         positionMonde = new Point2D(positionMonde.getX() - mouvementVersGauche, positionMonde.getY());
     }
 
-
-
     public void draw(GraphicsContext context) {
         Point2D coordoEcran = camera.coordoEcran(positionMonde);
         context.drawImage(image, coordoEcran.getX(), coordoEcran.getY());
@@ -56,15 +55,22 @@ public class Fenetre extends GenerationPlanArriere {
 
         if (getHitBox().intersects(journal.getHitBox())) {
             journal.setDetruitStatus(true);
-
-            if (statusAbonnement) {
-                image = fenetreBriseeRouge;
-                return -2;
+            if (!estFrapper) {
+                if (statusAbonnement) {
+                    image = fenetreBriseeRouge;
+                    estFrapper = true;
+                    return -2;
+                }
+                else {
+                    image = fenetreBriseeVert;
+                    estFrapper = true;
+                    return 2;
+                }
             }
             else {
-                image = fenetreBriseeVert;
-                return 2;
+                return 0;
             }
+
         }
         return 0;
     }
