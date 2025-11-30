@@ -266,7 +266,6 @@ public class Partie {
         for (Journal journal : journaux) {
             journal.setDebugModeDraw(debugMode);
         }
-
         camelot.setDebugModeDraw(debugMode);
     }
 
