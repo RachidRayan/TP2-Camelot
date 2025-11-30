@@ -26,7 +26,7 @@ public class GenerationPointsGravite extends GenerationPlanArriere{
     public GenerationPointsGravite(Camera camera, boolean debugMode) {
         super(camera);
         //temporaire
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 200; i++) {
             this.particules.add(new PointsGravite(camera));
         }
 

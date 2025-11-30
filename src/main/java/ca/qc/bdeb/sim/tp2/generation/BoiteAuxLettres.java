@@ -18,8 +18,8 @@ public class BoiteAuxLettres extends GenerationPlanArriere {
     private boolean debugModeDraw;
 
     private Point2D positionMonde;
+    private boolean estFrapper = false;
     private boolean statusAbonnement;
-    private boolean dejaFrappee = false;
     private Image image = boiteALettre;
 
     public void setDebugModeDraw(boolean debugModeDraw) {
@@ -50,24 +50,26 @@ public class BoiteAuxLettres extends GenerationPlanArriere {
     }
 
     public Rectangle2D getHitBox() {
-        return new Rectangle2D(positionMonde.getX(),positionMonde.getY(),image.getWidth(), image.getHeight());
+        return new Rectangle2D(positionMonde.getX(), positionMonde.getY(), image.getWidth(), image.getHeight());
     }
 
-    public int contactAvecJournal (Journal journal) {
-        if (dejaFrappee || journal.isDetruitStatus()) {
-            return 0;
-        }
+    public int contactAvecJournal(Journal journal) {
         if (getHitBox().intersects(journal.getHitBox())) {
             journal.setDetruitStatus(true);
-            dejaFrappee = true;
-            if (statusAbonnement) {
-                image = boiteALettreVert;
-                return 2;
-            }
-            else {
-                image = boiteALettreRouge;
+            if (!estFrapper) {
+                if (statusAbonnement) {
+                    image = boiteALettreVert;
+                    estFrapper = true;
+                    return 1;
+                } else {
+                    image = boiteALettreRouge;
+                    estFrapper = true;
+                    return 0;
+                }
+            } else {
                 return 0;
             }
+
         }
         return 0;
     }

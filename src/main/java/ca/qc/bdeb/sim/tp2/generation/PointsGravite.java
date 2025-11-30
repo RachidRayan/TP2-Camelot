@@ -25,11 +25,11 @@ public class PointsGravite extends GenerationPlanArriere{
     }
 
     private Point2D positionMonde;
-    Random yInitiale = new Random();
+    Random positionInitiale = new Random();
 
     public PointsGravite(Camera camera) {
         super(camera);
-        this.positionMonde = new Point2D(JavaFX.w , yInitiale.nextInt(0,JavaFX.h));
+        this.positionMonde = new Point2D(positionInitiale.nextInt(JavaFX.w, JavaFX.w *20 ) , positionInitiale.nextInt(0,JavaFX.h));
         this.charge = 900;
         this.constaneCoulomb = 90;
         this.debugModeDraw = false;
