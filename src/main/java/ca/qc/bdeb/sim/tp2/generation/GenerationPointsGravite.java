@@ -52,7 +52,7 @@ public class GenerationPointsGravite extends GenerationPlanArriere{
         Point2D total = Point2D.ZERO;
 
         for (PointsGravite pointsGravite : this.particules) {
-            total = total.add(pointsGravite.champsElectrique(j));
+            total = total.add(pointsGravite.champsElectrique(j.getPosition()));
         }
 
         return total;

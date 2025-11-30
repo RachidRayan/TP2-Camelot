@@ -28,7 +28,6 @@ public class Partie {
     private final double xPositionCamera = xApparitionPosition - (JavaFX.w / 5.0);
 
 
-
     private int nombreJournaux = 12;
     private double forceX = 0;
     private double forceY = 0;
@@ -72,12 +71,12 @@ public class Partie {
 
         camera.setPositionCamera(new Point2D(xPositionCamera, 0));
 
-        this.camelot = new Camelot(camera,xApparitionPosition);
+        this.camelot = new Camelot(camera, xApparitionPosition);
         this.generationBriques = new GenerationBriques(camera);
         this.generationMaisons = new GenerationMaisons(camera);
         this.generationFenetres = new GenerationFenetres(camera, generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
         this.generationBoitesAuxLettres = new GenerationBoitesAuxLettres(camera, generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
-        this.generationPointsGravite = new GenerationPointsGravite(camera,false);
+        this.generationPointsGravite = new GenerationPointsGravite(camera, false);
         this.ui = new UI(generationMaisons.getAdressesAbonnees());
 
         this.generationPlanArrieres.add(generationBriques);
@@ -127,7 +126,7 @@ public class Partie {
 
         // Logique lorsqu'on relache Shift
         if (doitLancerAvecForce) {
-            lancerJournal(forceX,forceY);
+            lancerJournal(forceX, forceY);
             nombreJournaux--;
             lancerTemps = rechargeLaner;
             forceX = 0;
@@ -141,7 +140,7 @@ public class Partie {
 
         // Logique lorsqu'on clique sur Z
         if (zPeser && !statusShift && forceX == 0 && forceY == 0 && lancerTemps <= 0 && nombreJournaux > 0) {
-            lancerJournal(50,-1000);
+            lancerJournal(50, -1000);
             nombreJournaux--;
             lancerTemps = rechargeLaner;
         }
@@ -153,7 +152,7 @@ public class Partie {
 
         // Logique lorsqu'on clique sur X
         if (xPeser && !statusShift && forceX == 0 && forceY == 0 && lancerTemps <= 0 && nombreJournaux > 0) {
-            lancerJournal(500,-600);
+            lancerJournal(500, -600);
             nombreJournaux--;
             lancerTemps = rechargeLaner;
         }
@@ -229,14 +228,14 @@ public class Partie {
         });
 
         //Logique de force des champs magnetique
-        for(PointsGravite points : generationPointsGravite.getParticules()){
-        for (Journal journal : journaux){
-            journal.setVelocite(points.champsElectrique(journal));
-        }
+        for (PointsGravite points : generationPointsGravite.getParticules()) {
+            for (Journal journal : journaux) {
+                journal.setVelocite(points.champsElectrique(journal.getPosition()));
+            }
         }
 
         // Update de l'UI
-        ui.update(getNombreJournaux(),argent);
+        ui.update(getNombreJournaux(), argent);
 
 
         boolean adresseFinaleDepassee = generationMaisons.getAdresseFinale() < camera.getPositionCamera().getX();
@@ -244,9 +243,7 @@ public class Partie {
         if (adresseFinaleDepassee && nombreJournaux > 0) {
             niveauFini = true;
             partieFinie = false;
-        }
-
-        else if (nombreJournaux == 0 && !adresseFinaleDepassee) {
+        } else if (nombreJournaux == 0 && !adresseFinaleDepassee) {
             niveauFini = false;
             partieFinie = true;
         }
@@ -280,7 +277,7 @@ public class Partie {
         camelot.setDebugModeDraw(debugMode);
     }
 
-    public void lancerJournal (double forceX, double forceY) {
+    public void lancerJournal(double forceX, double forceY) {
         Point2D positionCamelot = camelot.getPosition();
         Point2D tailleCamelot = camelot.getTaille();
 
@@ -298,10 +295,10 @@ public class Partie {
         partieFinie = false;
         niveau++;
 
-        camelot = new Camelot(camera,xApparitionPosition);
+        camelot = new Camelot(camera, xApparitionPosition);
 
         generationMaisons = new GenerationMaisons(camera);
-        generationBoitesAuxLettres = new GenerationBoitesAuxLettres(camera,generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
+        generationBoitesAuxLettres = new GenerationBoitesAuxLettres(camera, generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
         generationPlanArrieres.clear();
         generationPlanArrieres.add(generationBriques);
         generationPlanArrieres.add(generationMaisons);
