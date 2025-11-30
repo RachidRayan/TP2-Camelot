@@ -52,8 +52,6 @@ public class PointsGravite extends GenerationPlanArriere {
                     Point2D positionMonde = new Point2D(x, y);
 
                     Point2D positionEcran = camera.coordoEcran(positionMonde);
-//                    if (positionEcran.getX() < 0 || positionEcran.getX() > JavaFX.w) continue;
-//                    if (positionEcran.getY() < 0 || positionEcran.getY() > JavaFX.h) continue;
 
                     Point2D force = champsElectrique( positionMonde);
 
