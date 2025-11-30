@@ -17,8 +17,8 @@ public class Fenetre extends GenerationPlanArriere {
     private boolean debugModeDraw;
 
     private Point2D positionMonde;
+    private boolean estFrapper = false;
     private boolean statusAbonnement;
-    private boolean dejaFrappee = false;
     private Image image = fenetre;
 
     public void setDebugModeDraw(boolean debugModeDraw) {
@@ -37,8 +37,6 @@ public class Fenetre extends GenerationPlanArriere {
         positionMonde = new Point2D(positionMonde.getX() - mouvementVersGauche, positionMonde.getY());
     }
 
-
-
     public void draw(GraphicsContext context) {
         Point2D coordoEcran = camera.coordoEcran(positionMonde);
         context.drawImage(image, coordoEcran.getX(), coordoEcran.getY());
@@ -54,20 +52,25 @@ public class Fenetre extends GenerationPlanArriere {
     }
 
     public int contactAvecJournal (Journal journal) {
-        if (dejaFrappee || journal.isDetruitStatus()) {
-            return 0;
-        }
+
         if (getHitBox().intersects(journal.getHitBox())) {
             journal.setDetruitStatus(true);
-            dejaFrappee = true;
-            if (statusAbonnement) {
-                image = fenetreBriseeRouge;
-                return -2;
+            if (!estFrapper) {
+                if (statusAbonnement) {
+                    image = fenetreBriseeRouge;
+                    estFrapper = true;
+                    return -2;
+                }
+                else {
+                    image = fenetreBriseeVert;
+                    estFrapper = true;
+                    return 2;
+                }
             }
             else {
-                image = fenetreBriseeVert;
-                return 2;
+                return 0;
             }
+
         }
         return 0;
     }
