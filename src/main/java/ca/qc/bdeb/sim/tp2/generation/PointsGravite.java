@@ -32,7 +32,7 @@ public class PointsGravite extends GenerationPlanArriere {
     public PointsGravite(Camera camera, Point2D positionMonde) {
         super(camera);
         this.positionMonde = positionMonde;
-        this.chargeParticule = 900;
+        this.chargeParticule = 900*3;
         this.constaneCoulomb = 90;
         this.montrerChampsElectrique = false;
     }

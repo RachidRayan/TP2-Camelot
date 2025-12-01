@@ -17,8 +17,8 @@ public class GenerationPointsGravite extends GenerationPlanArriere{
     private ArrayList<PointsGravite> particules = new ArrayList<>();
     private boolean montrerChampsElectrique;
     Random r = new Random();
-    int largeur = JavaFX.w * 15;
-    int nbParticules = 50;
+    int largeur = JavaFX.w * 20;
+    int nbParticules = 25;
 
     public ArrayList<PointsGravite> getParticules() {
         return particules;

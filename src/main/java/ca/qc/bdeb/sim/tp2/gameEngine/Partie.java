@@ -343,7 +343,12 @@ public class Partie {
         generationPlanArrieres.add(generationBoitesAuxLettres);
         if(niveau > 1) { //Génère les particules que si on a fini niveau 1
             generationPlanArrieres.add(generationPointsGravite);
-            generationPointsGravite.regenererPointsGravite();
+            if(testChampsElectrique){
+                generationPointsGravite.genererParticulesDebug(camera);
+            }else {
+                generationPointsGravite.regenererPointsGravite();
+            }
+
         }
         ui = new UI(generationMaisons.getAdressesAbonnees());
 
