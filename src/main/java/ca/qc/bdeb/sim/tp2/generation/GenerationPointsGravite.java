@@ -2,6 +2,7 @@ package ca.qc.bdeb.sim.tp2.generation;
 
 import ca.qc.bdeb.sim.tp2.JavaFX;
 import ca.qc.bdeb.sim.tp2.Journal;
+import ca.qc.bdeb.sim.tp2.UtilitairesDessins;
 import ca.qc.bdeb.sim.tp2.gameEngine.Camera;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -9,6 +10,9 @@ import javafx.scene.canvas.GraphicsContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static ca.qc.bdeb.sim.tp2.generation.PointsGravite.chargeParticule;
+import static ca.qc.bdeb.sim.tp2.generation.PointsGravite.constaneCoulomb;
 
 public class GenerationPointsGravite extends GenerationPlanArriere{
 
@@ -76,6 +80,40 @@ public class GenerationPointsGravite extends GenerationPlanArriere{
         for ( PointsGravite pointsGravite : particules) {
             pointsGravite.setMontrerChampsElectrique(montrerChampsElectrique);
             pointsGravite.draw(context);
+            if (montrerChampsElectrique) {
+                for (double x = 0; x < JavaFX.w; x += 50) {
+                    for (double y = 0; y < JavaFX.h; y += 50) {
+
+                        Point2D coordoEcran = camera.coordoEcran(pointsGravite.getPositionMonde());
+
+                        Point2D positionMonde = new Point2D(coordoEcran.getX()-x, y);
+                        Point2D positionEcran = camera.coordoEcran(positionMonde);
+
+                        Point2D force = champsElectrique(positionMonde , coordoEcran);
+
+                        UtilitairesDessins.dessinerVecteurForce(positionEcran, force, context);
+                    }
+                }
+            }
         }
+
     }
+
+    //Calcule de Ei
+    public Point2D champsElectrique(Point2D point2D , Point2D coordoEcran) {
+
+        Point2D distance2D = coordoEcran.subtract(point2D); //Distance en x,y
+
+        double r = distance2D.magnitude(); //Pythagore
+        if (r < 1) { r = 1; }
+
+        double Ei = constaneCoulomb * Math.abs(chargeParticule) / (r * r); //Module du champs éléctrique
+
+        Point2D orientation = distance2D.normalize();//Vecteur orientation
+
+        return orientation.multiply(Ei); //retourne le vecteur du champs electrique
+
+    }
+
+
 }

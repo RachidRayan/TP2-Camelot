@@ -15,8 +15,8 @@ public class PointsGravite extends GenerationPlanArriere {
 
     Random randomCoulour = new Random();
     private double teinte = randomCoulour.nextInt(0, 360);
-    private int chargeParticule; //q d'une particule
-    private int constaneCoulomb; //k
+    protected static int chargeParticule; //q d'une particule
+    protected static int constaneCoulomb; //k
 
 
     private boolean montrerChampsElectrique;
@@ -27,6 +27,9 @@ public class PointsGravite extends GenerationPlanArriere {
     private Point2D positionMonde;
     public void setPositionMonde(Point2D positionMonde) {
         this.positionMonde = positionMonde;
+    }
+    public Point2D getPositionMonde() {
+        return positionMonde;
     }
 
     public PointsGravite(Camera camera, Point2D positionMonde) {
@@ -49,19 +52,19 @@ public class PointsGravite extends GenerationPlanArriere {
         context.setFill(Color.hsb(teinte, 1, 1));
         context.fillOval(coordoEcran.getX(), coordoEcran.getY(), rayon, rayon);
         //Flèches des champs électriques
-        if (montrerChampsElectrique) {
-            for (double x = 0; x < JavaFX.w; x += 50) {
-                for (double y = 0; y < JavaFX.h; y += 50) {
-
-                    Point2D positionMonde = new Point2D(coordoEcran.getX()-x, y);
-                    Point2D positionEcran = camera.coordoEcran(positionMonde);
-
-                    Point2D force = champsElectrique(positionMonde);
-
-                    UtilitairesDessins.dessinerVecteurForce(positionEcran, force, context);
-                }
-            }
-        }
+//        if (montrerChampsElectrique) {
+//            for (double x = 0; x < JavaFX.w; x += 50) {
+//                for (double y = 0; y < JavaFX.h; y += 50) {
+//
+//                    Point2D positionMonde = new Point2D(coordoEcran.getX()-x, y);
+//                    Point2D positionEcran = camera.coordoEcran(positionMonde);
+//
+//                    Point2D force = champsElectrique(positionMonde);
+//
+//                    UtilitairesDessins.dessinerVecteurForce(positionEcran, force, context);
+//                }
+//            }
+//        }
 
     }
 
