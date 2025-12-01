@@ -16,50 +16,44 @@ public class GenerationPointsGravite extends GenerationPlanArriere{
 
     private ArrayList<PointsGravite> particules = new ArrayList<>();
     private boolean montrerChampsElectrique;
-    private boolean placementTest;
     Random r = new Random();
+    int largeur = JavaFX.w * 15;
 
     public ArrayList<PointsGravite> getParticules() {
         return particules;
     }
 
-
-
     public void setMontrerChampsElectrique(boolean montrerChampsElectrique) { this.montrerChampsElectrique = montrerChampsElectrique; }
-
-    public void setPlacementTest(boolean placementTest){
-        this.placementTest = placementTest;
-    }
 
     public GenerationPointsGravite(Camera camera) {
         super(camera);
-
+        //Placement des paticule dans le niveau
         for (int i = 0; i < 200; i++) {
-            this.particules.add(new PointsGravite(camera , new Point2D(r.nextInt(0,JavaFX.w*20),r.nextInt(0,JavaFX.h))));
+            this.particules.add(new PointsGravite(camera , new Point2D(r.nextInt(0,largeur),r.nextInt(0,JavaFX.h))));
         }
         this.montrerChampsElectrique = false;
     }
 
+    //Place les particules en haut et en bas du niveau
     public void genererParticulesDebug(Camera camera) {
         particules.clear();
 
         double yHaut = 10;
         double yBas = JavaFX.h - 10;
 
-        double largeur = JavaFX.w * 20;
-
         for (double x = 0; x < largeur; x += 50) {
 
-            PointsGravite p1 = new PointsGravite(camera, new Point2D(r.nextInt(0,JavaFX.w*20),r.nextInt(0,JavaFX.h)));
+            PointsGravite p1 = new PointsGravite(camera, new Point2D(r.nextInt(0,largeur),r.nextInt(0,JavaFX.h)));
             p1.setPositionMonde(new Point2D(x, yHaut));
             particules.add(p1);
 
-            PointsGravite p2 = new PointsGravite(camera, new Point2D(r.nextInt(0,JavaFX.w*20),r.nextInt(0,JavaFX.h)));
+            PointsGravite p2 = new PointsGravite(camera, new Point2D(r.nextInt(0,largeur),r.nextInt(0,JavaFX.h)));
             p2.setPositionMonde(new Point2D(x, yBas));
             particules.add(p2);
         }
     }
 
+    //Donne des nouvelles particules (Pour quand un niveau commence)
     public void regenererPointsGravite(){
         particules.clear();
         while(particules.size() < 200){
@@ -67,7 +61,7 @@ public class GenerationPointsGravite extends GenerationPlanArriere{
         }
     }
 
-
+    //Update
     @Override
     public void update(double mouvementVersGauche) {
         super.update(mouvementVersGauche);
@@ -76,22 +70,11 @@ public class GenerationPointsGravite extends GenerationPlanArriere{
         }
     }
 
+    //Dessiner les particules
     public void draw(GraphicsContext context) {
         for ( PointsGravite pointsGravite : particules) {
             pointsGravite.setMontrerChampsElectrique(montrerChampsElectrique);
             pointsGravite.draw(context);
         }
     }
-
-    public Point2D champsElectrique(List<PointsGravite> particules, Journal j) {
-        Point2D total = Point2D.ZERO;
-
-        for (PointsGravite pointsGravite : this.particules) {
-            total = total.add(pointsGravite.champsElectrique(j.getPosition()));
-        }
-
-        return total;
-    }
-
-
 }

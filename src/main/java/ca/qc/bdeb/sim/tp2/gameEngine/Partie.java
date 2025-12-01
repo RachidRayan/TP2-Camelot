@@ -250,10 +250,12 @@ public class Partie {
             return positionEcran.getX() + journal.getLargeur() < 0 || positionEcran.getY() > JavaFX.h;
         });
 
-//        Logique de force des champs magnetique
-        for (PointsGravite points : generationPointsGravite.getParticules()) {
-            for (Journal journal : journaux) {
-                journal.setVelocite(points.champsElectrique(journal.getPosition()));
+        //Logique de la force des champs magnétiques
+        if(niveau > 1) {
+            for (PointsGravite points : generationPointsGravite.getParticules()) {
+                for (Journal journal : journaux) {
+                    journal.setVelocite(points.champsElectrique(journal.getPosition()));
+                }
             }
         }
 
@@ -339,7 +341,7 @@ public class Partie {
         generationPlanArrieres.add(generationMaisons);
         generationPlanArrieres.add(generationFenetres);
         generationPlanArrieres.add(generationBoitesAuxLettres);
-        if(niveau > 1) {
+        if(niveau > 1) { //Génère les particules que si on a fini niveau 1
             generationPlanArrieres.add(generationPointsGravite);
             generationPointsGravite.regenererPointsGravite();
         }
