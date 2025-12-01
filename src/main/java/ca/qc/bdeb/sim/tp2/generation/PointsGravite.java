@@ -52,11 +52,11 @@ public class PointsGravite extends GenerationPlanArriere {
         if (montrerChampsElectrique) {
             for (double x = 0; x < JavaFX.w; x += 50) {
                 for (double y = 0; y < JavaFX.h; y += 50) {
-                    Point2D positionMonde = new Point2D(x, y);
 
+                    Point2D positionMonde = new Point2D(coordoEcran.getX()-x, y);
                     Point2D positionEcran = camera.coordoEcran(positionMonde);
 
-                    Point2D force = champsElectrique( positionMonde);
+                    Point2D force = champsElectrique(positionMonde);
 
                     UtilitairesDessins.dessinerVecteurForce(positionEcran, force, context);
                 }
@@ -65,7 +65,7 @@ public class PointsGravite extends GenerationPlanArriere {
 
     }
 
-    //Calcule de ei
+    //Calcule de Ei
     public Point2D champsElectrique(Point2D point2D) {
 
         Point2D distance2D = point2D.subtract(positionMonde); //Distance en x,y

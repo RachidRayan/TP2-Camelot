@@ -18,6 +18,7 @@ public class GenerationPointsGravite extends GenerationPlanArriere{
     private boolean montrerChampsElectrique;
     Random r = new Random();
     int largeur = JavaFX.w * 15;
+    int nbParticules = 50;
 
     public ArrayList<PointsGravite> getParticules() {
         return particules;
@@ -28,7 +29,7 @@ public class GenerationPointsGravite extends GenerationPlanArriere{
     public GenerationPointsGravite(Camera camera) {
         super(camera);
         //Placement des paticule dans le niveau
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < nbParticules; i++) {
             this.particules.add(new PointsGravite(camera , new Point2D(r.nextInt(0,largeur),r.nextInt(0,JavaFX.h))));
         }
         this.montrerChampsElectrique = false;
@@ -56,12 +57,12 @@ public class GenerationPointsGravite extends GenerationPlanArriere{
     //Donne des nouvelles particules (Pour quand un niveau commence)
     public void regenererPointsGravite(){
         particules.clear();
-        while(particules.size() < 200){
+        while(particules.size() < nbParticules){
             particules.add(new PointsGravite(camera , new Point2D(r.nextInt(0,JavaFX.w*20),r.nextInt(0,JavaFX.h))));
         }
     }
 
-    //Update
+    //Update les particules dans le arraylist
     @Override
     public void update(double mouvementVersGauche) {
         super.update(mouvementVersGauche);
@@ -70,7 +71,7 @@ public class GenerationPointsGravite extends GenerationPlanArriere{
         }
     }
 
-    //Dessiner les particules
+    //Dessiner les particules du arraylist
     public void draw(GraphicsContext context) {
         for ( PointsGravite pointsGravite : particules) {
             pointsGravite.setMontrerChampsElectrique(montrerChampsElectrique);
