@@ -128,8 +128,8 @@ public class JavaFX extends Application {
         double texteLargeur = texteNiveauTemporaire.getLayoutBounds().getWidth();
         double texteHauteur = texteNiveauTemporaire.getLayoutBounds().getHeight();
 
-        double positionX = largeur / 2 - texteLargeur / 2;
-        double positionY = hauteur / 2 + texteHauteur / 4;
+        double positionX = largeur / 2.0 - texteLargeur / 2;
+        double positionY = hauteur / 2.0 + texteHauteur / 4;
         context.fillText(niveauString, positionX, positionY);
     }
 
@@ -145,7 +145,7 @@ public class JavaFX extends Application {
         texteRuptureTemporaire.setFont(new Font(60));
         double texteRuptureLargeur = texteRuptureTemporaire.getLayoutBounds().getWidth();
         double texteRuptureHauteur = texteRuptureTemporaire.getLayoutBounds().getHeight();
-        context.fillText(ruptureString, largeur / 2 - texteRuptureLargeur / 2, hauteur / 2 - 40 + texteRuptureHauteur / 4);
+        context.fillText(ruptureString, largeur / 2.0 - texteRuptureLargeur / 2, hauteur / 2.0 - 40 + texteRuptureHauteur / 4);
 
         context.setFill(Color.GREEN);
         String argentString = "Argent collecté: " + partie.getArgent() + "$";
@@ -153,6 +153,6 @@ public class JavaFX extends Application {
         texteArgentTemporaire.setFont(new Font(60));
         double texteArgentLargeur = texteArgentTemporaire.getLayoutBounds().getWidth();
         double texteArgentHauteur = texteArgentTemporaire.getLayoutBounds().getHeight();
-        context.fillText(argentString, largeur / 2 - texteArgentLargeur / 2, hauteur / 2 + 20 + texteArgentHauteur / 4);
+        context.fillText(argentString, largeur / 2.0 - texteArgentLargeur / 2, hauteur / 2.0 + 20 + texteArgentHauteur / 4);
     }
 }
