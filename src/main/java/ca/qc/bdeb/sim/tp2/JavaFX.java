@@ -34,6 +34,8 @@ public class JavaFX extends Application {
 
     private double tempsEcouleDesDebutNiveau = 0;
 
+    private Font font = new Font(60);
+
     // Méthode start de JavaFX
     @Override
     public void start(Stage stage) throws IOException {
@@ -120,11 +122,11 @@ public class JavaFX extends Application {
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, largeur, hauteur);
         context.setFill(Color.GREEN);
-        context.setFont(new Font(60));
+        context.setFont(font);
 
         String niveauString = "Niveau " + partie.getNiveau();
         Text texteNiveauTemporaire = new Text(niveauString);
-        texteNiveauTemporaire.setFont(new Font(60));
+        texteNiveauTemporaire.setFont(font);
         double texteLargeur = texteNiveauTemporaire.getLayoutBounds().getWidth();
         double texteHauteur = texteNiveauTemporaire.getLayoutBounds().getHeight();
 
@@ -139,18 +141,19 @@ public class JavaFX extends Application {
         context.fillRect(0, 0, largeur, hauteur);
 
         context.setFill(Color.RED);
-        context.setFont(new Font(60));
+        context.setFont(font);
         String ruptureString = "Rupture stocks!";
         Text texteRuptureTemporaire = new Text(ruptureString);
-        texteRuptureTemporaire.setFont(new Font(60));
+        texteRuptureTemporaire.setFont(font);
         double texteRuptureLargeur = texteRuptureTemporaire.getLayoutBounds().getWidth();
         double texteRuptureHauteur = texteRuptureTemporaire.getLayoutBounds().getHeight();
         context.fillText(ruptureString, largeur / 2.0 - texteRuptureLargeur / 2, hauteur / 2.0 - 40 + texteRuptureHauteur / 4);
 
         context.setFill(Color.GREEN);
+        context.setFont(font);
         String argentString = "Argent collecté: " + partie.getArgent() + "$";
         Text texteArgentTemporaire = new Text(argentString);
-        texteArgentTemporaire.setFont(new Font(60));
+        texteArgentTemporaire.setFont(font);
         double texteArgentLargeur = texteArgentTemporaire.getLayoutBounds().getWidth();
         double texteArgentHauteur = texteArgentTemporaire.getLayoutBounds().getHeight();
         context.fillText(argentString, largeur / 2.0 - texteArgentLargeur / 2, hauteur / 2.0 + 20 + texteArgentHauteur / 4);
