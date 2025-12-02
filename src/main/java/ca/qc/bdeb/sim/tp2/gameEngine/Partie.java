@@ -21,8 +21,8 @@ public class Partie {
     private GenerationBoitesAuxLettres generationBoitesAuxLettres;
     private GenerationFenetres generationFenetres;
     private GenerationPointsGravite generationPointsGravite;
-    private ArrayList<GenerationPlanArriere> generationPlanArrieres = new ArrayList<>();
-    private ArrayList<Journal> journaux = new ArrayList<>();
+    private ArrayList<GenerationPlanArriere> generationPlanArriere = new ArrayList<>();
+    private ArrayList<Journal> journauxVivants = new ArrayList<>();
 
     private final double xApparitionPosition = 100;
     private final double xPositionCamera = xApparitionPosition - (JavaFX.largeur / 5.0);
@@ -85,10 +85,10 @@ public class Partie {
         this.generationPointsGravite = new GenerationPointsGravite(camera);
         this.ui = new UI(generationMaisons.getAdressesAbonnees());
 
-        this.generationPlanArrieres.add(generationBriques);
-        this.generationPlanArrieres.add(generationMaisons);
-        this.generationPlanArrieres.add(generationFenetres);
-        this.generationPlanArrieres.add(generationBoitesAuxLettres);
+        this.generationPlanArriere.add(generationBriques);
+        this.generationPlanArriere.add(generationMaisons);
+        this.generationPlanArriere.add(generationFenetres);
+        this.generationPlanArriere.add(generationBoitesAuxLettres);
 
 
         this.niveau = 1;
@@ -220,30 +220,30 @@ public class Partie {
         }
 
         //   Update du plan d'arrière
-        for (GenerationPlanArriere planArriere : generationPlanArrieres) {
+        for (GenerationPlanArriere planArriere : generationPlanArriere) {
             planArriere.update(vitesseMouvement * deltaTemps);
         }
 
         camelot.update(deltaTemps);
 
         // Update des journaux
-        for (Journal journal : journaux) {
+        for (Journal journal : journauxVivants) {
             journal.update(deltaTemps);
         }
 
         // Logique de contact entre un journal et une boite aux lettres
-        argent += generationBoitesAuxLettres.collisionAvecJournal(journaux);
+        argent += generationBoitesAuxLettres.collisionAvecJournal(journauxVivants);
 
-        journaux.removeIf(journal -> {
+        journauxVivants.removeIf(journal -> {
             if (journal.isDetruitStatus()) return true;
             Point2D positionEcran = camera.coordoEcran(journal.getPosition());
             return positionEcran.getX() + journal.getLargeur() < 0 || positionEcran.getY() > JavaFX.hauteur;
         });
 
         // Logique de contact entre un journal et une fenêtre
-        argent += generationFenetres.collisionAvecJournal(journaux);
+        argent += generationFenetres.collisionAvecJournal(journauxVivants);
 
-        journaux.removeIf(journal -> {
+        journauxVivants.removeIf(journal -> {
             if (journal.isDetruitStatus()) return true;
             Point2D positionEcran = camera.coordoEcran(journal.getPosition());
             return positionEcran.getX() + journal.getLargeur() < 0 || positionEcran.getY() > JavaFX.hauteur;
@@ -252,7 +252,7 @@ public class Partie {
         //Logique de la force des champs magnétiques
         if(niveau > 1) {
             for (PointsGravite points : generationPointsGravite.getParticules()) {
-                for (Journal journal : journaux) {
+                for (Journal journal : journauxVivants) {
                     journal.setVelocite(points.champsElectrique(journal.getPosition()));
                 }
             }
@@ -276,14 +276,14 @@ public class Partie {
     // Méthode de dessin de Partie (Contient tous les dessins)
     public void draw(GraphicsContext context) {
         // Draw du plan d'arrière
-        for (GenerationPlanArriere planArriere : generationPlanArrieres) {
+        for (GenerationPlanArriere planArriere : generationPlanArriere) {
             planArriere.draw(context);
         }
 
         camelot.draw(context);
 
         // Draw des journaux
-        for (Journal journal : journaux) {
+        for (Journal journal : journauxVivants) {
             journal.draw(context);
         }
         // Draw de l'UI
@@ -295,7 +295,7 @@ public class Partie {
         generationBoitesAuxLettres.setDebugMode(debugMode);
         generationFenetres.setDebugMode(debugMode);
 
-        for (Journal journal : journaux) {
+        for (Journal journal : journauxVivants) {
             journal.setDebugModeDraw(debugMode);
         }
         camelot.setDebugModeDraw(debugMode);
@@ -325,7 +325,7 @@ public class Partie {
         Point2D quantiteDeMouvement = new Point2D(quantiteMouvementX, quantiteMouvementY);
         Journal journal = new Journal(positionLancer, quantiteDeMouvement, camelot.getVelocite(), masseJournaux, camera);
         journal.setDebugModeDraw(debugMode);
-        journaux.add(journal);
+        journauxVivants.add(journal);
     }
 
     // Méthode de début de niveau
@@ -334,18 +334,22 @@ public class Partie {
         partieFinie = false;
         niveau++;
 
+        // Repositionnement du camelot (on crée un nouveau)
         camelot = new Camelot(camera, xApparitionPosition);
-
+        // Régénération
         generationMaisons = new GenerationMaisons(camera);
         generationFenetres = new GenerationFenetres(camera, generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
         generationBoitesAuxLettres = new GenerationBoitesAuxLettres(camera, generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
-        generationPlanArrieres.clear();
-        generationPlanArrieres.add(generationBriques);
-        generationPlanArrieres.add(generationMaisons);
-        generationPlanArrieres.add(generationFenetres);
-        generationPlanArrieres.add(generationBoitesAuxLettres);
+        generationFenetres = new GenerationFenetres(camera, generationMaisons.getXPositionAdresses(),generationMaisons.getAbonnementsListe());
+        // Vidage de la liste des objets qui font partie du plan arrière
+        generationPlanArriere.clear();
+        // Ajout des nouveaux objets dans la liste de génération du plan arrière
+        generationPlanArriere.add(generationBriques);
+        generationPlanArriere.add(generationMaisons);
+        generationPlanArriere.add(generationFenetres);
+        generationPlanArriere.add(generationBoitesAuxLettres);
         if(niveau > 1) { //Génère les particules que si on a fini niveau 1
-            generationPlanArrieres.add(generationPointsGravite);
+            generationPlanArriere.add(generationPointsGravite);
             if(testChampsElectrique){
                 generationPointsGravite.genererParticulesDebug(camera);
             }else {
@@ -353,15 +357,16 @@ public class Partie {
             }
 
         }
+        // Régénération du l'UI
         ui = new UI(generationMaisons.getAdressesAbonnees());
 
         nombreJournaux += 12;
-
+        // Changement de masse des journaux
         Random random = new Random();
         masseJournaux = random.nextInt(1,3);
 
         lancerTemps = 0;
-        journaux.clear();
+        journauxVivants.clear();
     }
 
 }
