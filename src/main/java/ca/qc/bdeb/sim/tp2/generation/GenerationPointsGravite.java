@@ -20,7 +20,7 @@ public class GenerationPointsGravite extends GenerationPlanArriere {
     private ArrayList<PointsGravite> particules = new ArrayList<>();
     private boolean montrerChampsElectrique;
     Random r = new Random();
-    int largeur = JavaFX.w * 20;
+    int largeur = JavaFX.largeur * 20;
     int nbParticules = 25;
 
     public ArrayList<PointsGravite> getParticules() {
@@ -35,7 +35,7 @@ public class GenerationPointsGravite extends GenerationPlanArriere {
         super(camera);
         //Placement des paticule dans le niveau
         for (int i = 0; i < nbParticules; i++) {
-            this.particules.add(new PointsGravite(camera, new Point2D(r.nextInt(0, largeur), r.nextInt(0, JavaFX.h))));
+            this.particules.add(new PointsGravite(camera, new Point2D(r.nextInt(0, largeur), r.nextInt(0, JavaFX.hauteur))));
         }
         this.montrerChampsElectrique = false;
     }
@@ -45,15 +45,15 @@ public class GenerationPointsGravite extends GenerationPlanArriere {
         particules.clear();
 
         double yHaut = 10;
-        double yBas = JavaFX.h - 10;
+        double yBas = JavaFX.hauteur - 10;
 
         for (double x = 0; x < largeur; x += 50) {
 
-            PointsGravite p1 = new PointsGravite(camera, new Point2D(r.nextInt(0, largeur), r.nextInt(0, JavaFX.h)));
+            PointsGravite p1 = new PointsGravite(camera, new Point2D(r.nextInt(0, largeur), r.nextInt(0, JavaFX.hauteur)));
             p1.setPositionMonde(new Point2D(x, yHaut));
             particules.add(p1);
 
-            PointsGravite p2 = new PointsGravite(camera, new Point2D(r.nextInt(0, largeur), r.nextInt(0, JavaFX.h)));
+            PointsGravite p2 = new PointsGravite(camera, new Point2D(r.nextInt(0, largeur), r.nextInt(0, JavaFX.hauteur)));
             p2.setPositionMonde(new Point2D(x, yBas));
             particules.add(p2);
         }
@@ -63,7 +63,7 @@ public class GenerationPointsGravite extends GenerationPlanArriere {
     public void regenererPointsGravite() {
         particules.clear();
         while (particules.size() < nbParticules) {
-            particules.add(new PointsGravite(camera, new Point2D(r.nextInt(0, JavaFX.w * 20), r.nextInt(0, JavaFX.h))));
+            particules.add(new PointsGravite(camera, new Point2D(r.nextInt(0, JavaFX.largeur * 20), r.nextInt(0, JavaFX.hauteur))));
         }
     }
 
@@ -86,8 +86,8 @@ public class GenerationPointsGravite extends GenerationPlanArriere {
 
             double cameraX = camera.getPositionCamera().getX(); // position X de la caméra dans le monde
             //Montre la force éléctrique à chaque 50px
-            for (double x = cameraX; x < JavaFX.w; x += 50) {
-                for (double y = 0; y < JavaFX.h; y += 50) {
+            for (double x = cameraX; x < JavaFX.largeur; x += 50) {
+                for (double y = 0; y < JavaFX.hauteur; y += 50) {
 
                     //Position monde en position écran
                     Point2D positionEcran = new Point2D(x-camera.getPositionCamera().getX(),y);
