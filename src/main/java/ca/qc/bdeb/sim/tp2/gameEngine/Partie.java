@@ -215,7 +215,7 @@ public class Partie {
 
         if(iPeser){
             testChampsElectrique = !testChampsElectrique;
-            activationChampsElectriqueTest(testChampsElectrique);
+            activationParticulesTest(testChampsElectrique);
         }
 
 
@@ -301,11 +301,13 @@ public class Partie {
         camelot.setDebugModeDraw(debugMode);
     }
 
+    //Active les flèche du  champs éléctrique
     public void activationChampsElectrique(boolean montrerChampsElectique){
         generationPointsGravite.setMontrerChampsElectrique(montrerChampsElectique);
     }
 
-    public void activationChampsElectriqueTest(boolean testChampsElectrique){
+    //Active the placement des particules en haut et en bas de l'écran
+    public void activationParticulesTest(boolean testChampsElectrique){
         if (testChampsElectrique) {
             generationPointsGravite.genererParticulesDebug(camera);
         }
