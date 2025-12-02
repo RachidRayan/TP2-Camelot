@@ -20,7 +20,8 @@ import java.io.IOException;
 
 public class JavaFX extends Application {
     public static int largeur = 900, hauteur = 580;
-    private final Partie partie = new Partie();
+    private Partie partie = new Partie();
+    private boolean statusUAvant = false;
 
     // Enum pour les différents status du jeu
     private enum statusJeu {
@@ -51,47 +52,9 @@ public class JavaFX extends Application {
 
             @Override
             public void handle(long now) {
-
                 double deltaTemps = (now - dernierTemps) * 1e-9;
-
-                // Vérification du status du jeu (DEBUT_NIVEAU, NIVEAU, FIN_DE_PARTIE)
-                switch (statusMaintenant) {
-                    case DEBUT_DE_NIVEAU:
-                        tempsEcouleDesDebutNiveau += deltaTemps;
-                        if (tempsEcouleDesDebutNiveau >= 3.0) {
-                            statusMaintenant = statusJeu.NIVEAU;
-                            tempsEcouleDesDebutNiveau = 0;
-                        }
-                        break;
-                    case NIVEAU:
-                        partie.update(deltaTemps);
-                        if (partie.isNiveauFini()) {
-                            partie.debutNouveauNiveau();
-                            statusMaintenant = statusJeu.DEBUT_DE_NIVEAU;
-                        } else if (partie.isPartieFinie()) {
-                            statusMaintenant = statusJeu.FIN_DE_PARTIE;
-                        }
-                        break;
-                    case FIN_DE_PARTIE:
-                        break;
-                }
-                context.setFill(Color.gray(0.0));
-                context.fillRect(0, 0, largeur, hauteur);
-
-                if (statusMaintenant == statusJeu.DEBUT_DE_NIVEAU) {
-                    ecranDebutNiveau(context);
-                }
-
-                else if (statusMaintenant == statusJeu.FIN_DE_PARTIE) {
-                    ecranDeFin(context);
-                }
-
-                else if (statusMaintenant == statusJeu.NIVEAU) {
-                    partie.draw(context);
-                }
-
+                verificatioStatusDuJeu(deltaTemps,context);
                 dernierTemps = now;
-
             }
         };
         timer.start();
@@ -113,10 +76,12 @@ public class JavaFX extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
     // Méthode main
     public static void main(String[] args) {
         launch();
     }
+
     // Méthode pour faire apparaitre l'écran de début d'un niveau
     public void ecranDebutNiveau(GraphicsContext context) {
         context.setFill(Color.BLACK);
@@ -157,5 +122,39 @@ public class JavaFX extends Application {
         double texteArgentLargeur = texteArgentTemporaire.getLayoutBounds().getWidth();
         double texteArgentHauteur = texteArgentTemporaire.getLayoutBounds().getHeight();
         context.fillText(argentString, largeur / 2.0 - texteArgentLargeur / 2, hauteur / 2.0 + 20 + texteArgentHauteur / 4);
+    }
+    // Méthode de vérification du status du jeu (DEBUT_NIVEAU, NIVEAU, FIN_DE_PARTIE)
+    public void verificatioStatusDuJeu(double deltaTemps, GraphicsContext context) {
+
+        switch (statusMaintenant) {
+            case DEBUT_DE_NIVEAU:
+                tempsEcouleDesDebutNiveau += deltaTemps;
+                if (tempsEcouleDesDebutNiveau >= 3.0) {
+                    statusMaintenant = statusJeu.NIVEAU;
+                    tempsEcouleDesDebutNiveau = 0;
+                }
+                break;
+            case NIVEAU:
+                partie.update(deltaTemps);
+                if (partie.isNiveauFini()) {
+                    partie.debutNouveauNiveau();
+                    statusMaintenant = statusJeu.DEBUT_DE_NIVEAU;
+                } else if (partie.isPartieFinie()) {
+                    statusMaintenant = statusJeu.FIN_DE_PARTIE;
+                }
+                break;
+            case FIN_DE_PARTIE:
+                break;
+        }
+        context.setFill(Color.gray(0.0));
+        context.fillRect(0, 0, largeur, hauteur);
+
+        if (statusMaintenant == statusJeu.DEBUT_DE_NIVEAU) {
+            ecranDebutNiveau(context);
+        } else if (statusMaintenant == statusJeu.FIN_DE_PARTIE) {
+            ecranDeFin(context);
+        } else if (statusMaintenant == statusJeu.NIVEAU) {
+            partie.draw(context);
+        }
     }
 }
