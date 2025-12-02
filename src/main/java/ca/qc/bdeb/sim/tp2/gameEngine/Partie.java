@@ -338,6 +338,7 @@ public class Partie {
         camelot = new Camelot(camera, xApparitionPosition);
         // Régénération
         generationMaisons = new GenerationMaisons(camera);
+        generationFenetres = new GenerationFenetres(camera, generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
         generationBoitesAuxLettres = new GenerationBoitesAuxLettres(camera, generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
         generationFenetres = new GenerationFenetres(camera, generationMaisons.getXPositionAdresses(),generationMaisons.getAbonnementsListe());
         // Vidage de la liste des objets qui font partie du plan arrière

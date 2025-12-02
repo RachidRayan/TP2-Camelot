@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static ca.qc.bdeb.sim.tp2.generation.PointsGravite.chargeParticule;
-import static ca.qc.bdeb.sim.tp2.generation.PointsGravite.constaneCoulomb;
+import static ca.qc.bdeb.sim.tp2.generation.PointsGravite.*;
 
 public class GenerationPointsGravite extends GenerationPlanArriere {
 
@@ -33,7 +32,7 @@ public class GenerationPointsGravite extends GenerationPlanArriere {
 
     public GenerationPointsGravite(Camera camera) {
         super(camera);
-        //Placement des paticule dans le niveau
+        //Placement des paticule dans le niveau au hazard
         for (int i = 0; i < nbParticules; i++) {
             this.particules.add(new PointsGravite(camera, new Point2D(r.nextInt(0, largeur), r.nextInt(0, JavaFX.hauteur))));
         }
@@ -42,19 +41,15 @@ public class GenerationPointsGravite extends GenerationPlanArriere {
 
     //Place les particules en haut et en bas du niveau
     public void genererParticulesDebug(Camera camera) {
-        particules.clear();
-
-        double yHaut = 10;
-        double yBas = JavaFX.hauteur - 10;
+        particules.clear(); //enlève toutes les particules
 
         for (double x = 0; x < largeur; x += 50) {
-
-            PointsGravite p1 = new PointsGravite(camera, new Point2D(r.nextInt(0, largeur), r.nextInt(0, JavaFX.hauteur)));
-            p1.setPositionMonde(new Point2D(x, yHaut));
+            //Placement des particules du haut
+            PointsGravite p1 = new PointsGravite(camera, new Point2D(x, rayon));
             particules.add(p1);
 
-            PointsGravite p2 = new PointsGravite(camera, new Point2D(r.nextInt(0, largeur), r.nextInt(0, JavaFX.hauteur)));
-            p2.setPositionMonde(new Point2D(x, yBas));
+            //Placement des particules du bas
+            PointsGravite p2 = new PointsGravite(camera, new Point2D(x, JavaFX.hauteur - rayon));
             particules.add(p2);
         }
     }
@@ -62,6 +57,7 @@ public class GenerationPointsGravite extends GenerationPlanArriere {
     //Donne des nouvelles particules (Pour quand un niveau commence)
     public void regenererPointsGravite() {
         particules.clear();
+        //Placement des paticule dans le niveau au hazard
         while (particules.size() < nbParticules) {
             particules.add(new PointsGravite(camera, new Point2D(r.nextInt(0, JavaFX.largeur * 20), r.nextInt(0, JavaFX.hauteur))));
         }
@@ -90,7 +86,7 @@ public class GenerationPointsGravite extends GenerationPlanArriere {
                 for (double y = 0; y < JavaFX.hauteur; y += 50) {
 
                     //Position monde en position écran
-                    Point2D positionEcran = new Point2D(x-camera.getPositionCamera().getX(),y);
+                    Point2D positionEcran = new Point2D(x-cameraX,y);
 
                     // Calcule la force totale dans un point
                     Point2D force = champsElectrique(particules, new Point2D(x, y));
