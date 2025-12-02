@@ -8,7 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 import java.util.Random;
-
+// Classe PointsGravite (Point de gravité)
 public class PointsGravite extends GenerationPlanArriere {
 
     protected final static int rayon = 10;
@@ -20,11 +20,14 @@ public class PointsGravite extends GenerationPlanArriere {
 
 
     private boolean montrerChampsElectrique;
+
+
     public void setMontrerChampsElectrique(boolean montrerChampsElectrique) {
         this.montrerChampsElectrique = montrerChampsElectrique;
     }
 
     private Point2D positionMonde;
+
     public void setPositionMonde(Point2D positionMonde) {
         this.positionMonde = positionMonde;
     }

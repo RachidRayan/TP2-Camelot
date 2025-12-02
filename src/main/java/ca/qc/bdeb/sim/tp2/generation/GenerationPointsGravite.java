@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 import static ca.qc.bdeb.sim.tp2.generation.PointsGravite.*;
-
+// Classe GenerationPointsGravite (Générations des points de gravité)
 public class GenerationPointsGravite extends GenerationPlanArriere {
 
 

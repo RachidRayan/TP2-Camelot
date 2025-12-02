@@ -18,6 +18,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+////////////////////////////////////////////Créateurs//////////////////////////////////////////////////////////
+// Ce travail personnel est réalisé par : Daniil Podvolotki et Rachid Rayane Gourramen
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Classe JavaFX
 public class JavaFX extends Application {
     public static int largeur = 900, hauteur = 580;
     private Partie partie = new Partie();
