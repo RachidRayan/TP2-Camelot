@@ -38,7 +38,7 @@ public class UI {
     // Méthode de dessin de l'UI
     public void draw (GraphicsContext context) {
         context.setFill(Color.rgb(0, 0, 0, 0.6));
-        context.fillRect(0,0,JavaFX.w,50);
+        context.fillRect(0,0,JavaFX.largeur,50);
 
         double xTravailler = espaceEntre;
 

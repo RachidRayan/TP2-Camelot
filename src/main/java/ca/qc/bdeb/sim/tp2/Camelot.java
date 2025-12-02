@@ -28,7 +28,7 @@ public class Camelot {
     private boolean changementImage = true;
     // Constructeur
     public Camelot(Camera camera, double positionX) {
-        this.position = new Point2D(positionX,JavaFX.h - camelotImage1.getHeight());
+        this.position = new Point2D(positionX,JavaFX.hauteur - camelotImage1.getHeight());
         this.taille = new Point2D(camelotImage1.getWidth(), camelotImage1.getHeight());
         this.camera = camera;
         this.debugModeDraw = false;
@@ -68,15 +68,15 @@ public class Camelot {
             position = new Point2D(position.getX(), position.getY() + velocite.getY() * deltaTemps);
 
             // Position et velocité quand camelot revient sur le sol
-            if (position.getY() + taille.getY() >= JavaFX.h) {
-                position = new Point2D(position.getX(), JavaFX.h - taille.getY());
+            if (position.getY() + taille.getY() >= JavaFX.hauteur) {
+                position = new Point2D(position.getX(), JavaFX.hauteur - taille.getY());
                 velocite = new Point2D(0, 0);
                 contactSol = true;
             }
         }
 
         // Positionnement
-        position = new Point2D(position.getX(), Math.clamp(position.getY(), 0, JavaFX.h - taille.getY()));
+        position = new Point2D(position.getX(), Math.clamp(position.getY(), 0, JavaFX.hauteur - taille.getY()));
 
         // Animation du camelot de base
         tempsAnimation += deltaTemps;
@@ -100,7 +100,7 @@ public class Camelot {
 
         if (debugModeDraw) {
             context.setFill(Color.YELLOW);
-            context.fillRect(positionEcran.getX(),0,2, JavaFX.h);
+            context.fillRect(positionEcran.getX(),0,2, JavaFX.hauteur);
         }
     }
 }

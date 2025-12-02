@@ -25,7 +25,7 @@ public class Partie {
     private ArrayList<Journal> journaux = new ArrayList<>();
 
     private final double xApparitionPosition = 100;
-    private final double xPositionCamera = xApparitionPosition - (JavaFX.w / 5.0);
+    private final double xPositionCamera = xApparitionPosition - (JavaFX.largeur / 5.0);
 
     private double vitesseMouvement;
     private final double vitesseDeBase = 400;
@@ -237,7 +237,7 @@ public class Partie {
         journaux.removeIf(journal -> {
             if (journal.isDetruitStatus()) return true;
             Point2D positionEcran = camera.coordoEcran(journal.getPosition());
-            return positionEcran.getX() + journal.getLargeur() < 0 || positionEcran.getY() > JavaFX.h;
+            return positionEcran.getX() + journal.getLargeur() < 0 || positionEcran.getY() > JavaFX.hauteur;
         });
 
         // Logique de contact entre un journal et une fenêtre
@@ -246,7 +246,7 @@ public class Partie {
         journaux.removeIf(journal -> {
             if (journal.isDetruitStatus()) return true;
             Point2D positionEcran = camera.coordoEcran(journal.getPosition());
-            return positionEcran.getX() + journal.getLargeur() < 0 || positionEcran.getY() > JavaFX.h;
+            return positionEcran.getX() + journal.getLargeur() < 0 || positionEcran.getY() > JavaFX.hauteur;
         });
 
         //Logique de la force des champs magnétiques

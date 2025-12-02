@@ -24,8 +24,8 @@ public class GenerationBriques extends GenerationPlanArriere {
         double xDecalage = positionEcran.getX() % imageBrique.getWidth();
         double yDecalage = positionEcran.getY() % imageBrique.getHeight();
 
-        for (double y = yDecalage - imageBrique.getHeight(); y < JavaFX.h; y += imageBrique.getHeight()) {
-            for (double x = xDecalage - imageBrique.getWidth(); x < JavaFX.w; x += imageBrique.getWidth()) {
+        for (double y = yDecalage - imageBrique.getHeight(); y < JavaFX.hauteur; y += imageBrique.getHeight()) {
+            for (double x = xDecalage - imageBrique.getWidth(); x < JavaFX.largeur; x += imageBrique.getWidth()) {
                 context.drawImage(imageBrique, x, y);
             }
         }

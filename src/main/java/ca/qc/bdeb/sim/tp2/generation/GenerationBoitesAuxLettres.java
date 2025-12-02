@@ -20,7 +20,7 @@ public class GenerationBoitesAuxLettres extends GenerationPlanArriere {
         for (int i = 0; i < xPositionAdresses.size(); i++) {
             double xPositionAdresse = xPositionAdresses.get(i);
             boolean statusAbonnement = abonnements.get(i);
-            double yPosition = (0.2 + Math.random() * 0.5) * JavaFX.h + 40;
+            double yPosition = (0.2 + Math.random() * 0.5) * JavaFX.hauteur + 40;
             boites.add(new BoiteAuxLettres(camera, xPositionAdresse, statusAbonnement, yPosition));
 
         }

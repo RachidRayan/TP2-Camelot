@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class JavaFX extends Application {
-    public static int w = 900, h = 580;
+    public static int largeur = 900, hauteur = 580;
     private final Partie partie = new Partie();
 
     // Enum pour les différents status du jeu
@@ -38,8 +38,8 @@ public class JavaFX extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         var root = new Pane();
-        var scene = new Scene(root, w, h);
-        var canvas = new Canvas(w, h);
+        var scene = new Scene(root, largeur, hauteur);
+        var canvas = new Canvas(largeur, hauteur);
         root.getChildren().add(canvas);
         var context = canvas.getGraphicsContext2D();
 
@@ -74,7 +74,7 @@ public class JavaFX extends Application {
                         break;
                 }
                 context.setFill(Color.gray(0.0));
-                context.fillRect(0, 0, w, h);
+                context.fillRect(0, 0, largeur, hauteur);
 
                 if (statusMaintenant == statusJeu.DEBUT_DE_NIVEAU) {
                     ecranDebutNiveau(context);
@@ -118,7 +118,7 @@ public class JavaFX extends Application {
     // Méthode pour faire apparaitre l'écran de début d'un niveau
     public void ecranDebutNiveau(GraphicsContext context) {
         context.setFill(Color.BLACK);
-        context.fillRect(0, 0, w, h);
+        context.fillRect(0, 0, largeur, hauteur);
         context.setFill(Color.GREEN);
         context.setFont(new Font(60));
 
@@ -128,15 +128,15 @@ public class JavaFX extends Application {
         double texteLargeur = texteNiveauTemporaire.getLayoutBounds().getWidth();
         double texteHauteur = texteNiveauTemporaire.getLayoutBounds().getHeight();
 
-        double positionX = w / 2 - texteLargeur / 2;
-        double positionY = h / 2 + texteHauteur / 4;
+        double positionX = largeur / 2 - texteLargeur / 2;
+        double positionY = hauteur / 2 + texteHauteur / 4;
         context.fillText(niveauString, positionX, positionY);
     }
 
     // Méthode pour faire apparaitre l'écran de fin
     public void ecranDeFin(GraphicsContext context) {
         context.setFill(Color.BLACK);
-        context.fillRect(0, 0, w, h);
+        context.fillRect(0, 0, largeur, hauteur);
 
         context.setFill(Color.RED);
         context.setFont(new Font(60));
@@ -145,7 +145,7 @@ public class JavaFX extends Application {
         texteRuptureTemporaire.setFont(new Font(60));
         double texteRuptureLargeur = texteRuptureTemporaire.getLayoutBounds().getWidth();
         double texteRuptureHauteur = texteRuptureTemporaire.getLayoutBounds().getHeight();
-        context.fillText(ruptureString, w / 2 - texteRuptureLargeur / 2, h / 2 - 40 + texteRuptureHauteur / 4);
+        context.fillText(ruptureString, largeur / 2 - texteRuptureLargeur / 2, hauteur / 2 - 40 + texteRuptureHauteur / 4);
 
         context.setFill(Color.GREEN);
         String argentString = "Argent collecté: " + partie.getArgent() + "$";
@@ -153,6 +153,6 @@ public class JavaFX extends Application {
         texteArgentTemporaire.setFont(new Font(60));
         double texteArgentLargeur = texteArgentTemporaire.getLayoutBounds().getWidth();
         double texteArgentHauteur = texteArgentTemporaire.getLayoutBounds().getHeight();
-        context.fillText(argentString, w / 2 - texteArgentLargeur / 2, h / 2 + 20 + texteArgentHauteur / 4);
+        context.fillText(argentString, largeur / 2 - texteArgentLargeur / 2, hauteur / 2 + 20 + texteArgentHauteur / 4);
     }
 }

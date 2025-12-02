@@ -50,8 +50,8 @@ public class PointsGravite extends GenerationPlanArriere {
         context.fillOval(coordoEcran.getX(), coordoEcran.getY(), rayon, rayon);
         //Flèches des champs électriques
         if (montrerChampsElectrique) {
-            for (double x = 0; x < JavaFX.w*2; x += 50) {
-                for (double y = 0; y < JavaFX.h; y += 50) {
+            for (double x = 0; x < JavaFX.largeur *2; x += 50) {
+                for (double y = 0; y < JavaFX.hauteur; y += 50) {
 
                     Point2D positionMonde = new Point2D(coordoEcran.getX()-x, y);
                     Point2D positionEcran = camera.coordoEcran(positionMonde);
