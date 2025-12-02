@@ -337,6 +337,7 @@ public class Partie {
         camelot = new Camelot(camera, xApparitionPosition);
 
         generationMaisons = new GenerationMaisons(camera);
+        generationFenetres = new GenerationFenetres(camera, generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
         generationBoitesAuxLettres = new GenerationBoitesAuxLettres(camera, generationMaisons.getXPositionAdresses(), generationMaisons.getAbonnementsListe());
         generationPlanArrieres.clear();
         generationPlanArrieres.add(generationBriques);
