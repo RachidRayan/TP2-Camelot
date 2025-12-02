@@ -1,6 +1,5 @@
 package ca.qc.bdeb.sim.tp2.generation;
 
-import ca.qc.bdeb.sim.tp2.JavaFX;
 import ca.qc.bdeb.sim.tp2.Journal;
 import ca.qc.bdeb.sim.tp2.gameEngine.Camera;
 import javafx.scene.canvas.GraphicsContext;
@@ -8,7 +7,7 @@ import javafx.scene.canvas.GraphicsContext;
 import java.util.ArrayList;
 import java.util.Random;
 
-
+// Classe GenerationFenetres (Génération des fenêtres)
 public class GenerationFenetres extends GenerationPlanArriere {
 
     private ArrayList<Fenetre> fenetres = new ArrayList<>();
@@ -19,6 +18,7 @@ public class GenerationFenetres extends GenerationPlanArriere {
         this.debugMode = debugMode;
     }
 
+    // Constructeur
     public GenerationFenetres(Camera camera, ArrayList<Double> xPositionAdresses, ArrayList<Boolean> abonnements) {
         super(camera);
         Random random = new Random();
@@ -36,7 +36,7 @@ public class GenerationFenetres extends GenerationPlanArriere {
 
         }
     }
-
+    // Méthode de renouvellement GenerationFenetres (Génération des fenêtres)
     @Override
     public void update(double mouvementVersGauche) {
         super.update(mouvementVersGauche);
@@ -44,14 +44,14 @@ public class GenerationFenetres extends GenerationPlanArriere {
             fenetre.update(mouvementVersGauche);
         }
     }
-
+    // Méthode de dessin GenerationFenetres (Génération des fenêtres)
     public void draw(GraphicsContext context) {
         for (Fenetre fenetre : fenetres) {
             fenetre.setDebugModeDraw(debugMode);
             fenetre.draw(context);
         }
     }
-
+    // Méthode qui retourne l'argent gagné après la collision du journal avec les fenêtres
     public int collisionAvecJournal(ArrayList<Journal> journaux) {
         int argent = 0;
         for (Fenetre fenetre : fenetres) {

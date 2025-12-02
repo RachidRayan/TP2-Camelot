@@ -10,6 +10,7 @@ import javafx.scene.text.Font;
 import java.util.ArrayList;
 import java.util.Random;
 
+// Classe GenerationMaisons (Génération des maisons)
 public class GenerationMaisons extends GenerationPlanArriere {
 
     private final double hauteurPorte = 250;
@@ -22,6 +23,7 @@ public class GenerationMaisons extends GenerationPlanArriere {
     private ArrayList<Integer> adressesAbonnees = new ArrayList<>();
     private ArrayList<Boolean> abonnementsListe = new ArrayList<>();
 
+    // Constructeur
     public GenerationMaisons(Camera camera) {
         super(camera);
         generationAdresses();
@@ -61,16 +63,16 @@ public class GenerationMaisons extends GenerationPlanArriere {
         }
 
     }
-    // Méthode de génération (vérification) si l'adresse est abonnée ou non
+    // Méthode de vérification si l'adresse est abonnée ou non
     public void verificationAbonnement(int adresse, double xPosition) {
         Random chanceRandom = new Random();
         int chance = chanceRandom.nextInt(0,2);
         if (chance == 1) {
             adressesAbonnees.add(adresse);
-            abonnementsListe.add(true); // Status abonnée
+            abonnementsListe.add(true); // Status abonné
         }
         else {
-            abonnementsListe.add(false); // Status non abonnée
+            abonnementsListe.add(false); // Status non abonné
         }
     }
 
@@ -82,15 +84,15 @@ public class GenerationMaisons extends GenerationPlanArriere {
 
         for (int adresse : adresses) {
             context.setFill(Color.SADDLEBROWN);
-            context.fillRect(positionEcran.getX() + differencePositionnement * sautAdresse,JavaFX.h- hauteurPorte - 20, largeurPorte, hauteurPorte);
-            context.fillRect(positionEcran.getX() + differencePositionnement * sautAdresse - 10,JavaFX.h - 10, largeurPorte + 20, 10);
+            context.fillRect(positionEcran.getX() + differencePositionnement * sautAdresse,JavaFX.hauteur - hauteurPorte - 20, largeurPorte, hauteurPorte);
+            context.fillRect(positionEcran.getX() + differencePositionnement * sautAdresse - 10,JavaFX.hauteur - 10, largeurPorte + 20, 10);
 
             context.setFill(Color.SANDYBROWN);
-            context.fillOval(positionEcran.getX() + differencePositionnement * sautAdresse + 10, JavaFX.h - hauteurPorte + 100, 25,25);
+            context.fillOval(positionEcran.getX() + differencePositionnement * sautAdresse + 10, JavaFX.hauteur - hauteurPorte + 100, 25,25);
 
             context.setFill(Color.YELLOW);
             context.setFont(new Font(60));
-            context.fillText(String.valueOf(adresse),positionEcran.getX() + differencePositionnement * sautAdresse + 25,JavaFX.h - hauteurPorte);
+            context.fillText(String.valueOf(adresse),positionEcran.getX() + differencePositionnement * sautAdresse + 25,JavaFX.hauteur - hauteurPorte);
             sautAdresse++;
         }
 

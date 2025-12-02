@@ -9,6 +9,7 @@ import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 
+// Classe UI
 public class UI {
     private final Image iconeDollar = new Image("icone-dollar.png");
     private int argent;
@@ -23,20 +24,21 @@ public class UI {
     private final double espaceEntre = 10;
     private final double yEntreLeHaut = 8;
 
+    // Constructeur
     public UI (ArrayList<Integer> adressesAbonnees) {
         for (int adresse : adressesAbonnees) {
             this.adressesCibles.add(String.valueOf(adresse));
         }
     }
-
+    // Méthode de rénouvellement de l'UI
     public void update (int journaux, int argent) {
         this.nombreJournauxAffichage = journaux;
         this.argent = argent;
     }
-
+    // Méthode de dessin de l'UI
     public void draw (GraphicsContext context) {
         context.setFill(Color.rgb(0, 0, 0, 0.6));
-        context.fillRect(0,0,JavaFX.w,50);
+        context.fillRect(0,0,JavaFX.largeur,50);
 
         double xTravailler = espaceEntre;
 
@@ -55,7 +57,7 @@ public class UI {
             sautXTexte++;
         }
     }
-
+    // Méthode pour le texte dessiné dans l'UI
     private void drawText(GraphicsContext context, String text, double positionX, double positionY) {
         context.setTextBaseline(VPos.TOP);
         context.setFont(Font.font("Arial", 20));

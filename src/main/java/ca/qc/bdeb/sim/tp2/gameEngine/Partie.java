@@ -11,7 +11,7 @@ import javafx.scene.input.KeyCode;
 
 import java.util.ArrayList;
 import java.util.Random;
-
+// Classe Partie
 public class Partie {
     private UI ui;
     private final Camera camera = new Camera();
@@ -25,7 +25,7 @@ public class Partie {
     private ArrayList<Journal> journaux = new ArrayList<>();
 
     private final double xApparitionPosition = 100;
-    private final double xPositionCamera = xApparitionPosition - (JavaFX.w / 5.0);
+    private final double xPositionCamera = xApparitionPosition - (JavaFX.largeur / 5.0);
 
     private double vitesseMouvement;
     private final double vitesseDeBase = 400;
@@ -72,6 +72,7 @@ public class Partie {
         return partieFinie;
     }
 
+    // Constructeur
     public Partie() {
 
         camera.setPositionCamera(new Point2D(xPositionCamera, 0));
@@ -102,7 +103,7 @@ public class Partie {
     public int getNombreJournaux() {
         return nombreJournaux;
     }
-
+    // Méthode de renouvellement de Partie (Contient tous les renouvellements)
     public void update(double deltaTemps) {
         boolean accelerationEnPesant = Input.isKeyPressed(KeyCode.RIGHT);
         boolean decelerationEnPesant = Input.isKeyPressed(KeyCode.LEFT);
@@ -215,17 +216,15 @@ public class Partie {
 
         if(iPeser){
             testChampsElectrique = !testChampsElectrique;
-            activationParticulesTest(testChampsElectrique);
+            activationChampsElectriqueTest(testChampsElectrique);
         }
-
-
 
         //   Update du plan d'arrière
         for (GenerationPlanArriere planArriere : generationPlanArrieres) {
             planArriere.update(vitesseMouvement * deltaTemps);
         }
 
-        camelot.update(deltaTemps, vitesseMouvement);
+        camelot.update(deltaTemps);
 
         // Update des journaux
         for (Journal journal : journaux) {
@@ -238,7 +237,7 @@ public class Partie {
         journaux.removeIf(journal -> {
             if (journal.isDetruitStatus()) return true;
             Point2D positionEcran = camera.coordoEcran(journal.getPosition());
-            return positionEcran.getX() + journal.getLargeur() < 0 || positionEcran.getY() > JavaFX.h;
+            return positionEcran.getX() + journal.getLargeur() < 0 || positionEcran.getY() > JavaFX.hauteur;
         });
 
         // Logique de contact entre un journal et une fenêtre
@@ -247,7 +246,7 @@ public class Partie {
         journaux.removeIf(journal -> {
             if (journal.isDetruitStatus()) return true;
             Point2D positionEcran = camera.coordoEcran(journal.getPosition());
-            return positionEcran.getX() + journal.getLargeur() < 0 || positionEcran.getY() > JavaFX.h;
+            return positionEcran.getX() + journal.getLargeur() < 0 || positionEcran.getY() > JavaFX.hauteur;
         });
 
         //Logique de la force des champs magnétiques
@@ -262,7 +261,7 @@ public class Partie {
         // Update de l'UI
         ui.update(getNombreJournaux(), argent);
 
-
+        // Logique de verification de fin du niveau
         boolean adresseFinaleDepassee = generationMaisons.getAdresseFinale() < camera.getPositionCamera().getX();
 
         if (adresseFinaleDepassee && nombreJournaux > 0) {
@@ -274,7 +273,7 @@ public class Partie {
         }
 
     }
-
+    // Méthode de dessin de Partie (Contient tous les dessins)
     public void draw(GraphicsContext context) {
         // Draw du plan d'arrière
         for (GenerationPlanArriere planArriere : generationPlanArrieres) {
@@ -291,6 +290,7 @@ public class Partie {
         ui.draw(context);
     }
 
+    // Méthode d'activation du debug mode
     public void activationDebugMode(boolean debugMode) {
         generationBoitesAuxLettres.setDebugMode(debugMode);
         generationFenetres.setDebugMode(debugMode);
@@ -301,13 +301,11 @@ public class Partie {
         camelot.setDebugModeDraw(debugMode);
     }
 
-    //Active les flèche du  champs éléctrique
     public void activationChampsElectrique(boolean montrerChampsElectique){
         generationPointsGravite.setMontrerChampsElectrique(montrerChampsElectique);
     }
 
-    //Active the placement des particules en haut et en bas de l'écran
-    public void activationParticulesTest(boolean testChampsElectrique){
+    public void activationChampsElectriqueTest(boolean testChampsElectrique){
         if (testChampsElectrique) {
             generationPointsGravite.genererParticulesDebug(camera);
         }
@@ -316,6 +314,7 @@ public class Partie {
         }
     }
 
+    // Méthode de lancer un journal (et en créer un)
     public void lancerJournal(double quantiteMouvementX, double quantiteMouvementY) {
         Point2D positionCamelot = camelot.getPosition();
         Point2D tailleCamelot = camelot.getTaille();
@@ -329,6 +328,7 @@ public class Partie {
         journaux.add(journal);
     }
 
+    // Méthode de début de niveau
     public void debutNouveauNiveau() {
         niveauFini = false;
         partieFinie = false;
