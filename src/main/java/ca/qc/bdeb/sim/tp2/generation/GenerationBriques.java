@@ -5,6 +5,7 @@ import ca.qc.bdeb.sim.tp2.gameEngine.Camera;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+
 // Classe GenerationBriques (Génération des briques)
 public class GenerationBriques extends GenerationPlanArriere {
 

@@ -1,6 +1,7 @@
 package ca.qc.bdeb.sim.tp2.gameEngine;
 
 import javafx.geometry.Point2D;
+
 // Classe Camera
 public class Camera {
     private Point2D positionCamera = Point2D.ZERO;

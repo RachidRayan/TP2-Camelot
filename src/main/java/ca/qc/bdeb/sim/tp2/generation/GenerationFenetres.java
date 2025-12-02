@@ -1,6 +1,5 @@
 package ca.qc.bdeb.sim.tp2.generation;
 
-import ca.qc.bdeb.sim.tp2.JavaFX;
 import ca.qc.bdeb.sim.tp2.Journal;
 import ca.qc.bdeb.sim.tp2.gameEngine.Camera;
 import javafx.scene.canvas.GraphicsContext;

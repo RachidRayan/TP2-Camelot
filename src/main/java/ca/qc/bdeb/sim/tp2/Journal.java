@@ -7,6 +7,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
+// Classe Journal (projectile)
 public class Journal {
 
     private Image journalImage = new Image("journal.png");

@@ -17,7 +17,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-// Class JavaFX
+
 public class JavaFX extends Application {
     public static int w = 900, h = 580;
     private final Partie partie = new Partie();

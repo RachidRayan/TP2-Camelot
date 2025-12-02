@@ -4,7 +4,7 @@ import javafx.scene.input.KeyCode;
 
 import java.util.HashSet;
 import java.util.Set;
-
+// Classe Input
 public class Input {
     // Ensemble des touches sur lesquelles on appuie en ce moment
     private static Set<KeyCode> touches = new HashSet<>();

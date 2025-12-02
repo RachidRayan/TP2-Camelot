@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.util.ArrayList;
+
 // Classe UI
 public class UI {
     private final Image iconeDollar = new Image("icone-dollar.png");
@@ -22,6 +23,7 @@ public class UI {
     private final double grandeurIcone = 32;
     private final double espaceEntre = 10;
     private final double yEntreLeHaut = 8;
+
     // Constructeur
     public UI (ArrayList<Integer> adressesAbonnees) {
         for (int adresse : adressesAbonnees) {

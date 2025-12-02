@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
+// Classe Camelot (personnage)
 public class Camelot {
 
     private final Image camelotImage1 = new Image("camelot1.png");
@@ -25,7 +26,7 @@ public class Camelot {
     private double tempsAnimation = 0;
     private double intervalleAnimation = 0.25;
     private boolean changementImage = true;
-    // Constructeur Camelot
+    // Constructeur
     public Camelot(Camera camera, double positionX) {
         this.position = new Point2D(positionX,JavaFX.h - camelotImage1.getHeight());
         this.taille = new Point2D(camelotImage1.getWidth(), camelotImage1.getHeight());

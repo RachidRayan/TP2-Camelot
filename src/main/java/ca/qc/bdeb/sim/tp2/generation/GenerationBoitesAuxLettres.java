@@ -6,6 +6,7 @@ import ca.qc.bdeb.sim.tp2.gameEngine.Camera;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
+
 // Classe GenerationBoitesAuxLettres (Génération des boites aux lettres)
 public class GenerationBoitesAuxLettres extends GenerationPlanArriere {
 

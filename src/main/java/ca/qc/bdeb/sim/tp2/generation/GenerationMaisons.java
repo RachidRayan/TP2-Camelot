@@ -9,6 +9,7 @@ import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 import java.util.Random;
+
 // Classe GenerationMaisons (Génération des maisons)
 public class GenerationMaisons extends GenerationPlanArriere {
 
@@ -68,10 +69,10 @@ public class GenerationMaisons extends GenerationPlanArriere {
         int chance = chanceRandom.nextInt(0,2);
         if (chance == 1) {
             adressesAbonnees.add(adresse);
-            abonnementsListe.add(true); // Status abonnée
+            abonnementsListe.add(true); // Status abonné
         }
         else {
-            abonnementsListe.add(false); // Status non abonnée
+            abonnementsListe.add(false); // Status non abonné
         }
     }
 
