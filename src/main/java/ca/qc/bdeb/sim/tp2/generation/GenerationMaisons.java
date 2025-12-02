@@ -9,7 +9,7 @@ import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 import java.util.Random;
-
+// Classe GenerationMaisons (Génération des maisons)
 public class GenerationMaisons extends GenerationPlanArriere {
 
     private final double hauteurPorte = 250;
@@ -22,6 +22,7 @@ public class GenerationMaisons extends GenerationPlanArriere {
     private ArrayList<Integer> adressesAbonnees = new ArrayList<>();
     private ArrayList<Boolean> abonnementsListe = new ArrayList<>();
 
+    // Constructeur
     public GenerationMaisons(Camera camera) {
         super(camera);
         generationAdresses();
@@ -61,7 +62,7 @@ public class GenerationMaisons extends GenerationPlanArriere {
         }
 
     }
-    // Méthode de génération (vérification) si l'adresse est abonnée ou non
+    // Méthode de vérification si l'adresse est abonnée ou non
     public void verificationAbonnement(int adresse, double xPosition) {
         Random chanceRandom = new Random();
         int chance = chanceRandom.nextInt(0,2);

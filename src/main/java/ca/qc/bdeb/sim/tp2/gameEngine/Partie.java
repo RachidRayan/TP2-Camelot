@@ -8,10 +8,10 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 
-
 import java.util.ArrayList;
 import java.util.Random;
 
+// Classe Partie
 public class Partie {
     private UI ui;
     private final Camera camera = new Camera();
@@ -71,7 +71,7 @@ public class Partie {
     public boolean isPartieFinie() {
         return partieFinie;
     }
-
+    // Contrstructeur
     public Partie() {
 
         camera.setPositionCamera(new Point2D(xPositionCamera, 0));
@@ -198,7 +198,7 @@ public class Partie {
             activationDebugMode(debugMode);
         }
 
-        // Logique pour l'action d'activer le champs electrique visuel (F)
+        // Logique pour l'action d'activer le champs electrique visuel (Debug) (F)
         boolean statusFMaintenant = Input.isKeyPressed(KeyCode.F);
         boolean fPeser = statusFMaintenant && !statusFAvant;
         statusFAvant = statusFMaintenant;
@@ -208,7 +208,7 @@ public class Partie {
             activationChampsElectrique(montrerChampsElectique);
         }
 
-        // Logique pour l'action d'activer le champs electrique de test (I)
+        // Logique pour l'action d'activer le champs electrique de test (Debug) (I)
         boolean statusIMaintenant = Input.isKeyPressed(KeyCode.I);
         boolean iPeser = statusIMaintenant && !statusIAvant;
         statusIAvant = statusIMaintenant;
@@ -218,14 +218,12 @@ public class Partie {
             activationChampsElectriqueTest(testChampsElectrique);
         }
 
-
-
         //   Update du plan d'arrière
         for (GenerationPlanArriere planArriere : generationPlanArrieres) {
             planArriere.update(vitesseMouvement * deltaTemps);
         }
 
-        camelot.update(deltaTemps, vitesseMouvement);
+        camelot.update(deltaTemps);
 
         // Update des journaux
         for (Journal journal : journaux) {
@@ -262,7 +260,7 @@ public class Partie {
         // Update de l'UI
         ui.update(getNombreJournaux(), argent);
 
-
+        // Logique pour fin de niveau
         boolean adresseFinaleDepassee = generationMaisons.getAdresseFinale() < camera.getPositionCamera().getX();
 
         if (adresseFinaleDepassee && nombreJournaux > 0) {
@@ -274,23 +272,23 @@ public class Partie {
         }
 
     }
-
+    // Méthode de dessiin
     public void draw(GraphicsContext context) {
-        // Draw du plan d'arrière
+        // Dessin du plan d'arrière
         for (GenerationPlanArriere planArriere : generationPlanArrieres) {
             planArriere.draw(context);
         }
 
         camelot.draw(context);
 
-        // Draw des journaux
+        // Dessin des journaux
         for (Journal journal : journaux) {
             journal.draw(context);
         }
-        // Draw de l'UI
+        // Dessin de l'UI
         ui.draw(context);
     }
-
+    // Méthode pour l'activation du debug mode (Rectangles jaunes)
     public void activationDebugMode(boolean debugMode) {
         generationBoitesAuxLettres.setDebugMode(debugMode);
         generationFenetres.setDebugMode(debugMode);
@@ -300,6 +298,7 @@ public class Partie {
         }
         camelot.setDebugModeDraw(debugMode);
     }
+
 
     public void activationChampsElectrique(boolean montrerChampsElectique){
         generationPointsGravite.setMontrerChampsElectrique(montrerChampsElectique);
@@ -313,7 +312,7 @@ public class Partie {
             generationPointsGravite.regenererPointsGravite();
         }
     }
-
+    // Méthode pour lancer un journal (et créer)
     public void lancerJournal(double quantiteMouvementX, double quantiteMouvementY) {
         Point2D positionCamelot = camelot.getPosition();
         Point2D tailleCamelot = camelot.getTaille();
@@ -327,6 +326,7 @@ public class Partie {
         journaux.add(journal);
     }
 
+    // Méthode pour commencer un nouveau niveau
     public void debutNouveauNiveau() {
         niveauFini = false;
         partieFinie = false;

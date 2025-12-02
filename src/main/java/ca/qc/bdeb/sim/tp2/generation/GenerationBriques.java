@@ -5,16 +5,17 @@ import ca.qc.bdeb.sim.tp2.gameEngine.Camera;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-
+// Classe GenerationBriques (Génération des briques)
 public class GenerationBriques extends GenerationPlanArriere {
 
     private Image imageBrique = new Image("brique.png");
 
+    //Constructeur
     public GenerationBriques(Camera camera) {
        super(camera);
     }
 
-    // Logique pour dessin des briques
+    // Logique pour dessin des briques (Remplissage de l'écran)
     @Override
     public void draw(GraphicsContext context){
         Point2D positionEcran = camera.coordoEcran(position);
